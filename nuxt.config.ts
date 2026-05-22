@@ -10,10 +10,20 @@ export default defineNuxtConfig({
         }
     },
 
+    modules: [
+        '@nuxt/content'
+    ],
+
     routeRules: {
         '/stereo-reader/**': {
             prerender: false
         }
+    },
+
+    content: {
+        renderer: {
+            anchorLinks: false,
+        },
     },
 
     sourcemap: {

@@ -5,7 +5,9 @@ useHead({
 </script>
 
 <template>
-    <slot />
+    <main>
+        <slot />
+    </main>
 </template>
 
 <style lang="scss">
@@ -31,8 +33,14 @@ body {
     min-height: 100vh;
     background: var(--bg);
     color: var(--text);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Segoe UI, Arial, Helvetica, sans-serif;
     font-size: 15px;
     line-height: 1.5;
+}
+
+main {
+    width: min(920px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 48px 0;
 }
 </style>

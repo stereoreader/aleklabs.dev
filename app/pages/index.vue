@@ -63,78 +63,73 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <main>
-        <div class="logo">
-            <img src="./assets/logo.jpg">
-            <div id="overlay"></div>
-        </div>
-        <div class="links">
-            <canvas id="heartbeat"></canvas>
-            <a href="https://www.linkedin.com/in/alexander-nenashev-930731288/" target="_blank">
-                <img class="icon-scale-80" src="./assets/icons/linkedin.svg">
-                <span>My LinkedIn profile</span>
-            </a>
-            <a href="https://stackoverflow.com/users/14098260/alexander-nenashev" target="_blank">
-                <img class="icon-scale-80" src="./assets/icons/stackoverflow.svg">
-                <span>My Stackoverflow profile</span>
-            </a>
-            <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bvue.js%5d%20or%20%5bvuejs3%5d&searchOn=3"
-                target="_blank">
-                <img src="./assets/icons/vue.svg">
-                <span>My Vue SO answers</span>
-            </a>
-            <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bvite%5d%20&searchOn=3"
-                target="_blank">
-                <img class="icon-scale-90" src="./assets/icons/vite.svg">
-                <span>My Vite SO answers</span>
-            </a>
-            <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5btypescript%5d&searchOn=3"
-                target="_blank">
-                <img src="./assets/icons/typescript.svg">
-                <span>My Typescript SO answers</span>
-            </a>
-            <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bjavascript%5d&searchOn=3"
-                target="_blank">
-                <img src="./assets/icons/javascript.svg">
-                <span>My Javascript SO answers</span>
-            </a>
-            <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bcss%5d&searchOn=3"
-                target="_blank">
-                <img class="icon-scale-85 icon-nudge-down" src="./assets/icons/css.svg">
-                <span>My CSS SO answers</span>
-            </a>
-        </div>
-        <section class="tools" aria-label="Productivity tools">
-            <a class="card" href="/stereo-reader">
-                <img class="thumb" src="./assets/stereo-reader-preview.jpg" alt="Stereo Reader preview">
-                <div>
-                    <h2 class="title">Stereo Reader</h2>
-                    <p class="description">A reader aimed to improve vision by training or relaxing your eyes while
-                        reading books. Supports text, PDF, EPUB, and FB2 files in stereo or mono mode.</p>
-                </div>
-            </a>
+    <div class="logo">
+        <img src="./assets/logo.jpg">
+        <div id="overlay"></div>
+    </div>
+    <div class="menu">
+        <a href="/articles/mobile-web">Mobile Web</a>
+    </div>
+    <div class="links">
+        <canvas id="heartbeat"></canvas>
+        <a href="https://www.linkedin.com/in/alexander-nenashev-930731288/" target="_blank">
+            <img class="icon-scale-80" src="./assets/icons/linkedin.svg">
+            <span>My LinkedIn profile</span>
+        </a>
+        <a href="https://stackoverflow.com/users/14098260/alexander-nenashev" target="_blank">
+            <img class="icon-scale-80" src="./assets/icons/stackoverflow.svg">
+            <span>My Stackoverflow profile</span>
+        </a>
+        <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bvue.js%5d%20or%20%5bvuejs3%5d&searchOn=3"
+            target="_blank">
+            <img src="./assets/icons/vue.svg">
+            <span>My Vue SO answers</span>
+        </a>
+        <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bvite%5d%20&searchOn=3"
+            target="_blank">
+            <img class="icon-scale-90" src="./assets/icons/vite.svg">
+            <span>My Vite SO answers</span>
+        </a>
+        <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5btypescript%5d&searchOn=3"
+            target="_blank">
+            <img src="./assets/icons/typescript.svg">
+            <span>My Typescript SO answers</span>
+        </a>
+        <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bjavascript%5d&searchOn=3"
+            target="_blank">
+            <img src="./assets/icons/javascript.svg">
+            <span>My Javascript SO answers</span>
+        </a>
+        <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bcss%5d&searchOn=3"
+            target="_blank">
+            <img class="icon-scale-85 icon-nudge-down" src="./assets/icons/css.svg">
+            <span>My CSS SO answers</span>
+        </a>
+    </div>
+    <section class="tools" aria-label="Productivity tools">
+        <a class="card" href="/stereo-reader">
+            <img class="thumb" src="./assets/stereo-reader-preview.jpg" alt="Stereo Reader preview">
+            <div>
+                <h2 class="title">Stereo Reader</h2>
+                <p class="description">A reader aimed to improve vision by training or relaxing your eyes while
+                    reading books. Supports text, PDF, EPUB, and FB2 files in stereo or mono mode.</p>
+            </div>
+        </a>
 
-            <a class="card"
-                href="https://chromewebstore.google.com/detail/youtube-send-to-ai-chat/jfclfogdljgmnbbkdpkbnmfkfaahelhp">
-                <img class="thumb" src="./assets/youtube-send-to-ai-chat.png" alt="Youtube: Send to AI chat preview">
-                <div>
-                    <h2 class="title">Youtube: Send to AI chat</h2>
-                    <p class="description">A browser extension that sends YouTube transcripts to AI chats for
-                        timestamped summaries, Q&amp;A, inline video playback, clickable timestamp navigation, and
-                        customizable prompts.</p>
-                </div>
-            </a>
-        </section>
-    </main>
+        <a class="card"
+            href="https://chromewebstore.google.com/detail/youtube-send-to-ai-chat/jfclfogdljgmnbbkdpkbnmfkfaahelhp">
+            <img class="thumb" src="./assets/youtube-send-to-ai-chat.png" alt="Youtube: Send to AI chat preview">
+            <div>
+                <h2 class="title">Youtube: Send to AI chat</h2>
+                <p class="description">A browser extension that sends YouTube transcripts to AI chats for
+                    timestamped summaries, Q&amp;A, inline video playback, clickable timestamp navigation, and
+                    customizable prompts.</p>
+            </div>
+        </a>
+    </section>
 </template>
 
 <style scoped lang="scss">
-main {
-    width: min(920px, calc(100% - 32px));
-    margin: 0 auto;
-    padding: 48px 0;
-}
-
 .logo {
     border-radius: var(--border-radius);
     overflow: hidden;
