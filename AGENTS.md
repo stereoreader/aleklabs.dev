@@ -1,0 +1,1 @@
+<c:\www\agent-config\agents\AGENTS.md
