@@ -1,7 +1,9 @@
 ---
 date: 2026-05-16
 slug: stop-turning-the-mobile-web-into-a-second-class-platform
-devtoUrl: https://dev.to/alexander-nenashev/stop-turning-the-mobile-web-into-a-second-class-platform-16c0
+readOn: 
+    - https://dev.to/alexander-nenashev/stop-turning-the-mobile-web-into-a-second-class-platform-16c0
+    - https://coderlegion.com/18552/stop-turning-the-mobile-web-into-a-second-class-platform
 seoDescription: "Why the mobile web should not become a second-class platform: browsers, PWAs, open standards, user control, and the risks of app-first ecosystems."
 description: I argue that app-first strategies are weakening the mobile web by forcing web-shaped products into closed containers. Browsers provide tabs, links, bookmarks, extensions, interoperability, and user control. Developers should support PWAs and better mobile browser capabilities to preserve open software.
 ---

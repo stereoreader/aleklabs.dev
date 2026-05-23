@@ -1,6 +1,8 @@
 <script setup lang="ts">
 useHead({
-    title: 'Alek Labs - Home for productivity tools'
+    titleTemplate: title => title
+        ? `${title} - Alek Labs`
+        : 'Alek Labs - Home for productivity tools',
 });
 </script>
 

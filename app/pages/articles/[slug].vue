@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { articles } from './index';
+import { articles } from './articles';
 import * as marked from 'marked';
 
 const route = useRoute();
@@ -17,8 +17,26 @@ if (!article) {
     });
 }
 
+useHead({ title: article.title, titleTemplate: '%s', });
+
 const html = marked.parse(article.data);
 const stats = getMarkdownReadingStats(article.data);
+
+const icons = import.meta.glob('@pages/assets/icons/*.*',
+    { query: '?url', eager: true, import: 'default' }) as Record<string, string>;
+
+const links = article.readOn.map(link => {
+    const title = new URL(link).hostname;
+    const key = Object.keys(icons).find(key => key.includes(title));
+    if (!key) {
+        throw new Error(`Icon for ${title} not found`);
+    }
+    return {
+        title,
+        iconUrl: icons[key],
+        link
+    };
+});
 
 useSeoMeta({
     title: article.title,
@@ -62,6 +80,14 @@ function getMarkdownReadingStats(markdown: string, wordsPerMinute = 200): Markdo
 
 <template>
     <NuxtLayout>
+        <div class="topbar">
+            <a href="/">Back to home</a>
+            <span>Read on:</span>
+            <a
+                v-for="link of links"
+                target="_blank"
+                :href="link.link"><img :src="link.iconUrl">{{ link.title }}</a>
+        </div>
         <div class="article">
             <img :src="article.coverUrl" class="article-cover">
             <div class="status"><span class="date">{{ Intl.DateTimeFormat('en-us', {
@@ -73,11 +99,11 @@ function getMarkdownReadingStats(markdown: string, wordsPerMinute = 200): Markdo
             </div>
             <span v-html="html"></span>
         </div>
-        <div class="links">
+        <!-- <div class="links">
             <template v-if="article.devtoUrl">
                 <a target="_blank" :href="`${article.devtoUrl}#comments`">Leave a comment on DEV.TO</a>
             </template>
-        </div>
+</div> -->
     </NuxtLayout>
 </template>
 
@@ -88,6 +114,24 @@ function getMarkdownReadingStats(markdown: string, wordsPerMinute = 200): Markdo
     border-radius: 8px;
     color: #ccc;
     overflow: hidden;
+}
+
+.topbar {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    margin-bottom: 16px;
+
+    a {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        ;
+
+        img {
+            width: 32px;
+        }
+    }
 }
 
 .status {
@@ -118,6 +162,10 @@ function getMarkdownReadingStats(markdown: string, wordsPerMinute = 200): Markdo
 
     pre:has(>code) {
         background: #222;
+        padding: 8px;
+        border-radius: 4px;
+        background: #222233;
+        color: orange;
     }
 
     blockquote {
@@ -136,5 +184,6 @@ function getMarkdownReadingStats(markdown: string, wordsPerMinute = 200): Markdo
         width: 25%;
         border: 1px solid #333;
     }
+
 }
 </style>

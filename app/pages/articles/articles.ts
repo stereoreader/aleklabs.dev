@@ -21,6 +21,7 @@ type Article = {
     slug: string,
     data: string,
     seoDescription: string;
+    readOn: string[];
     //tags?: string[];
 };
 
@@ -37,6 +38,7 @@ export const articles = (Object.entries(pages) as [string, string][]).map(([path
     meta.data = match[2];
     meta.title = extractMarkdownTitle(data)!;
     meta.date = new Date(meta.date);
+    meta.readOn ??= [];
 
     const coverUrl = covers[path.replace('index.md', 'cover.webp')];
     if (!coverUrl) {

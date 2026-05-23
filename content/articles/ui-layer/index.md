@@ -1,7 +1,9 @@
 ---
 date: 2026-05-18
 slug: why-every-frontend-project-should-have-its-own-ui-layer
-devtoUrl: https://dev.to/alexander-nenashev/why-every-frontend-project-should-have-its-own-ui-layer-3jj2
+readOn: 
+    - https://dev.to/alexander-nenashev/why-every-frontend-project-should-have-its-own-ui-layer-3jj2
+    - https://coderlegion.com/18448/why-every-frontend-project-should-have-its-own-ui-layer
 seoDescription: Learn why frontend projects need an internal UI layer to reduce vendor lock-in, centralize design systems, and make UI libraries replaceable.
 description: I argue that frontend projects should own an internal UI layer instead of scattering third-party components across product code. Wrappers create stable contracts, centralize accessibility, theming, defaults, localization, and vendor quirks, reduce migration risk, and make UI architecture product-owned.
 ---

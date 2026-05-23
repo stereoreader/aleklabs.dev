@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import CardCmp from './card.vue';
-import { articles } from '@pages/articles';
+import { articles } from '@pages/articles/articles';
 
 </script>
 

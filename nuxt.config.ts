@@ -6,6 +6,10 @@ export default defineNuxtConfig({
     devtools: { enabled: true },
     ssr: true,
 
+    pages: {
+        pattern: ['**/index.vue', '**/[slug].vue']
+    },
+
     nitro: {
         prerender: {
             crawlLinks: true,
