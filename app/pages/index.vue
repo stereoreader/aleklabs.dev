@@ -68,7 +68,7 @@ onBeforeUnmount(() => {
         <div id="overlay"></div>
     </div>
     <div class="menu">
-        <a href="/articles/mobile-web">Mobile Web</a>
+        <a href="/articles/stop-turning-the-mobile-web-into-a-second-class-platform">Stop Turning the Mobile Web Into a Second-Class Platform</a>
     </div>
     <div class="links">
         <canvas id="heartbeat"></canvas>

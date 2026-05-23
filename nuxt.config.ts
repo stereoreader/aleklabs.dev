@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     },
 
     modules: [
+        './modules/content-assets',
         '@nuxt/content'
     ],
 

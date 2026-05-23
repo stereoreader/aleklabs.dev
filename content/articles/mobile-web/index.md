@@ -1,4 +1,9 @@
+---
+path: /articles/stop-turning-the-mobile-web-into-a-second-class-platform
+devtoUrl: https://dev.to/alexander-nenashev/stop-turning-the-mobile-web-into-a-second-class-platform-16c0
+---
 
+![Stop Turning the Mobile Web Into a Second-Class Platform](./logo.webp){.article-cover}
 
 # Stop Turning the Mobile Web Into a Second-Class Platform
 

@@ -11,23 +11,36 @@ if (!page.value) {
     });
 }
 
+useSeoMeta({
+    title: page.value.title,
+    description: page.value.description
+})
+
+
 </script>
 
 <template>
-    <NuxtLayout>
-        <div class="article">
-            <ContentRenderer :value="page" />
-        </div>
-    </NuxtLayout>
+    <template v-if="page">
+        <NuxtLayout>
+            <div class="article">
+                <ContentRenderer :value="page" />
+            </div>
+            <div class="links">
+                <template v-if="page.meta.devtoUrl">
+                    <a target="_blank" :href="`${page.meta.devtoUrl}#comments`">Leave a comment on DEV.TO</a>
+                </template>
+            </div>
+        </NuxtLayout>
+    </template>
 </template>
 <style scoped lang="scss">
 .article {
     background-color: #111;
     padding: 32px;
-    border-radius: 4px;
+    border-radius: 8px;
     color: #ccc;
+    overflow: hidden;
 }
-
 
 :deep(*) {
 
@@ -35,6 +48,16 @@ if (!page.value) {
     h2,
     h3 {
         color: #ddd;
+    }
+
+    p:has(.article-cover) {
+        margin: 0;
+    }
+
+    .article-cover {
+        margin: -32px;
+        margin-bottom: 32px;
+        width: calc(100% + 64px);
     }
 
     blockquote {
