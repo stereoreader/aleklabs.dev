@@ -1,75 +1,15 @@
 <script setup lang="ts">
 
-onMounted(async () => {
-
-    const element = document.querySelector('.logo') as HTMLDivElement;
-
-    setInterval(() => {
-        const active = Math.random() < 0.05;
-
-        if (!active) {
-            resetEffect();
-            return;
-        }
-
-        const blur = random(0, 3);
-        const brightness = random(1, 2);
-        const contrast = random(0.8, 2.5);
-        const hue = random(-40, 40);
-
-        const s = random(.2, .5);
-        const translateX = random(-8 * s, 8 * s);
-        const scaleY = random(1 - .1 * s, 1 + .1 * s);
-        const opacity = random(0.75, 1);
-
-        element.style.filter = [
-            `blur(${blur.toFixed(2)}px)`,
-            `brightness(${brightness.toFixed(2)})`,
-            `contrast(${contrast.toFixed(2)})`,
-            `hue-rotate(${hue.toFixed(2)}deg)`
-        ].join(' ');
-
-        element.style.transform = [
-            `translateX(${translateX.toFixed(2)}px)`,
-            `scaleY(${scaleY.toFixed(3)})`
-        ].join(' ');
-
-        element.style.opacity = opacity.toFixed(2);
-
-        const duration = random(40, 180);
-
-        setTimeout(resetEffect, duration);
-
-    }, 120);
-
-    function resetEffect() {
-        element.style.filter = '';
-        element.style.transform = '';
-        element.style.opacity = '';
-    }
-
-    function random(min: number, max: number) {
-        return Math.random() * (max - min) + min;
-    }
-    //const { mountHeartbeatLinks } = await import('./index/links.client');
-    //cleanupLinks = mountHeartbeatLinks();
-});
-
-onBeforeUnmount(() => {
-    //cleanupLinks?.();
-    //cleanupLinks = undefined;
-});
+import CoverCmp from './index/cover.vue';
+import CardCmp from './index/card.vue';
+import ArticlesCmp from './index/articles.vue';
+import stereoReaderPreview from './assets/stereo-reader-preview.jpg';
+import youtubeChatPreview from './assets/youtube-send-to-ai-chat.png';
 
 </script>
 
 <template>
-    <div class="logo">
-        <img src="./assets/logo.jpg">
-        <div id="overlay"></div>
-    </div>
-    <div class="menu">
-        <a href="/articles/stop-turning-the-mobile-web-into-a-second-class-platform">Stop Turning the Mobile Web Into a Second-Class Platform</a>
-    </div>
+    <cover-cmp />
     <div class="links">
         <canvas id="heartbeat"></canvas>
         <a href="https://www.linkedin.com/in/alexander-nenashev-930731288/" target="_blank">
@@ -107,132 +47,50 @@ onBeforeUnmount(() => {
         </a>
     </div>
     <section class="tools" aria-label="Productivity tools">
-        <a class="card" href="/stereo-reader">
-            <img class="thumb" src="./assets/stereo-reader-preview.jpg" alt="Stereo Reader preview">
-            <div>
-                <h2 class="title">Stereo Reader</h2>
-                <p class="description">A reader aimed to improve vision by training or relaxing your eyes while
-                    reading books. Supports text, PDF, EPUB, and FB2 files in stereo or mono mode.</p>
-            </div>
-        </a>
-
-        <a class="card"
-            href="https://chromewebstore.google.com/detail/youtube-send-to-ai-chat/jfclfogdljgmnbbkdpkbnmfkfaahelhp">
-            <img class="thumb" src="./assets/youtube-send-to-ai-chat.png" alt="Youtube: Send to AI chat preview">
-            <div>
-                <h2 class="title">Youtube: Send to AI chat</h2>
-                <p class="description">A browser extension that sends YouTube transcripts to AI chats for
-                    timestamped summaries, Q&amp;A, inline video playback, clickable timestamp navigation, and
-                    customizable prompts.</p>
-            </div>
-        </a>
+        <card-cmp
+            href="/stereo-reader"
+            title="Stereo Reader"
+            :image-src="stereoReaderPreview">
+            A reader aimed to improve vision by training or relaxing your eyes while
+            reading books. Supports text, PDF, EPUB, and FB2 files in stereo or mono mode.
+        </card-cmp>
+        <card-cmp
+            href="https://chromewebstore.google.com/detail/youtube-send-to-ai-chat/jfclfogdljgmnbbkdpkbnmfkfaahelhp"
+            title="Youtube: Send to AI chat"
+            :image-src="youtubeChatPreview">
+            A browser extension that sends YouTube transcripts to AI chats for
+            timestamped summaries, Q&amp;A, inline video playback, clickable timestamp navigation, and
+            customizable prompts.
+        </card-cmp>
+    </section>
+    <section class="tools" aria-label="Articles">
+        <h2><img src="./assets/icons/information.svg">Articles</h2>
+        <articles-cmp />
     </section>
 </template>
 
 <style scoped lang="scss">
-.logo {
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    margin-bottom: 32px;
-    position: relative;
-    transition:
-        filter 40ms linear,
-        transform 40ms linear,
-        opacity 40ms linear;
-
-    img {
-        aspect-ratio: 16 / 9;
-        width: 100%;
-        animation: logo-animate 3s infinite alternate;
-
-    }
-
-    @keyframes logo-animate {
-        from {
-            filter: brightness(1);
-        }
-
-        to {
-            filter: brightness(2);
-        }
-    }
-
-    #overlay {
-        position: absolute;
-        z-index: 1;
-        opacity: .05;
-        background-image: url('./assets/screen.gif');
-        inset: 0;
-    }
-
-
-}
-
 .tools {
     display: flex;
     flex-direction: column;
     gap: 16px;
-}
 
-.card {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 22px;
-    align-items: center;
-    min-height: 150px;
-    padding: 16px;
-    border-radius: var(--border-radius);
-    background: var(--panel);
-    color: inherit;
-    text-decoration: none;
-}
+    > h2 {
+        margin-top: 16px;
+        margin-bottom: 0;
+        margin-left: 16px;
+        opacity: .5;
+        display: flex;
+        align-items: center;
+        gap: 10px;
 
-.card:hover,
-.card:focus-visible {
-    background: var(--panel-hover);
-    outline: none;
-    box-shadow: 0 0 48px rgba(255, 255, 255, .05);
-}
-
-.thumb {
-    width: 100%;
-    height: 126px;
-    object-fit: cover;
-    border-radius: 10px;
-    background: #050506;
-}
-
-.title {
-    margin: 0 0 8px;
-    font-size: 19px;
-    line-height: 1.2;
-    font-weight: 700;
-}
-
-.description {
-    max-width: 560px;
-    margin: 0;
-    color: var(--muted);
-    font-size: 14px;
-}
-
-@media (max-width: 680px) {
-    main {
-        width: min(100% - 24px, 920px);
-        padding: 28px 0;
-    }
-
-    .card {
-        grid-template-columns: 1fr;
-        gap: 14px;
-    }
-
-    .thumb {
-        height: auto;
-        aspect-ratio: 16 / 9;
+        img {
+            position: relative;
+            top: 2px;
+            width: 24px;
+        }
     }
 }
-
 
 .links {
     --heartbeat-bpm: 60;
