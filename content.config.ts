@@ -8,8 +8,9 @@ export default defineContentConfig({
             source: 'articles/**/*.md',
             schema: z.object({
                 date: z.string(),
-                image: z.string().optional(),
-                tags: z.array(z.string()).optional()
+                devtoUrl: z.string().optional(),
+                imageUrl: z.string().optional(),
+                tags: z.array(z.string()).optional(),
             })
         })
     }

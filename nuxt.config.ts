@@ -11,8 +11,8 @@ export default defineNuxtConfig({
     },
 
     modules: [
-        './modules/content-assets',
-        '@nuxt/content'
+      '@nuxt/content',
+      './modules/content-assets',
     ],
 
     routeRules: {

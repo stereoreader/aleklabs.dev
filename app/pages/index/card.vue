@@ -2,13 +2,13 @@
 defineProps<{
     href: string,
     title: string,
-    imageSrc: string,
+    imageSrc?: string,
 }>();
 </script>
 
 <template>
-    <a class="card" :href>
-        <img class="thumb" :src="imageSrc" :alt="title">
+    <a class="card" :class="{ 'card--without-image': !imageSrc }" :href>
+        <img v-if="imageSrc" class="thumb" :src="imageSrc" :alt="title">
         <div>
             <h2 class="title">{{ title }}</h2>
             <p class="description">
@@ -30,6 +30,10 @@ defineProps<{
     background: var(--panel);
     color: inherit;
     text-decoration: none;
+}
+
+.card--without-image {
+    grid-template-columns: 1fr;
 }
 
 .card:hover,

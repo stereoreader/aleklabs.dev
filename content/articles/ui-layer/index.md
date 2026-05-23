@@ -1,8 +1,11 @@
 ---
+title: Why Every Frontend Project Should Have Its Own UI Layer
 date: 2026-05-18
 path: /articles/why-every-frontend-project-should-have-its-own-ui-layer
 devtoUrl: https://dev.to/alexander-nenashev/why-every-frontend-project-should-have-its-own-ui-layer-3jj2
+imageUrl: ./cover.webp
 ---
+![Why Every Frontend Project Should Have Its Own UI Layer](./cover.webp){.article-cover}
 
 # Why Every Frontend Project Should Have Its Own UI Layer
 

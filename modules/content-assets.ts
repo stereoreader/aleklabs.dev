@@ -21,6 +21,12 @@ interface ContentFileHookContext {
     content?: Record<string, unknown>;
 }
 
+interface NuxtContentHookable {
+    hook(name: 'builder:watch', callback: (event: string, changedPath: string) => void | Promise<void>): void;
+    hook(name: 'content:file:beforeParse', callback: (ctx: ContentFileHookContext) => void | Promise<void>): void;
+    hook(name: 'content:file:afterParse', callback: (ctx: ContentFileHookContext) => void | Promise<void>): void;
+}
+
 interface ContentConfig {
     collections?: Record<string, ContentCollectionConfig>;
 }
@@ -68,6 +74,7 @@ export default defineNuxtModule<ModuleOptions>({
     },
 
     async setup(options, nuxt) {
+        const contentHooks = nuxt as typeof nuxt & NuxtContentHookable;
         const contentRoot = path.resolve(nuxt.options.rootDir, options.contentDir);
         const targetRoot = path.resolve(nuxt.options.buildDir, options.buildDir);
         const contentConfigPath = path.resolve(nuxt.options.rootDir, options.contentConfig);
@@ -101,7 +108,7 @@ export default defineNuxtModule<ModuleOptions>({
             });
         });
 
-        nuxt.hook('builder:watch' as 'ready', async (event: string, changedPath: string) => {
+        contentHooks.hook('builder:watch', async (event: string, changedPath: string) => {
             const absolutePath = path.isAbsolute(changedPath)
                 ? changedPath
                 : path.resolve(nuxt.options.rootDir, changedPath);
@@ -132,7 +139,7 @@ export default defineNuxtModule<ModuleOptions>({
             await fs.copyFile(absolutePath, targetPath);
         });
 
-        nuxt.hook('content:file:beforeParse' as 'ready', (ctx: ContentFileHookContext) => {
+        contentHooks.hook('content:file:beforeParse', (ctx: ContentFileHookContext) => {
             if (typeof ctx.file.body !== 'string') {
                 return;
             }
@@ -162,7 +169,7 @@ export default defineNuxtModule<ModuleOptions>({
                 });
         });
 
-        nuxt.hook('content:file:afterParse' as 'ready', (ctx: ContentFileHookContext) => {
+        contentHooks.hook('content:file:afterParse', (ctx: ContentFileHookContext) => {
             if (!ctx.content) {
                 return;
             }

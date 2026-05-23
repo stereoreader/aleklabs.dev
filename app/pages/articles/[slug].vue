@@ -26,8 +26,8 @@ useSeoMeta({
                 <ContentRenderer :value="page" />
             </div>
             <div class="links">
-                <template v-if="page.meta.devtoUrl">
-                    <a target="_blank" :href="`${page.meta.devtoUrl}#comments`">Leave a comment on DEV.TO</a>
+                <template v-if="page.devtoUrl">
+                    <a target="_blank" :href="`${page.devtoUrl}#comments`">Leave a comment on DEV.TO</a>
                 </template>
             </div>
         </NuxtLayout>
@@ -58,6 +58,10 @@ useSeoMeta({
         margin: -32px;
         margin-bottom: 32px;
         width: calc(100% + 64px);
+    }
+
+    pre:has(>code) {
+        background: #222;
     }
 
     blockquote {
