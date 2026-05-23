@@ -1,7 +1,6 @@
 <script setup lang="ts">
-const route = useRoute();
 
-const { data: page } = await useAsyncData(() => queryCollection('articles').path(route.path).first())
+const route = useRoute();
 
 if (!page.value) {
     throw createError({
@@ -23,7 +22,6 @@ useSeoMeta({
     <template v-if="page">
         <NuxtLayout>
             <div class="article">
-                <ContentRenderer :value="page" />
             </div>
             <div class="links">
                 <template v-if="page.devtoUrl">

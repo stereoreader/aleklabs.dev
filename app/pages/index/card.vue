@@ -47,6 +47,7 @@ defineProps<{
     width: 100%;
     height: 126px;
     object-fit: cover;
+    object-position: left center;
     border-radius: 10px;
     background: #050506;
 }

@@ -1,13 +1,8 @@
 ---
-title: Stop Turning the Mobile Web Into a Second-Class Platform
 date: 2026-05-16
-path: /articles/stop-turning-the-mobile-web-into-a-second-class-platform
+slug: stop-turning-the-mobile-web-into-a-second-class-platform
 devtoUrl: https://dev.to/alexander-nenashev/stop-turning-the-mobile-web-into-a-second-class-platform-16c0
-imageUrl: ./cover.webp
 ---
-
-![Stop Turning the Mobile Web Into a Second-Class Platform](./cover.webp){.article-cover}
-
 # Stop Turning the Mobile Web Into a Second-Class Platform
 
 There is a long-term trend in the software industry that I think developers should pay more attention to:

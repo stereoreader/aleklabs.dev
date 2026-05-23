@@ -1,12 +1,8 @@
 ---
-title: Why Every Frontend Project Should Have Its Own UI Layer
 date: 2026-05-18
-path: /articles/why-every-frontend-project-should-have-its-own-ui-layer
+slug: why-every-frontend-project-should-have-its-own-ui-layer
 devtoUrl: https://dev.to/alexander-nenashev/why-every-frontend-project-should-have-its-own-ui-layer-3jj2
-imageUrl: ./cover.webp
 ---
-![Why Every Frontend Project Should Have Its Own UI Layer](./cover.webp){.article-cover}
-
 # Why Every Frontend Project Should Have Its Own UI Layer
 
 Modern frontend development is heavily centered around component frameworks: Vue, React, Svelte, Solid, Angular, and others. The ecosystem also provides endless UI libraries: Vuetify, PrimeVue, Naive UI, MUI, Ant Design, Chakra, Radix, Headless UI, shadcn/ui, and hundreds more.
