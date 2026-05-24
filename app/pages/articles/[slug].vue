@@ -40,7 +40,11 @@ const links = article.readOn.map(link => {
 
 useSeoMeta({
     title: article.title,
-    description: article.seoDescription
+    description: article.seoDescription,
+
+    ogTitle: article.title,
+    ogDescription: article.description,
+    ogImage: article.coverUrl
 });
 
 type MarkdownReadingStats = {

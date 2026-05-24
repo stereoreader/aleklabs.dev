@@ -10,9 +10,14 @@ export default defineNuxtConfig({
         pattern: ['**/index.vue', '**/[slug].vue']
     },
 
+    experimental: {
+        payloadExtraction: false
+    },
+
     nitro: {
         prerender: {
             crawlLinks: true,
+            autoSubfolderIndex: false
         }
     },
 
@@ -36,5 +41,13 @@ export default defineNuxtConfig({
         build: {
             sourcemap: false
         }
-    }
+    },
+
+    modules: ['@nuxtjs/sitemap', 'nuxt-site-config'],
+
+    site: {
+        url: 'https://aleklabs.dev',
+        name: 'Alek Labs'
+    },
+
 });

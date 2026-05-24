@@ -6,6 +6,12 @@ import ArticlesCmp from './index/articles.vue';
 import stereoReaderPreview from './assets/stereo-reader-preview.jpg';
 import youtubeChatPreview from './assets/youtube-send-to-ai-chat.png';
 
+useSeoMeta({
+    ogTitle: 'Alek Labs - Home for productivity tools',
+    ogDescription: 'Personal website of senior frontend developer Alexander Nenashev',
+    ogImage: new URL('./assets/logo.jpg', import.meta.url).pathname
+});
+
 </script>
 
 <template>
