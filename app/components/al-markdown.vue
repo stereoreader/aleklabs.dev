@@ -1,12 +1,46 @@
+<script lang="ts">
+import MarkdownIt from 'markdown-it';
+import markdownItAttrs from 'markdown-it-attrs';
+
+const markdown = new MarkdownIt({
+    html: false,
+    linkify: true,
+    typographer: true,
+}).use(markdownItAttrs, {
+    allowedAttributes: [
+        'class',
+        'id',
+        'target'
+    ],
+});
+
+const defaultLinkOpenRenderer = markdown.renderer.rules.link_open ?? function (tokens, idx, options, env, self) {
+    return self.renderToken(tokens, idx, options);
+};
+
+markdown.renderer.rules.link_open = function (tokens, idx, options, env, self) {
+    const token = tokens[idx];
+
+    if (!token) return '';
+
+    if (token.attrGet('target') === null) {
+        token.attrSet('target', '_blank');
+    }
+
+    if (token.attrGet('rel') === null && token.attrGet('target') === '_blank') {
+        token.attrSet('rel', 'noopener noreferrer');
+    }
+
+    return defaultLinkOpenRenderer(tokens, idx, options, env, self);
+};
+</script>
 <script setup lang="ts">
 
-import * as marked from 'marked';
-
-const { markdown } = defineProps<{
-    markdown: string
+const { src } = defineProps<{
+    src: string
 }>();
 
-const html = marked.parse(markdown);
+const html = markdown.render(src);
 
 </script>
 
@@ -56,6 +90,10 @@ const html = marked.parse(markdown);
         margin-inline: auto;
         width: 25%;
         border: 1px solid #333;
+    }
+
+    li {
+        margin-bottom: 16px;
     }
 
 }

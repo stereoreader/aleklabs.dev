@@ -42,7 +42,7 @@ body {
 }
 
 main {
-    width: min(1024px, calc(100% - 32px));
+    width: min(920px, calc(100% - 32px));
     margin: 0 auto;
     padding: 48px 0;
     background: #161616;
