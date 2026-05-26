@@ -22,9 +22,15 @@ export default defineNuxtConfig({
     },
 
     routeRules: {
-        '/stereo-reader/**': {
+        '/stereo-reader/app/**': {
             prerender: false
-        }
+        },
+        '/stereo-reader': {
+            appLayout: 'stereo-reader',
+        },
+        '/stereo-reader/**': {
+            appLayout: 'stereo-reader',
+        },
     },
 
     alias: {

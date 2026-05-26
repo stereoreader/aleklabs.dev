@@ -6,7 +6,6 @@ import { articles } from '@pages/articles/articles';
 </script>
 
 <template>
-
     <card-cmp v-for="page in articles" :title="page.title" :href="`/articles/${page.slug}`"
         :image-src="page.coverUrl">
         {{ page.description }}
