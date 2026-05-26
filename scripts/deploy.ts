@@ -13,14 +13,12 @@ async function main(): Promise<void> {
 
     const buildDir = resolve(process.cwd(), 'build');
     const publicDir = resolve(process.cwd(), '.output', 'public');
-    const stereoReaderSiteDir = 'C:\\www\\stereoreader-website\\docs\\.vitepress\\dist';
     const stereoReaderAppDir = 'C:\\www\\stereoreader\\dist';
     const stereoReaderBuildDir = resolve(buildDir, 'stereo-reader');
     const stereoReaderBuildAppDir = resolve(stereoReaderBuildDir, 'app');
     const wranglerArgs = ['wrangler', 'pages', 'deploy', './build', '--project-name', 'aleklabs-dev', ...process.argv.slice(2)];
 
     await assertDirectoryExists(publicDir);
-    await assertDirectoryExists(stereoReaderSiteDir);
     await assertDirectoryExists(stereoReaderAppDir);
 
     console.log('[deploy] Clearing build folder');
@@ -28,9 +26,6 @@ async function main(): Promise<void> {
 
     console.log('[deploy] Copying .output/public into build');
     await cp(publicDir, buildDir, { recursive: true, force: true });
-
-    console.log('[deploy] Copying Stereo Reader site into build/stereo-reader');
-    await cp(stereoReaderSiteDir, stereoReaderBuildDir, { recursive: true, force: true });
 
     console.log('[deploy] Copying Stereo Reader app into build/stereo-reader/app');
     await cp(stereoReaderAppDir, stereoReaderBuildAppDir, { recursive: true, force: true });

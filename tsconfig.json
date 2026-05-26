@@ -16,6 +16,9 @@
     },
     {
       "path": "./tsconfig.content-config.json"
+    },
+    {
+      "path": "./scripts"
     }
   ]
 }
