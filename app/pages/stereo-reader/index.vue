@@ -11,6 +11,7 @@ import story from './story.md?raw';
 import results from './results.md?raw';
 import warning from './warning.md?raw';
 import app from './app.md?raw';
+import goals from './goals.md?raw';
 
 useSeoMeta({
     ogTitle: 'Alek Labs - Home for productivity tools',
@@ -38,6 +39,7 @@ useSeoMeta({
         <al-markdown class="chapter" :src="story" />
         <al-markdown class="chapter" :src="results" />
         <al-markdown class="chapter" :src="app" />
+        <al-markdown class="chapter" :src="goals" />
         <al-markdown class="chapter" :src="warning" />
     </div>
 </template>
@@ -62,6 +64,12 @@ useSeoMeta({
         font-weight: normal;
         text-align: center;
         width: 100%;
+    }
+
+    :deep(h3) {
+        font-weight: normal;
+        color: white;
+        font-size: 18px;
     }
 
     :deep(.big) {
