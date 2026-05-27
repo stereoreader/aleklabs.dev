@@ -133,6 +133,38 @@ That is dangerous long term.
 
 ---
 
+## App Updates Are a Hidden UX Tax
+
+Another underrated problem with app-first ecosystems is update friction.
+
+The more complex mobile apps become, the more frequently they need updates. Banking apps, shopping apps, delivery apps, loyalty apps, finance apps, and marketplace apps are no longer small utilities. Many of them are large product ecosystems with constantly changing APIs, security flows, experiments, feature flags, and internal modules.
+
+That complexity eventually leaks into the user experience.
+
+You open an app because you need to do something specific: pay a bill, confirm a transaction, buy something quickly, change an account setting, access a discount, or complete some other time-sensitive action. Instead of the task, you get an update prompt.
+
+Sometimes the update is optional. Sometimes it is effectively mandatory. Sometimes you can dismiss it, but the app you continue using is already partially incompatible with the backend.
+
+That is where the experience becomes especially bad.
+
+A menu item may be missing. A button may fail. A support article may describe a screen that does not exist in your installed version. A customer support agent may tell you to open a setting that your app simply does not have yet. An API contract may have changed enough that an old client can no longer complete the operation reliably.
+
+From the user’s point of view, this is opaque. Is the update cosmetic? Is it security-related? Is it required for this exact feature? Will the current version still work for the next five minutes? Nobody knows.
+
+And when dozens of apps behave like this, the phone starts to feel like a maintenance surface. You open the app store and see a queue of pending updates. Some apps update automatically. Some do not. Some fail. Some require a newer OS version. Some block access until the update is installed. Some vendor-specific installation flows add their own scanning, verification, or promotional screens after the actual download.
+
+This is not a small annoyance. It is a recurring tax on attention.
+
+The web model handles many of these cases better. A mobile website can deploy server-side fixes immediately. Static assets can be cached and refreshed incrementally. A PWA can use service workers to update cached resources without forcing the user through an app store workflow.
+
+Of course, web updates are not magic. Cache invalidation, version compatibility, and API migration still require careful engineering.
+
+But the update path is usually much less invasive. The user opens the site and receives the current version of the product. They are not forced to maintain another installed client before they can complete a basic task.
+
+For critical, content-heavy, transaction-heavy, or account-based services, that difference matters.
+
+---
+
 ## We Are Accidentally Weakening the Open Platform
 
 One of the biggest historical advantages of the web was openness.
