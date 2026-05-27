@@ -56,10 +56,7 @@ onMounted(async () => {
 
     await waitForImages();
 
-    requestIdleCallback(() => {
-        $overlay.value!.style.backgroundImage = `url(${screenImg})`;
-    });
-
+    $overlay.value!.style.backgroundImage = `url(${screenImg})`;
 
     function resetEffect() {
         element.style.filter = '';
@@ -163,7 +160,6 @@ async function waitForImages(timeout = 10000): Promise<void> {
 .logo {
     border-radius: var(--border-radius);
     overflow: hidden;
-    margin-bottom: 32px;
     position: relative;
     transition:
         filter 40ms linear,

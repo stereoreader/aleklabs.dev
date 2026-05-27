@@ -52,6 +52,8 @@ body {
 }
 
 main {
+    container-name: main;
+    container-type: inline-size;
     width: min(920px, calc(100% - 32px));
     margin: 0 auto;
     padding: 48px 0;

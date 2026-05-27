@@ -66,7 +66,7 @@ onBeforeUnmount(() => {
 <template>
     <div class="cover">
         <al-cover :image-src="coverImg" />
-        <div>
+        <div class="text">
             <h1>STEREO READER</h1>
             <div class="promo"> Train or relax your eyes while reading your favorite books</div>
         </div>
@@ -78,6 +78,15 @@ onBeforeUnmount(() => {
 
     display: flex;
     gap: 32px;
+
+    @container main (max-width:640px) {
+        flex-direction: column;
+        align-items: center;
+
+        .text {
+            text-align: center;
+        }
+    }
 
     h1 {
         font-weight: 400;

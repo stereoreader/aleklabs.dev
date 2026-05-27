@@ -8,8 +8,10 @@ defineProps<{
 <template>
     <div class="feature">
         <img :src="imageUrl">
-        <h2>{{ title }}</h2>
-        <slot />
+        <span>
+            <h2>{{ title }}</h2>
+            <slot />
+        </span>
     </div>
 </template>
 
@@ -20,6 +22,27 @@ defineProps<{
     padding: 16px;
     max-width: 250px;
     font-size: 12px;
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    @container main (max-width:600px) {
+        max-width: 100%;
+        flex-direction: row;
+
+        align-items: flex-start;
+
+        img {
+            width: 33%;
+        }
+    }
+
+    h2 {
+        margin: 0;
+        margin-bottom: 8px;
+    }
+
 }
 
 img {

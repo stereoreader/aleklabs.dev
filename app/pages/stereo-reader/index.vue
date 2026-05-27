@@ -23,7 +23,8 @@ useSeoMeta({
 </script>
 
 <template>
-    <cover-cmp />
+    <div class="topbar"><a href="/">AlekLabs.dev</a></div>
+    <cover-cmp style="margin-bottom:32px" />
     <div class="features">
         <feature-cmp title="Read your favorite books" :image-url="feature1Img">
             You can read text, PDF, EPUB, FB2 files in stereo or mono mode
@@ -47,6 +48,14 @@ useSeoMeta({
 </template>
 
 <style scoped lang="scss">
+.topbar {
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    margin-top: -16px;
+    text-align: center;
+    letter-spacing: 4px;
+}
+
 .chapter {
 
     position: relative;
@@ -80,7 +89,8 @@ useSeoMeta({
         color: #ff7411;
         font-size: 64px;
     }
-        :deep(.bigger) {
+
+    :deep(.bigger) {
         margin-block: 0;
         font-size: 24px;
         text-align: center;
@@ -88,9 +98,14 @@ useSeoMeta({
 }
 
 .features {
+    container-name: features;
     display: flex;
     gap: 16px;
     justify-content: center;
+
+    @container main (max-width: 600px) {
+        flex-direction: column;
+    }
 }
 
 .story {
