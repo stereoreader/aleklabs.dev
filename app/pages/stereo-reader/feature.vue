@@ -23,6 +23,7 @@ defineProps<{
 }
 
 img {
-    max-width: 100%;
+    width: 100%;
+    aspect-ratio: 250/167;
 }
 </style>

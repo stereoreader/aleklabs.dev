@@ -1,9 +1,20 @@
 <script setup lang="ts">
+
+import favico from '@pages/stereo-reader/assets/logo.svg';
+
 useHead({
     titleTemplate: title => title
         ? `${title} - Alek Labs`
         : 'Sharper Vision with Stereo Reader by Alek Labs',
+    link: [
+        {
+            rel: 'icon',
+            type: 'image/svg+xml',
+            href: favico,
+        },
+    ]
 });
+
 </script>
 
 <template>
@@ -13,7 +24,6 @@ useHead({
 </template>
 
 <style lang="scss">
-
 :root {
     color-scheme: dark;
     --bg: #0b0b0d;

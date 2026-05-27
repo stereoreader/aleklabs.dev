@@ -1,5 +1,15 @@
 <script setup lang="ts">
 
+defineProps<{
+    imageSrc: string
+}>();
+
+import screenImg from './screen.gif';
+
+const $overlay = useTemplateRef('$overlay');
+
+
+
 let interval: ReturnType<typeof setInterval>;
 
 onMounted(async () => {
@@ -44,6 +54,13 @@ onMounted(async () => {
 
     }, 120);
 
+    await waitForImages();
+
+    requestIdleCallback(() => {
+        $overlay.value!.style.backgroundImage = `url(${screenImg})`;
+    });
+
+
     function resetEffect() {
         element.style.filter = '';
         element.style.transform = '';
@@ -59,12 +76,86 @@ onBeforeUnmount(() => {
     clearInterval(interval);
 });
 
+async function waitForImages(timeout = 10000): Promise<void> {
+    const images = Array.from(document.images);
+
+    if (images.length === 0) {
+        return;
+    }
+
+    await new Promise<void>(resolve => {
+        const cleanups: (() => void)[] = [];
+        let remaining = images.length;
+        let isResolved = false;
+
+        const timeoutId = window.setTimeout(finish, timeout);
+
+        for (const image of images) {
+            waitForImage(image, markDone);
+        }
+
+        function markDone(): void {
+            remaining -= 1;
+
+            if (remaining === 0) {
+                finish();
+            }
+        }
+
+        function finish(): void {
+            if (isResolved) {
+                return;
+            }
+
+            isResolved = true;
+            window.clearTimeout(timeoutId);
+
+            for (const cleanup of cleanups) {
+                cleanup();
+            }
+
+            resolve();
+        }
+
+        function waitForImage(image: HTMLImageElement, done: () => void): void {
+            const loadingState = image.loading;
+
+            if (isImageSettled(image, loadingState)) {
+                done();
+                return;
+            }
+
+            const onDone = function (): void {
+                done();
+            };
+
+            image.addEventListener('load', onDone, { once: true });
+            image.addEventListener('error', onDone, { once: true });
+
+            cleanups.push(function (): void {
+                image.removeEventListener('load', onDone);
+                image.removeEventListener('error', onDone);
+            });
+        }
+
+        function isImageSettled(image: HTMLImageElement, loadingState: string): boolean {
+            void loadingState;
+
+            if (!image.currentSrc && !image.src && !image.srcset) {
+                return true;
+            }
+
+            return image.complete;
+        }
+    });
+}
+
 </script>
 
 <template>
     <div class="logo">
-        <img src="../assets/logo.jpg">
-        <div id="overlay"></div>
+        <img :src="imageSrc">
+        <div class="overlay" ref="$overlay"></div>
     </div>
 </template>
 
@@ -96,11 +187,10 @@ onBeforeUnmount(() => {
         }
     }
 
-    #overlay {
+    .overlay {
         position: absolute;
         z-index: 1;
         opacity: .05;
-        background-image: url('../assets/screen.gif');
         inset: 0;
     }
 

@@ -1,10 +1,11 @@
 <script setup lang="ts">
 
-import CoverCmp from './index/cover.vue';
 import CardCmp from './index/card.vue';
 import ArticlesCmp from './index/articles.vue';
 import stereoReaderPreview from './assets/stereo-reader-preview.jpg';
 import youtubeChatPreview from './assets/youtube-send-to-ai-chat.png';
+
+import coverImg from './assets/logo.jpg';
 
 useSeoMeta({
     ogTitle: 'Alek Labs - Home for productivity tools',
@@ -15,7 +16,7 @@ useSeoMeta({
 </script>
 
 <template>
-    <cover-cmp />
+    <al-cover :image-src="coverImg" />
     <div class="links">
         <canvas id="heartbeat"></canvas>
         <a href="https://www.linkedin.com/in/alexander-nenashev-930731288/" target="_blank">

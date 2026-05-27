@@ -1,5 +1,7 @@
 <script setup lang="ts">
 
+import coverImg from './assets/logo.svg';
+
 let interval: ReturnType<typeof setInterval>;
 
 onMounted(async () => {
@@ -63,10 +65,7 @@ onBeforeUnmount(() => {
 
 <template>
     <div class="cover">
-        <div class="logo">
-            <img src="./assets/logo.svg">
-            <div id="overlay"></div>
-        </div>
+        <al-cover :image-src="coverImg" />
         <div>
             <h1>STEREO READER</h1>
             <div class="promo"> Train or relax your eyes while reading your favorite books</div>
@@ -76,7 +75,7 @@ onBeforeUnmount(() => {
 
 <style scoped lang="scss">
 .cover {
-    
+
     display: flex;
     gap: 32px;
 
@@ -94,42 +93,5 @@ onBeforeUnmount(() => {
     * {
         flex-grow: 1;
     }
-}
-
-.logo {
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    margin-bottom: 32px;
-    position: relative;
-    transition:
-        filter 40ms linear,
-        transform 40ms linear,
-        opacity 40ms linear;
-
-    img {
-        aspect-ratio: 16 / 9;
-        width: 100%;
-        animation: logo-animate 3s infinite alternate;
-
-    }
-
-    @keyframes logo-animate {
-        from {
-            filter: brightness(1);
-        }
-
-        to {
-            filter: brightness(2);
-        }
-    }
-
-    #overlay {
-        position: absolute;
-        z-index: 1;
-        opacity: .05;
-        background-image: url('../assets/screen.gif');
-        inset: 0;
-    }
-
 }
 </style>

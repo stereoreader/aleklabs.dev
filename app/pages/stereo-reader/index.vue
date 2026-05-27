@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
-import feature1Img from './assets/feature-read.png';
-import feature2Img from './assets/feature-relax.png';
-import feature3Img from './assets/feature-train.png';
+import feature1Img from './assets/feature-read.png?w=250';
+import feature2Img from './assets/feature-relax.png?w=250';
+import feature3Img from './assets/feature-train.png?w=250';
 
 import CoverCmp from './cover.vue';
 import FeatureCmp from './feature.vue';

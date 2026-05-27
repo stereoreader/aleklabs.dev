@@ -56,7 +56,7 @@ export default defineNuxtConfig({
                 defaultDirectives: function defaultDirectives(url) {
                     const directives = new URLSearchParams();
 
-                    if (!/\.(png|gif|jpe?g)$/i.test(url.pathname)) {
+                    if (!/\.(png|jpe?g)$/i.test(url.pathname)) {
                         return directives;
                     }
 
