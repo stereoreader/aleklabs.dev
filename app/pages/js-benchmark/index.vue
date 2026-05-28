@@ -1,18 +1,40 @@
 <script setup>
-import Markdown from './Markdown.vue';
 //import './assets/main.css';
+import MarkdownIt from 'markdown-it';
 import docs from './docs.md?raw';
+
+const html = new MarkdownIt({ html: true }).render(docs);
+
 </script>
 
 <template>
-    <h1><img src="./assets/gauge.svg"> JS benchmark</h1>
-    <div class="subtitle">
-        <a href="/benchmark" target="_blank">Open the playground</a>
+    <div class="wrapper">
+        <h1><img src="./assets/gauge.svg"> JS benchmark</h1>
+        <div class="subtitle">
+            <a href="/js-benchmark/playground" target="_blank">Open the playground</a>
+        </div>
+        <div class="content" v-html="html"></div>
     </div>
-    <al-markdown :src="docs" />
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+.wrapper {
+    padding: 32px;
+    background: #171717;
+
+}
+
+.content {
+
+    position: relative;
+}
+
+a,
+.green {
+    text-decoration: none;
+    color: hsla(160, 100%, 37%, 1);
+    transition: 0.4s;
+}
 
 h1 {
     img {
@@ -25,7 +47,8 @@ h1 {
 
     margin-bottom: 16px;
 }
-.subtitle{
+
+.subtitle {
     margin-bottom: 16px;
 }
 </style>
