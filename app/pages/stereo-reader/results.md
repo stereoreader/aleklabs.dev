@@ -1,4 +1,4 @@
-## My results
+## My Results
 
 Here are my results in usual text reading, in non-stereo mode, since reading in stereo reduces ability to focus. This does not mean that I see the text clearly, some effort is needed. However, the progress described here clearly corresponds to my everyday visual experience.
 

@@ -1,4 +1,4 @@
-## My story
+## My Story
 
 Being myopic (-4.5d), in 2023 I started doing simple eye exercises for 5–10 minutes before falling asleep. Since then, my vision improved to some degree, which I considered worth sharing, so I created a YouTube channel in Russian to share my experience. By that time, due to regular exercises, I had acquired pretty good eye muscle sensitivity, so I could feel which eye muscles contract and relax, given that I had learned [eye muscle anatomy](https://en.wikipedia.org/wiki/Extraocular_muscles) in detail. This allowed me to develop my own precise view of what causes myopia. This is a logical continuation of the [Bates method](https://en.wikipedia.org/wiki/Bates_method).
 
