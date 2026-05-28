@@ -27,6 +27,14 @@ export default defineNuxtConfig({
         '/stereo-reader/app/**': {
             prerender: false
         },
+        '/js-benchmark/playground': {
+            ssr: false,
+            prerender: false,
+        },
+        '/js-benchmark/playground/**': {
+            ssr: false,
+            prerender: false,
+        },
         '/stereo-reader': {
             appLayout: 'stereo-reader',
         },

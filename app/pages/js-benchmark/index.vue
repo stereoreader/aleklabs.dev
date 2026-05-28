@@ -3,6 +3,20 @@
 import MarkdownIt from 'markdown-it';
 import docs from './docs.md?raw';
 
+import favico from './assets/favicon.ico';
+
+useHead({
+    title: "JS benchmark",
+    link: [
+        {
+            rel: 'icon',
+            type: 'image/svg+xml',
+            href: favico,
+        },
+    ]
+});
+
+
 const html = new MarkdownIt({ html: true }).render(docs);
 
 </script>
@@ -13,15 +27,14 @@ const html = new MarkdownIt({ html: true }).render(docs);
         <div class="subtitle">
             <a href="/js-benchmark/playground" target="_blank">Open the playground</a>
         </div>
-        <div class="content" v-html="html"></div>
+        <div class="content jsbench-content" v-html="html"></div>
     </div>
 </template>
 
 <style scoped lang="scss">
 .wrapper {
-    padding: 32px;
+    padding-inline: 32px;
     background: #171717;
-
 }
 
 .content {
@@ -50,5 +63,55 @@ h1 {
 
 .subtitle {
     margin-bottom: 16px;
+}
+</style>
+<style lang="scss">
+.jsbench-content {
+
+    h1,
+    h2,
+    h3 {
+        color: #ddd;
+    }
+
+    p:has(.article-cover) {
+        margin: 0;
+    }
+
+    .article-cover {
+        margin: -32px;
+        margin-bottom: 32px;
+        width: calc(100% + 64px);
+    }
+
+    pre:has(>code) {
+        background: #222;
+        padding: 8px;
+        border-radius: 4px;
+        background: #222233;
+        color: orange;
+    }
+
+    blockquote {
+        border-left: 3px solid #555;
+        background: #222;
+        margin-left: 0;
+        padding-inline: 32px;
+        display: block;
+        padding-block: 1px;
+    }
+
+    hr {
+        margin-top: 48px;
+        margin-bottom: 48px;
+        margin-inline: auto;
+        width: 25%;
+        border: 1px solid #333;
+    }
+
+    li {
+        margin-bottom: 16px;
+    }
+
 }
 </style>

@@ -24,7 +24,6 @@ useSeoMeta({
 </script>
 
 <template>
-    <div class="topbar"><a href="/">AlekLabs.dev</a></div>
     <cover-cmp style="margin-bottom:32px" />
     <div class="features">
         <feature-cmp title="Read your favorite books" :image-url="feature1Img">
@@ -50,13 +49,6 @@ useSeoMeta({
 </template>
 
 <style scoped lang="scss">
-.topbar {
-    text-transform: uppercase;
-    margin-bottom: 32px;
-    margin-top: -16px;
-    text-align: center;
-    letter-spacing: 4px;
-}
 
 .chapter {
 

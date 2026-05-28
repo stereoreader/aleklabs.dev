@@ -7,6 +7,7 @@ useHead({
 </script>
 
 <template>
+    <al-header/>
     <main>
         <slot />
     </main>

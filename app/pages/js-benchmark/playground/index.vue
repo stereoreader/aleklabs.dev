@@ -1,25 +1,44 @@
 <script setup>
 
-const $code = useTemplateRef('$code');
+import favico from '../assets/favicon.ico';
 
-onMounted(() => {
+useHead({
+    title: "JS benchmark",
+    link: [
+        {
+            rel: 'icon',
+            type: 'image/svg+xml',
+            href: favico,
+        },
+    ]
+});
+
+useHead({
+    script: [
+        {
+            innerHTML: `
+const script = document.createElement('script');
+
+if (false && (location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+    script.type = 'module';
+    script.src = 'http://localhost:8001/benchmark.js';
+} else {
+    script.src = 'https://cdn.jsdelivr.net/gh/silentmantra/benchmark/loader.js';
+}
+
+document.head.appendChild(script);
+            `.trim(),
+        },
+    ],
+});
 
 
-    const script = document.createElement('script');
-    if ((location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
-        script.type = 'module';
-        script.src = 'http://localhost:8001/benchmark.js';
-    } else {
-        script.src = 'https://cdn.jsdelivr.net/gh/silentmantra/benchmark/loader.js';
-    }
-    document.head.appendChild(script);
+let propagatingStateToRoute = false;
+const state = reactive({ code: '' });
 
-    let propagatingStateToRoute = false;
-    const state = reactive({ code: '' });
-
-    const setDefaultTemplate = () => {
-        state.code =
-            `/* code to execute before each solution */
+const setDefaultTemplate = () => {
+    state.code =
+        `/* code to execute before each solution */
 
 // @benchmark solution1
     /* code to execute before the solution, remove // @run if you don't need it */
@@ -34,139 +53,140 @@ onMounted(() => {
     /* code to be looped to benchmark the solution
 
 `;
+}
+popstate();
+const $code = ref();
+const loaded = ref(false);
+
+const formatFromKey = e => {
+    if (e.key === 'l' && e.ctrlKey) {
+        (e.preventDefault(), format());
     }
-    popstate();
-    const loaded = ref(false);
+}
+const format = async () => state.code = await prettier.format(state.code, { parse: 'babel', trailingComma: 'none', plugins: prettierPlugins });
+const copyRawUrl = () => copyToClipboard(location.href);
+const copyMarkupUrl = () => copyToClipboard(`[${state.title || 'benchmark'}](${location.href})`);
+const duplicate = () => window.open(location.href);
+{
 
-    const formatFromKey = e => {
-        if (e.key === 'l' && e.ctrlKey) {
-            (e.preventDefault(), format());
-        }
+    let writePromise;
+    watch(state, async state => {
+        propagatingStateToRoute = true;
+        await (writePromise ??= new Promise(r => queueMicrotask(async () => {
+            //console.log('writing state to URL', JSON.clone(state));
+            const hash = await JSON.stringify(state).compress('gzip base64 uri');
+            location.hash = hash;
+            writePromise = null;
+        })));
+    });
+}
+
+const syncHeight = () => {
+    const area = $code.value;
+    if (area.offsetWidth < area.scrollWidth) {
+        area.style.width = area.scrollWidth + 16 + 'px';
     }
-    const format = async () => state.code = await prettier.format(state.code, { parse: 'babel', trailingComma: 'none', plugins: prettierPlugins });
-    const copyRawUrl = () => copyToClipboard(location.href);
-    const copyMarkupUrl = () => copyToClipboard(`[${state.title || 'benchmark'}](${location.href})`);
-    const duplicate = () => window.open(location.href);
-    {
-
-        let writePromise;
-        watch(state, async state => {
-            propagatingStateToRoute = true;
-            await (writePromise ??= new Promise(r => queueMicrotask(async () => {
-                //console.log('writing state to URL', JSON.clone(state));
-                const hash = await JSON.stringify(state).compress('gzip base64 uri');
-                location.hash = hash;
-                writePromise = null;
-            })));
-        });
+    if (area.offsetHeight < area.scrollHeight) {
+        area.style.height = area.scrollHeight + 16 + 'px';
     }
+};
 
-    const syncHeight = () => {
-        const area = $code.value;
-        if (area.offsetWidth < area.scrollWidth) {
-            area.style.width = area.scrollWidth + 16 + 'px';
-        }
-        if (area.offsetHeight < area.scrollHeight) {
-            area.style.height = area.scrollHeight + 16 + 'px';
-        }
-    };
-
-    watch(() => state.code, updateCode);
-    {
-        let interval;
-        listen({
-            loaded() {
-                updateCode(state.code);
-            },
-            start() {
-                interval = setInterval(() => {
-                    const cont = document.querySelector('.silentmantra-benchmark');
-                    if (cont) {
-                        if ($code.value.offsetWidth < cont.scrollWidth) {
-                            $code.value.style.width = cont.scrollWidth + 16 + 'px';
-                        }
+watch(() => state.code, updateCode);
+{
+    let interval;
+    listen({
+        loaded() {
+            updateCode(state.code);
+        },
+        start() {
+            interval = setInterval(() => {
+                const cont = document.querySelector('.silentmantra-benchmark');
+                if (cont) {
+                    if ($code.value.offsetWidth < cont.scrollWidth) {
+                        $code.value.style.width = cont.scrollWidth + 16 + 'px';
                     }
-                }, 500);
-            },
-            stop() { clearInterval(interval), benchmark = null }
-        });
+                }
+            }, 500);
+        },
+        stop() { clearInterval(interval), benchmark = null }
+    });
+}
+
+function listen(handlers) {
+    for (const name in handlers) {
+        window.addEventListener('silentmantra/benchmark:' + name, handlers[name]);
     }
+}
 
-    function listen(handlers) {
-        for (const name in handlers) {
-            window.addEventListener('silentmantra/benchmark:' + name, handlers[name]);
-        }
+onMounted(() => {
+    if (!state.code) updateCode('');
+});
+
+let benchmark;
+
+async function updateCode(code) {
+    setTimeout(() => loaded.value = true);
+    const area = $code.value;
+    area.value = code;
+    benchmark = await window.SilentMantraBenchmark?.set($code.value, code);
+}
+
+watch(() => state.code, syncHeight, { once: true })
+
+watch(() => state.title, title => document.title = [title, 'silentmantra benchmark'].filter(Boolean).join(' / '));
+
+window.addEventListener('hashchange', popstate);
+document.addEventListener('keyup', e => e.key === "Enter" && e.ctrlKey && benchmark?.start());
+
+async function popstate() {
+    if (!location.hash) return;
+    if (propagatingStateToRoute) {
+        propagatingStateToRoute = false;
+        return;
     }
+    const data = JSON.parse(await location.hash.slice(1).decompress('uri base64 gzip'));
+    console.log('reading state from URL', data);
 
+    Object.walk(data, (v, k, obj, path) => {
 
-    let benchmark;
-
-    async function updateCode(code) {
-        setTimeout(() => loaded.value = true);
-        const area = $code.value;
-        area.value = code;
-        benchmark = await window.SilentMantraBenchmark?.set($code.value, code);
-    }
-
-    watch(() => state.code, syncHeight, { once: true })
-
-    watch(() => state.title, title => document.title = [title, 'silentmantra benchmark'].filter(Boolean).join(' / '));
-
-    window.addEventListener('hashchange', popstate);
-    document.addEventListener('keyup', e => e.key === "Enter" && e.ctrlKey && benchmark?.start());
-
-    async function popstate() {
-        if (!location.hash) return;
-        if (propagatingStateToRoute) {
-            propagatingStateToRoute = false;
+        if (v?.constructor.name === 'Object') {
             return;
         }
-        const data = JSON.parse(await location.hash.slice(1).decompress('uri base64 gzip'));
-        console.log('reading state from URL', data);
-
-        Object.walk(data, (v, k, obj, path) => {
-
-            if (v?.constructor.name === 'Object') {
-                return;
+        let curr = state, currK;
+        while (currK = path.shift()) {
+            curr = curr[currK];
+        }
+        if (Array.isArray(curr)) {
+            curr.replace(obj);
+        } else {
+            try {
+                curr[k] = v;
+            } catch (e) {
+                debugger;
             }
-            let curr = state, currK;
-            while (currK = path.shift()) {
-                curr = curr[currK];
-            }
-            if (Array.isArray(curr)) {
-                curr.replace(obj);
-            } else {
-                try {
-                    curr[k] = v;
-                } catch (e) {
-                    debugger;
-                }
-            }
-        });
-    }
+        }
+    });
+}
 
-    function copyToClipboard(text) {
-        const dialog = document.querySelector('dialog');
-        const area = dialog.querySelector('textarea');
-        dialog.style.opacity = 0;
-        area.textContent = text;
-        dialog.showModal();
-        area.focus();
-        area.select();
-        document.execCommand('copy');
-        dialog.close();
-    }
-
-    if (!state.code) updateCode('');
-
-});
+function copyToClipboard(text) {
+    const dialog = document.querySelector('dialog');
+    const area = dialog.querySelector('textarea');
+    dialog.style.opacity = 0;
+    area.textContent = text;
+    dialog.showModal();
+    area.focus();
+    area.select();
+    document.execCommand('copy');
+    dialog.close();
+}
 
 </script>
 <template>
     <dialog><textarea></textarea></dialog>
     <div class="wrapper" :class="{ loaded }">
-        <h1><img src="./assets/gauge.svg"> silentmantra/benchmark</h1>
-        <div class="subtitle">A benchmark to write in pure JS and host anywhere, read <a target="_blank" href='/'>the
+        <h1><img src="../assets/gauge.svg"> JS benchmark</h1>
+        <div class="subtitle">A benchmark to write in pure JS and host anywhere, read <a target="_blank"
+                href='/js-benchmark'>the
                 docs</a></div>
         <div class="toolbar">
             <button v-if="0" @click="format">format code (Ctrl+L)</button>
@@ -189,6 +209,75 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
+/* color palette from <https://github.com/vuejs/theme> */
+.wrapper {
+    --vt-c-white: #ffffff;
+    --vt-c-white-soft: #f8f8f8;
+    --vt-c-white-mute: #f2f2f2;
+
+    --vt-c-black: #181818;
+    --vt-c-black-soft: #222222;
+    --vt-c-black-mute: #282828;
+
+    --vt-c-indigo: #2c3e50;
+
+    --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
+    --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
+    --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
+    --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+
+    --vt-c-text-light-1: var(--vt-c-indigo);
+    --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
+    --vt-c-text-dark-1: var(--vt-c-white);
+    --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+}
+
+/* semantic color variables for this project */
+.wrapper {
+    --color-background: var(--vt-c-white);
+    --color-background-soft: var(--vt-c-white-soft);
+    --color-background-mute: var(--vt-c-white-mute);
+    --color-scrollbar-track: #ddd;
+    --color-border: var(--vt-c-divider-light-2);
+    --color-border-hover: var(--vt-c-divider-light-1);
+
+    --color-heading: var(--vt-c-text-light-1);
+    --color-text: var(--vt-c-text-light-1);
+
+    --section-gap: 160px;
+}
+
+.wrapper {
+    --color-background: var(--vt-c-black);
+    --color-background-soft: var(--vt-c-black-soft);
+    --color-background-mute: var(--vt-c-black-mute);
+    --color-scrollbar-track: #333;
+
+    --color-border: var(--vt-c-divider-dark-2);
+    --color-border-hover: var(--vt-c-divider-dark-1);
+
+    --color-heading: var(--vt-c-text-dark-1);
+    --color-text: var(--vt-c-text-dark-2);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    font-weight: normal;
+}
+
+p {
+    margin-bottom: 16px;
+}
+
+pre {
+    background-color: var(--color-background-mute);
+    padding: 8px;
+    margin-block: 8px;
+}
+
 :deep(.silentmantra-benchmark) {
     position: absolute;
     width: 100%;
