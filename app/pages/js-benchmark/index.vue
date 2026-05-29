@@ -28,8 +28,9 @@ const html = new MarkdownIt({ html: true }).render(docs);
         <img src="./assets/cover.png" class="cover">
         <div class="subtitle subtitle-2">
             <a href="/js-benchmark/playground">Open playground</a>
-            <a href="/js-benchmark/playground#H4sIAAAAAAAACm3PQQrCMBQE0KsMWUiiIVbBTUXRA3gC6yK20Rab3%2FKbClJ6dylZqOBumMVjZhB5UziRiryhLsAyY4cjs32ZGzdeDrWjeyhTrJJk1JAKuz3kQL1PcbKhNGypaLxUo1LbjDJaLnG4OspLb%2FmBW1UHx1jA2zYjy2xiI2lyyFDvsYfZKONt%2B13Osf7nsSv63EUpZilZg%2BKsj4fZDGzavivlx9NgpXG%2BqK3QIlShnn5HBc%2FuZ6sY35i0sGoZAQAA"
-                >Try in playground: reduce vs filter + map</a>
+            <a
+                href="/js-benchmark/playground#H4sIAAAAAAAACm3PQQrCMBQE0KsMWUiiIVbBTUXRA3gC6yK20Rab3%2FKbClJ6dylZqOBumMVjZhB5UziRiryhLsAyY4cjs32ZGzdeDrWjeyhTrJJk1JAKuz3kQL1PcbKhNGypaLxUo1LbjDJaLnG4OspLb%2FmBW1UHx1jA2zYjy2xiI2lyyFDvsYfZKONt%2B13Osf7nsSv63EUpZilZg%2BKsj4fZDGzavivlx9NgpXG%2BqK3QIlShnn5HBc%2FuZ6sY35i0sGoZAQAA">Try
+                in playground: reduce vs filter + map</a>
             <a href="https://stackoverflow.com/search?tab=newest&q=user%3a14098260%20benchmark&searchOn=3"
                 target="_blank">My Stack Overflow answers with benchmarks</a>
         </div>
@@ -65,7 +66,9 @@ h1,
 }
 
 .wrapper {
-    padding-inline: 32px;
+    border-radius: var(--border-radius);
+    margin-top: -32px;
+    padding: 32px;
     background: #171717;
 }
 

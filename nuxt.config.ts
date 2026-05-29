@@ -102,4 +102,25 @@ export default defineNuxtConfig({
         name: 'Alek Labs'
     },
 
+    app: {
+        head: {
+            script: [
+                {
+                    async: true,
+                    src: 'https://www.googletagmanager.com/gtag/js?id=G-CWXQF8PH4S',
+                },
+                {
+                    innerHTML: `
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'G-CWXQF8PH4S', {
+                            product_surface: 'website'
+                        });
+                    `,
+                },
+            ],
+        },
+    },
+
 });
