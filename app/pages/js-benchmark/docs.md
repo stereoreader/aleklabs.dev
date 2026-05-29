@@ -1,3 +1,13 @@
+Modern JavaScript applications often process large amounts of data before anything is rendered: filtering, mapping, grouping, sorting, formatting, diffing, normalizing API responses, preparing view models, and running framework-level update logic. In small isolated cases the difference between two implementations may look irrelevant, but in real applications these operations are usually repeated many times. Small overheads accumulate, especially on low-end devices, older hardware, and mobile browsers.
+
+This project is a small embeddable JavaScript benchmarking tool for comparing alternative implementations directly in the environment where the code is being discussed. It was originally designed for Stack Overflow answers, where performance claims are often made without reproducible measurements. A benchmark can be placed directly into an answer, a documentation page, or a personal website, so readers can inspect the tested code, run it locally in their browser, compare results, and copy the output as markup.
+
+The goal is not to promote premature optimization or replace profiling of real applications. The goal is to make low-level performance trade-offs observable when they matter: data transformations, algorithm choices, hot-path utilities, and competing implementations of the same operation. If a fast version can be written clearly from the beginning, there is no need to discover the avoidable cost later.
+
+The tool lets you define multiple named solutions with `// @benchmark`, run them repeatedly, compare relative speed, test different input sizes, and separate setup code from the measured code with `// @run`. This makes it useful not only for simple microbenchmarks, but also for showing how algorithms behave as the input grows.
+
+## Usage
+
 Code for benchmarking should be included in `<script type="module">` inline. (You can skip `type="module"` if your `<script>` is alone on a page otherwise your variables clash.)
 
 Then you should load the benchmark tool's code, you do this either by 

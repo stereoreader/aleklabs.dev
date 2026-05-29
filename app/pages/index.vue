@@ -4,6 +4,7 @@ import CardCmp from './index/card.vue';
 import ArticlesCmp from './index/articles.vue';
 import stereoReaderPreview from './assets/stereo-reader-preview.jpg';
 import youtubeChatPreview from './assets/youtube-send-to-ai-chat.png';
+import jsbenchPreview from './js-benchmark/assets/cover.png';
 
 import coverImg from './assets/logo.jpg';
 
@@ -60,6 +61,14 @@ useSeoMeta({
             :image-src="stereoReaderPreview">
             A reader aimed to improve vision by training or relaxing your eyes while
             reading books. Supports text, PDF, EPUB, and FB2 files in stereo or mono mode.
+        </card-cmp>
+        <card-cmp
+            href="/js-benchmark"
+            title="JS Benchmark"
+            :image-src="jsbenchPreview">
+            A script for creating embeddable JavaScript benchmarks, adding them to Stack Overflow answers or personal
+            websites, comparing algorithms and data transformations, and learning how to write high-performance
+            JavaScript.
         </card-cmp>
         <card-cmp
             href="https://chromewebstore.google.com/detail/youtube-send-to-ai-chat/jfclfogdljgmnbbkdpkbnmfkfaahelhp"

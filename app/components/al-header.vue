@@ -1,5 +1,9 @@
+<script setup lang="ts">
+const route = useRoute();
+const isHome = route.fullPath === '/';
+</script>
 <template>
-    <header><a href="/">AlekLabs.dev</a></header>
+    <header v-if="!isHome"><a href="/">AlekLabs.dev</a></header>
 </template>
 <style setup lang="scss">
 header {

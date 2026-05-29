@@ -83,32 +83,30 @@ function getMarkdownReadingStats(markdown: string, wordsPerMinute = 200): Markdo
 </script>
 
 <template>
-    <NuxtLayout>
-        <div class="topbar">
-            <a href="/">Back to home</a>
-            <span>Read on:</span>
-            <a
-                v-for="link of links"
-                target="_blank"
-                :href="link.link"><img :src="link.iconUrl">{{ link.title }}</a>
+    <div class="topbar">
+        <span>Read on:</span>
+        <a
+            v-for="link of links"
+            target="_blank"
+            :href="link.link"><img :src="link.iconUrl">{{ link.title }}</a>
+    </div>
+    <div class="article">
+        <img :src="article.coverUrl" class="article-cover">
+
+        <div class="status"><span class="date">{{ Intl.DateTimeFormat('en-us', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        }).format(article.date) }}</span>
+            <span class="words">{{ stats.words }} words ~ {{ stats.minutes }} minutes</span>
         </div>
-        <div class="article">
-            <img :src="article.coverUrl" class="article-cover">
-            <div class="status"><span class="date">{{ Intl.DateTimeFormat('en-us', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-            }).format(article.date) }}</span>
-                <span class="words">{{ stats.words }} words ~ {{ stats.minutes }} minutes</span>
-            </div>
-            <span v-html="html"></span>
-        </div>
-        <!-- <div class="links">
+        <span v-html="html"></span>
+    </div>
+    <!-- <div class="links">
             <template v-if="article.devtoUrl">
                 <a target="_blank" :href="`${article.devtoUrl}#comments`">Leave a comment on DEV.TO</a>
             </template>
 </div> -->
-    </NuxtLayout>
 </template>
 
 <style scoped lang="scss">
