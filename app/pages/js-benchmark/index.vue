@@ -22,7 +22,7 @@ const html = new MarkdownIt({ html: true }).render(docs);
 </script>
 
 <template>
-    <div class="wrapper">
+    <div class="wrapper" show-benchmark-code>
         <h1><img src="./assets/gauge.svg"> Alek JS benchmark</h1>
         <div class="subtitle">A benchmark to write in pure JS and host anywhere</div>
         <img src="./assets/cover.png" class="cover">
