@@ -143,6 +143,9 @@ async function popstate() {
         return;
     }
     const data = JSON.parse(await location.hash.slice(1).decompress('uri base64 gzip'));
+    if (typeof data?.code === 'string') {
+        data.code = data.code.replace(/^\s*\/\*\s*@\s*skip\s*\*\/.*(?:\r?\n)?/gm, '');
+    }
     console.log('reading state from URL', data);
 
     Object.walk(data, (v, k, obj, path) => {
