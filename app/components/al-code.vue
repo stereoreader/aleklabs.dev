@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { autocompletion, pickedCompletion } from '@codemirror/autocomplete';
+import type { Completion, CompletionContext, CompletionResult } from '@codemirror/autocomplete';
 import { defaultKeymap, indentLess, indentMore } from '@codemirror/commands';
-import { javascript } from '@codemirror/lang-javascript';
+import { javascript, javascriptLanguage } from '@codemirror/lang-javascript';
 import { defaultHighlightStyle, HighlightStyle, indentUnit, syntaxHighlighting } from '@codemirror/language';
-import { EditorState, Prec, RangeSetBuilder } from '@codemirror/state';
-import { type DecorationSet, Decoration, drawSelection, EditorView, highlightActiveLine, keymap, type ViewUpdate, ViewPlugin } from '@codemirror/view';
+import { EditorSelection, EditorState, Prec, RangeSetBuilder } from '@codemirror/state';
+import { Decoration, drawSelection, EditorView, highlightActiveLine, keymap, ViewPlugin } from '@codemirror/view';
+import type { DecorationSet, ViewUpdate } from '@codemirror/view';
 import { tags } from '@lezer/highlight';
 
 const props = defineProps({
@@ -36,6 +39,7 @@ type KeywordConfig = {
 type ResolvedKeywordConfig = KeywordConfig & {
     keywordVars: string;
     textVars?: string;
+    completionClass: string;
 };
 
 const keywords: Record<string, KeywordConfig> = {
@@ -60,6 +64,7 @@ const resolvedKeywords = Object.fromEntries(
         key,
         {
             ...config,
+            completionClass: `al-code-completion-${toClassName(key)}`,
             keywordVars: toStyleVariables(config.style, '--al-code-keyword'),
             textVars: toStyleVariables(config.textStyle, '--al-code-keyword-tail'),
         },
@@ -67,6 +72,9 @@ const resolvedKeywords = Object.fromEntries(
 ) as Record<string, ResolvedKeywordConfig>;
 
 const keywordPattern = /^(\s*\/\/\s*)(@\w+)(.*)$/;
+const keywordAutocompletePattern = /@\w*$/;
+const placeholderPattern = /<[^<>]*>/;
+const keywordCompletionTheme = EditorView.theme(buildKeywordCompletionThemeRules());
 
 const keywordDecorations = ViewPlugin.fromClass(
     class {
@@ -170,9 +178,16 @@ onMounted(() => {
                 drawSelection(),
                 highlightActiveLine(),
                 javascript(),
+                javascriptLanguage.data.of({ autocomplete: keywordCompletionSource }),
+                autocompletion({
+                    optionClass(completion) {
+                        return resolvedKeywords[completion.label]?.completionClass ?? '';
+                    },
+                }),
                 syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
                 syntaxHighlighting(jsHighlightStyle),
                 Prec.highest(keywordDecorations),
+                keywordCompletionTheme,
                 theme,
                 keymap.of([
                     {
@@ -291,6 +306,152 @@ function buildKeywordDecorations(state: EditorState): DecorationSet {
         );
     }
     return builder.finish();
+}
+
+function keywordCompletionSource(context: CompletionContext): CompletionResult | null {
+    const line = context.state.doc.lineAt(context.pos);
+    const cursorOffsetInLine = context.pos - line.from;
+    const beforeCursor = line.text.slice(0, cursorOffsetInLine);
+    const keywordMatch = beforeCursor.match(keywordAutocompletePattern);
+    if (!keywordMatch) {
+        return null;
+    }
+
+    const atText = keywordMatch[0];
+    if (!atText) {
+        return null;
+    }
+
+    const atOffset = beforeCursor.length - atText.length;
+    const beforeAt = beforeCursor.slice(0, atOffset);
+    if (!isKeywordAutocompleteContext(beforeAt, line.text)) {
+        return null;
+    }
+
+    return {
+        from: line.from + atOffset,
+        options: Object.keys(resolvedKeywords).map(keyword => ({
+            label: keyword,
+            type: 'keyword',
+            apply(view, completion, from, to) {
+                applyKeywordCompletion(view, completion, from, to);
+            },
+        })),
+        validFor: keywordAutocompletePattern,
+    };
+}
+
+function applyKeywordCompletion(view: EditorView, completion: Completion, from: number, to: number): void {
+    const keyword = completion.label;
+    const config = resolvedKeywords[keyword];
+    if (!config) {
+        return;
+    }
+
+    const line = view.state.doc.lineAt(from);
+    const lineText = line.text;
+    const lineIndent = (lineText.match(/^\s*/) ?? [''])[0];
+    const startsWithComment = /^\s*\/\//.test(lineText);
+    const commentPrefix = startsWithComment ? '' : `${lineIndent}// `;
+    const insertText = `${commentPrefix}${keyword}${config.template}`;
+    const replaceFrom = startsWithComment ? from : line.from;
+
+    const placeholderFrom = commentPrefix.length + keyword.length;
+    const placeholderMatch = findPlaceholderRange(insertText, placeholderFrom);
+    const selection = placeholderMatch
+        ? EditorSelection.range(replaceFrom + placeholderMatch.from, replaceFrom + placeholderMatch.to)
+        : EditorSelection.cursor(replaceFrom + insertText.length);
+
+    view.dispatch({
+        changes: {
+            from: replaceFrom,
+            to,
+            insert: insertText,
+        },
+        selection,
+        scrollIntoView: true,
+        annotations: pickedCompletion.of(completion),
+    });
+}
+
+function buildKeywordCompletionThemeRules(): Record<string, Record<string, string>> {
+    const rules: Record<string, Record<string, string>> = {};
+    for (const keyword in resolvedKeywords) {
+        const config = resolvedKeywords[keyword];
+        if (!config) {
+            continue;
+        }
+        const completionStyle = toStyleSpec(config.style);
+        if (!Object.keys(completionStyle).length) {
+            continue;
+        }
+        const labelSelector = `.cm-tooltip-autocomplete li.${config.completionClass} .cm-completionLabel`;
+        const matchedSelector = `.cm-tooltip-autocomplete li.${config.completionClass} .cm-completionMatchedText`;
+        rules[labelSelector] = completionStyle;
+        rules[matchedSelector] = completionStyle;
+    }
+    return rules;
+}
+
+function isKeywordAutocompleteContext(beforeAt: string, lineText: string): boolean {
+    if (/^\s*$/.test(beforeAt) && /^\s*@?\w*\s*$/.test(lineText)) {
+        return true;
+    }
+
+    const commentIndex = beforeAt.indexOf('//');
+    if (commentIndex < 0) {
+        return false;
+    }
+
+    const contentBeforeComment = beforeAt.slice(0, commentIndex);
+    return /^\s*$/.test(contentBeforeComment);
+}
+
+function findPlaceholderRange(text: string, fromOffset: number): { from: number; to: number } | null {
+    const textAfterFrom = text.slice(fromOffset);
+    const placeholder = textAfterFrom.match(placeholderPattern);
+    if (!placeholder || placeholder.index == null) {
+        return null;
+    }
+    const from = fromOffset + placeholder.index;
+    return {
+        from,
+        to: from + placeholder[0].length,
+    };
+}
+
+function toClassName(keyword: string): string {
+    return keyword.toLowerCase().replace(/[^a-z0-9_-]/g, '-');
+}
+
+function toStyleSpec(style: string | undefined): Record<string, string> {
+    if (!style) {
+        return {};
+    }
+
+    const spec: Record<string, string> = {};
+    const declarations = style.split(';');
+    for (const declaration of declarations) {
+        const separatorIndex = declaration.indexOf(':');
+        if (separatorIndex < 0) {
+            continue;
+        }
+        const property = declaration.slice(0, separatorIndex).trim().toLowerCase();
+        const value = declaration.slice(separatorIndex + 1).trim();
+        if (!value) {
+            continue;
+        }
+
+        if (property === 'color') {
+            spec.color = value;
+        } else if (property === 'font-style') {
+            spec.fontStyle = value;
+        } else if (property === 'font-weight') {
+            spec.fontWeight = value;
+        }
+    }
+
+    return spec;
 }
 
 function toStyleVariables(style: string | undefined, prefix: string): string {
