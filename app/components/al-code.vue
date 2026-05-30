@@ -42,16 +42,16 @@ const keywords: Record<string, KeywordConfig> = {
     '@benchmark': {
         style: 'color: orange;',
         textStyle: 'color: yellow; font-style: normal;',
-        template: '// @benchmark solution_name',
+        template: ' <solution name>',
     },
     '@run': {
         style: 'color: #87e5a5;',
-        template: '// @run',
+        template: '\n',
     },
     '@group': {
         style: 'color: orange;',
         textStyle: 'color: yellow; font-style: normal;',
-        template: '// @group group_name',
+        template: ' <group name>',
     },
 };
 
