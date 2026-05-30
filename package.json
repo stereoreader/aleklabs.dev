@@ -6,6 +6,7 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "deploy": "node ./scripts/deploy.ts",
+    "deploy-site": "npm run generate && npm run deploy",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
