@@ -1,9 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import { defaultKeymap, indentLess, indentMore } from '@codemirror/commands';
 import { javascript } from '@codemirror/lang-javascript';
 import { defaultHighlightStyle, HighlightStyle, indentUnit, syntaxHighlighting } from '@codemirror/language';
-import { EditorState } from '@codemirror/state';
-import { drawSelection, EditorView, highlightActiveLine, keymap } from '@codemirror/view';
+import { EditorState, Prec, RangeSetBuilder } from '@codemirror/state';
+import { type DecorationSet, Decoration, drawSelection, EditorView, highlightActiveLine, keymap, type ViewUpdate, ViewPlugin } from '@codemirror/view';
 import { tags } from '@lezer/highlight';
 
 const props = defineProps({
@@ -17,12 +17,78 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(['update:modelValue', 'keydown']);
+const emit = defineEmits<{
+    (e: 'update:modelValue', value: string): void;
+    (e: 'keydown', value: KeyboardEvent): void;
+}>();
 
-const element = ref();
-let view;
+const element = ref<HTMLElement>();
+let view: EditorView | undefined;
 let syncingFromProps = false;
 const tabSpaces = '    ';
+
+type KeywordConfig = {
+    style: string;
+    template: string;
+    textStyle?: string;
+};
+
+type ResolvedKeywordConfig = KeywordConfig & {
+    keywordVars: string;
+    textVars?: string;
+};
+
+const keywords: Record<string, KeywordConfig> = {
+    '@benchmark': {
+        style: 'color: orange;',
+        textStyle: 'color: yellow; font-style: normal;',
+        template: '// @benchmark solution_name',
+    },
+    '@run': {
+        style: 'color: #87e5a5;',
+        template: '// @run',
+    },
+    '@group': {
+        style: 'color: orange;',
+        textStyle: 'color: yellow; font-style: normal;',
+        template: '// @group group_name',
+    },
+};
+
+const resolvedKeywords = Object.fromEntries(
+    Object.entries(keywords).map(([key, config]) => [
+        key,
+        {
+            ...config,
+            keywordVars: toStyleVariables(config.style, '--al-code-keyword'),
+            textVars: toStyleVariables(config.textStyle, '--al-code-keyword-tail'),
+        },
+    ])
+) as Record<string, ResolvedKeywordConfig>;
+
+const keywordPattern = /^(\s*\/\/\s*)(@\w+)(.*)$/;
+
+const keywordDecorations = ViewPlugin.fromClass(
+    class {
+        decorations: DecorationSet;
+
+        constructor(view: EditorView) {
+            this.decorations = buildKeywordDecorations(view.state);
+        }
+
+        update(update: ViewUpdate) {
+            if (!update.docChanged) {
+                return;
+            }
+            this.decorations = buildKeywordDecorations(update.state);
+        }
+    },
+    {
+        decorations(value) {
+            return value.decorations;
+        },
+    }
+);
 
 defineExpose({
     element,
@@ -106,6 +172,7 @@ onMounted(() => {
                 javascript(),
                 syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
                 syntaxHighlighting(jsHighlightStyle),
+                Prec.highest(keywordDecorations),
                 theme,
                 keymap.of([
                     {
@@ -182,6 +249,79 @@ watch(
 onBeforeUnmount(() => {
     view?.destroy();
 });
+
+function buildKeywordDecorations(state: EditorState): DecorationSet {
+    const builder = new RangeSetBuilder<Decoration>();
+    for (let lineNumber = 1; lineNumber <= state.doc.lines; lineNumber++) {
+        const line = state.doc.line(lineNumber);
+        const match = line.text.match(keywordPattern);
+        if (!match) {
+            continue;
+        }
+        const prefix = match[1];
+        const keyword = match[2];
+        if (!prefix || !keyword) {
+            continue;
+        }
+        const config = resolvedKeywords[keyword];
+        if (!config) {
+            continue;
+        }
+        const prefixLength = prefix.length;
+        const keywordFrom = line.from + prefixLength;
+        const keywordTo = keywordFrom + keyword.length;
+        builder.add(
+            keywordFrom,
+            keywordTo,
+            Decoration.mark({
+                class: 'al-code-keyword-mark',
+                attributes: { style: config.keywordVars },
+            })
+        );
+        if (!config.textVars || keywordTo >= line.to) {
+            continue;
+        }
+        builder.add(
+            keywordTo,
+            line.to,
+            Decoration.mark({
+                class: 'al-code-keyword-tail',
+                attributes: { style: config.textVars },
+            })
+        );
+    }
+    return builder.finish();
+}
+
+function toStyleVariables(style: string | undefined, prefix: string): string {
+    if (!style) {
+        return '';
+    }
+
+    const declarations = style.split(';');
+    const variables: string[] = [];
+    for (const declaration of declarations) {
+        const separatorIndex = declaration.indexOf(':');
+        if (separatorIndex < 0) {
+            continue;
+        }
+        const property = declaration.slice(0, separatorIndex).trim().toLowerCase();
+        const value = declaration.slice(separatorIndex + 1).trim();
+        if (!value) {
+            continue;
+        }
+
+        if (property === 'color') {
+            variables.push(`${prefix}-color: ${value};`);
+        } else if (property === 'font-style') {
+            variables.push(`${prefix}-font-style: ${value};`);
+        } else if (property === 'font-weight') {
+            variables.push(`${prefix}-font-weight: ${value};`);
+        }
+    }
+
+    return variables.join(' ');
+}
 </script>
 
 <template>
@@ -196,5 +336,19 @@ onBeforeUnmount(() => {
 :deep(.cm-editor) {
     scrollbar-width: 16px;
     scrollbar-color: var(--color-scrollbar-track) var(--color-background);
+}
+
+:deep(.al-code-keyword-mark),
+:deep(.al-code-keyword-mark *) {
+    color: var(--al-code-keyword-color, inherit) !important;
+    font-style: var(--al-code-keyword-font-style, inherit) !important;
+    font-weight: var(--al-code-keyword-font-weight, inherit) !important;
+}
+
+:deep(.al-code-keyword-tail),
+:deep(.al-code-keyword-tail *) {
+    color: var(--al-code-keyword-tail-color, inherit) !important;
+    font-style: var(--al-code-keyword-tail-font-style, inherit) !important;
+    font-weight: var(--al-code-keyword-tail-font-weight, inherit) !important;
 }
 </style>
