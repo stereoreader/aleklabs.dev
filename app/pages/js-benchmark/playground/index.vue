@@ -69,6 +69,11 @@ const format = async () => state.code = await prettier.format(state.code, { pars
 const copyRawUrl = () => copyToClipboard(location.href);
 const copyMarkupUrl = () => copyToClipboard(`[${state.title || 'benchmark'}](${location.href})`);
 const duplicate = () => window.open(location.href);
+
+function getCodeElement() {
+    return $code.value?.element ?? $code.value?.$el ?? $code.value;
+}
+
 {
 
     let writePromise;
@@ -83,16 +88,6 @@ const duplicate = () => window.open(location.href);
     });
 }
 
-const syncHeight = () => {
-    const area = $code.value;
-    if (area.offsetWidth < area.scrollWidth) {
-        area.style.width = area.scrollWidth + 16 + 'px';
-    }
-    if (area.offsetHeight < area.scrollHeight) {
-        area.style.height = area.scrollHeight + 16 + 'px';
-    }
-};
-
 watch(() => state.code, updateCode);
 {
     let interval;
@@ -103,9 +98,10 @@ watch(() => state.code, updateCode);
         start() {
             interval = setInterval(() => {
                 const cont = document.querySelector('.silentmantra-benchmark');
-                if (cont) {
-                    if ($code.value.offsetWidth < cont.scrollWidth) {
-                        $code.value.style.width = cont.scrollWidth + 16 + 'px';
+                const codeElement = getCodeElement();
+                if (cont && codeElement) {
+                    if (codeElement.offsetWidth < cont.scrollWidth) {
+                        codeElement.style.width = cont.scrollWidth + 16 + 'px';
                     }
                 }
             }, 500);
@@ -128,12 +124,12 @@ let benchmark;
 
 async function updateCode(code) {
     setTimeout(() => loaded.value = true);
-    const area = $code.value;
-    area.value = code;
-    benchmark = await window.SilentMantraBenchmark?.set($code.value, code);
+    const codeElement = getCodeElement();
+    if (!codeElement) {
+        return;
+    }
+    benchmark = await window.SilentMantraBenchmark?.set(codeElement, code);
 }
-
-watch(() => state.code, syncHeight, { once: true })
 
 watch(() => state.title, title => document.title = [title, 'silentmantra benchmark'].filter(Boolean).join(' / '));
 
@@ -203,9 +199,7 @@ function copyToClipboard(text) {
             <input v-model="state.title" placeholder="title" />
         </div>
         <div class="code-wrapper">
-            <textarea autofocus ref="$code" v-once :key="1" class="code" spellcheck="false" @input="syncHeight"
-                @keydown="formatFromKey"
-                @keyup="state.code = $code.value"></textarea>
+            <al-code autofocus ref="$code" v-model="state.code" class="code" @keydown="formatFromKey" />
         </div>
     </div>
 </template>
