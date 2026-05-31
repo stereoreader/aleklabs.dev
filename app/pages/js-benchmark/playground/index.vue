@@ -82,7 +82,11 @@ function getCodeElement() {
         await (writePromise ??= new Promise(r => queueMicrotask(async () => {
             //console.log('writing state to URL', JSON.clone(state));
             const hash = await JSON.stringify(state).compress('gzip base64 uri');
-            location.hash = hash;
+            history.replaceState(
+                history.state,
+                '',
+                `${location.pathname}${location.search}#${hash}`,
+            );
             writePromise = null;
         })));
     });
