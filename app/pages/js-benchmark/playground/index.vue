@@ -135,7 +135,7 @@ async function updateCode(code) {
     benchmark = await window.SilentMantraBenchmark?.set(codeElement, code);
 }
 
-watch(() => state.title, title => document.title = [title, 'silentmantra benchmark'].filter(Boolean).join(' / '));
+watch(() => state.title, title => document.title = [title, 'AlekLabs JS benchmark'].filter(Boolean).join(' / '));
 
 window.addEventListener('hashchange', popstate);
 document.addEventListener('keyup', e => e.key === "Enter" && e.ctrlKey && benchmark?.start());
@@ -189,7 +189,7 @@ function copyToClipboard(text) {
 <template>
     <dialog><textarea></textarea></dialog>
     <div class="wrapper" :class="{ loaded }">
-        <h1><img src="../assets/gauge.svg"> Alek JS benchmark</h1>
+        <h1><img src="../assets/gauge.svg"> AlekLabs JS benchmark</h1>
         <div class="subtitle">A benchmark to write in pure JS and host anywhere, read <a target="_blank"
                 href='/js-benchmark'>the
                 docs</a></div>
