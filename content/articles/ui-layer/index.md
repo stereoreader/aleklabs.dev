@@ -54,7 +54,7 @@ It becomes infrastructure.
 
 ---
 
-# Your UI Layer Is An Architectural Boundary
+## Your UI Layer Is An Architectural Boundary
 
 Instead of using third-party components directly, create your own application-level components:
 
@@ -87,7 +87,7 @@ Your architecture talks to vendor libraries.
 
 ---
 
-# Wrappers Are Not "Extra Boilerplate"
+## Wrappers Are Not "Extra Boilerplate"
 
 A common objection:
 
@@ -119,7 +119,7 @@ Then every page becomes infrastructure code.
 
 ---
 
-# The Biggest Advantage: Replaceability
+## The Biggest Advantage: Replaceability
 
 This is the most important benefit.
 
@@ -165,7 +165,7 @@ A thin internal UI layer dramatically reduces migration cost.
 
 ---
 
-# Mixing Multiple UI Libraries Becomes Safe
+## Mixing Multiple UI Libraries Becomes Safe
 
 Direct usage of multiple UI systems usually creates chaos.
 
@@ -197,7 +197,7 @@ This is extremely powerful.
 
 ---
 
-# Your UI Layer Is Also A Design System
+## Your UI Layer Is Also A Design System
 
 The important shift:
 
@@ -236,7 +236,7 @@ That distinction becomes critical at scale.
 
 ---
 
-# Default Configuration Reduces Massive Verbosity
+## Default Configuration Reduces Massive Verbosity
 
 One underrated benefit of internal wrappers:
 
@@ -280,7 +280,7 @@ The application becomes more declarative.
 
 ---
 
-# Theme Propagation Becomes Centralized
+## Theme Propagation Becomes Centralized
 
 Third-party UI libraries usually bring their own theme systems.
 
@@ -321,7 +321,7 @@ This is one of the cleanest ways to support:
 
 ---
 
-# Modern Browser APIs Make Custom UI More Realistic
+## Modern Browser APIs Make Custom UI More Realistic
 
 Five years ago, fully custom UI infrastructure was expensive.
 
@@ -359,7 +359,7 @@ Building internal abstractions is becoming cheaper and more maintainable.
 
 ---
 
-# UI Architecture Is More Than Form Controls
+## UI Architecture Is More Than Form Controls
 
 Many teams think only about atomic components:
 
@@ -403,7 +403,7 @@ This is where frontend architecture starts becoming a platform.
 
 ---
 
-# Internal UI Layers Improve Long-Term Stability
+## Internal UI Layers Improve Long-Term Stability
 
 Projects live longer than frontend trends.
 
@@ -424,7 +424,7 @@ That is operational risk management.
 
 ---
 
-# This Applies Beyond Vue
+## This Applies Beyond Vue
 
 Vue examples are convenient because Vue component composition is extremely ergonomic.
 
@@ -443,7 +443,7 @@ Any component-based frontend benefits from stable internal UI contracts.
 
 ---
 
-# A Practical Rule
+## A Practical Rule
 
 One of the first architectural tasks in a frontend project should be:
 
@@ -461,7 +461,7 @@ Because once product code directly depends on third-party UI libraries, decoupli
 
 ---
 
-# Potential Downsides
+## Potential Downsides
 
 This approach is not free.
 
@@ -483,7 +483,7 @@ The goal is to own the architectural boundary.
 
 ---
 
-# Final Thought
+## Final Thought
 
 Frontend developers often discuss frameworks.
 
