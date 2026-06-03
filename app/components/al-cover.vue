@@ -4,13 +4,16 @@ defineProps<{
     imageSrc: string
 }>();
 
-import screenImg from './screen.gif';
-
 const $overlay = useTemplateRef('$overlay');
 
 
 
 let interval: ReturnType<typeof setInterval>;
+let screenImageWorker: Worker | undefined;
+let screenImageObjectUrl: string | undefined;
+
+const screenImageAbortController = new AbortController();
+const screenImageAbortError = new Error('Cover background image load cancelled');
 
 onMounted(async () => {
 
@@ -56,7 +59,81 @@ onMounted(async () => {
 
     await waitForImages();
 
-    $overlay.value!.style.backgroundImage = `url(${screenImg})`;
+    if (screenImageAbortController.signal.aborted) {
+        return;
+    }
+
+    try {
+        const screenImagePayload = await new Promise<{ buffer: ArrayBuffer; type: string }>((resolve, reject) => {
+            if (screenImageAbortController.signal.aborted) {
+                reject(screenImageAbortError);
+                return;
+            }
+
+            const worker = new Worker(new URL('./screen-image.worker.ts', import.meta.url), {
+                type: 'module'
+            });
+
+            screenImageWorker = worker;
+
+            function cleanup(): void {
+                screenImageAbortController.signal.removeEventListener('abort', onAbort);
+
+                if (screenImageWorker === worker) {
+                    screenImageWorker = undefined;
+                }
+
+                worker.terminate();
+            }
+
+            function onAbort(): void {
+                cleanup();
+                reject(screenImageAbortError);
+            }
+
+            screenImageAbortController.signal.addEventListener('abort', onAbort, { once: true });
+
+            worker.addEventListener('message', event => {
+                cleanup();
+
+                const data = event.data as { buffer?: unknown; type?: unknown; error?: unknown };
+
+                if (data.buffer instanceof ArrayBuffer && typeof data.type === 'string') {
+                    resolve({
+                        buffer: data.buffer,
+                        type: data.type
+                    });
+                    return;
+                }
+
+                reject(new Error(typeof data.error === 'string' ? data.error : 'Failed to load cover background image'));
+            }, { once: true });
+
+            worker.addEventListener('error', event => {
+                cleanup();
+                reject(event.error ?? new Error('Failed to load cover background image'));
+            }, { once: true });
+        });
+
+        if (screenImageAbortController.signal.aborted) {
+            return;
+        }
+
+        if (screenImageObjectUrl) {
+            URL.revokeObjectURL(screenImageObjectUrl);
+        }
+
+        screenImageObjectUrl = URL.createObjectURL(new Blob([screenImagePayload.buffer], {
+            type: screenImagePayload.type
+        }));
+        $overlay.value!.style.backgroundImage = `url(${screenImageObjectUrl})`;
+    } catch (error) {
+        if (screenImageAbortController.signal.aborted) {
+            return;
+        }
+
+        console.error('[al-cover] Failed to load screen background image', error);
+    }
 
     function resetEffect() {
         element.style.filter = '';
@@ -70,7 +147,15 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(() => {
+    screenImageAbortController.abort();
     clearInterval(interval);
+    screenImageWorker?.terminate();
+    screenImageWorker = undefined;
+
+    if (screenImageObjectUrl) {
+        URL.revokeObjectURL(screenImageObjectUrl);
+        screenImageObjectUrl = undefined;
+    }
 });
 
 async function waitForImages(timeout = 10000): Promise<void> {
