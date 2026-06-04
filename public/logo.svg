@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+    <title id="title">AlekLabs monogram logo</title>
+    <desc id="desc">Vector approximation of a circular A and L monogram logo with teal, blue, and gray segmented arcs.</desc>
+    <defs>
+        <linearGradient id="teal" x1="93" y1="93" x2="532" y2="930" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#16b7ad" />
+            <stop offset="1" stop-color="#22c49b" />
+        </linearGradient>
+        <linearGradient id="blue" x1="575" y1="70" x2="890" y2="890" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#3aaef7" />
+            <stop offset="1" stop-color="#31a8f1" />
+        </linearGradient>
+        <linearGradient id="gray" x1="356" y1="170" x2="930" y2="846" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#717b86" />
+            <stop offset="1" stop-color="#929ca6" />
+        </linearGradient>
+        <filter id="soft-shadow" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+            <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000" flood-opacity="0.14" />
+        </filter>
+    </defs>
+
+    <g filter="url(#soft-shadow)">
+        <path fill="url(#teal)" d="M 512.000 67.000 A 445 445 0 0 0 186.548 815.489 L 246.519 759.565 A 363 363 0 0 1 512.000 149.000 Z" />
+        <path fill="url(#teal)" d="M 420 157 L 503 137 L 503 958 L 420 958 Z" />
+        <path fill="url(#teal)" d="M 149 531 L 503 531 L 503 614 L 149 614 Z" />
+
+        <path fill="url(#gray)" d="M 214.237 842.699 A 445 445 0 0 0 404.345 943.782 L 424.182 864.217 A 363 363 0 0 1 269.106 781.762 Z" />
+
+        <path fill="url(#blue)" d="M 523 66 L 609 81 L 609 958 L 523 958 Z" />
+        <path fill="url(#blue)" d="M 930.163 664.199 A 445 445 0 0 1 512.000 957.000 L 512.000 875.000 A 363 363 0 0 0 853.108 636.153 Z" />
+
+        <path fill="url(#gray)" d="M 634.659 84.239 A 445 445 0 0 1 935.220 649.513 L 857.234 624.173 A 363 363 0 0 0 612.056 163.062 Z" />
+    </g>
+</svg>

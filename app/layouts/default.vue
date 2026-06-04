@@ -3,11 +3,18 @@ useHead({
     titleTemplate: title => title
         ? `${title} - Alek Labs`
         : 'Alek Labs - Home for productivity tools',
+    link: [
+        {
+            rel: 'icon',
+            type: 'image/svg+xml',
+            href: 'logo.svg',
+        },
+    ]
 });
 </script>
 
 <template>
-    <al-header/>
+    <al-header />
     <main>
         <slot />
     </main>
