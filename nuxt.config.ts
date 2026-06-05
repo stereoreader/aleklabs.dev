@@ -9,7 +9,12 @@ export default defineNuxtConfig({
     ssr: true,
 
     pages: {
-        pattern: ['**/index.vue', '**/[slug].vue']
+        pattern: [
+            '**/index.vue',
+            '**/\\[slug\\].vue',
+            '**/\\[...slug\\].vue',
+            '**/\\[\\[...slug\\]\\].vue',
+        ],
     },
 
     experimental: {

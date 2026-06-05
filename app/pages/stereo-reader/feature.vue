@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-    title: string;
+    src: string
     imageUrl: string
 }>();
 </script>
@@ -8,9 +8,7 @@ defineProps<{
 <template>
     <div class="feature">
         <img :src="imageUrl">
-        <span>
-            <h2>{{ title }}</h2>
-            <slot />
+        <span v-html="parseMarkdown(src)">
         </span>
     </div>
 </template>
@@ -38,9 +36,17 @@ defineProps<{
         }
     }
 
-    h2 {
-        margin: 0;
-        margin-bottom: 8px;
+    :deep(*) {
+
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            margin: 0;
+            margin-bottom: 8px;
+        }
     }
 
 }
