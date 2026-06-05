@@ -10,7 +10,10 @@ const route = useRoute();
 const slug = route.params.slug;
 let lang = slug?.[0] || 'en';
 if (lang.length !== 2) {
-    lang = 'en';
+    throw createError({
+        statusCode: 404,
+        statusMessage: 'Page not found'
+    });
 }
 
 useHead({
@@ -37,15 +40,27 @@ const content = findContent('title', 'feature1', 'feature2', 'feature3', 'story'
 import coverImg from './assets/logo.svg';
 import FeatureCmp from './feature.vue';
 
-useSeoMeta({
-    ogTitle: 'Alek Labs - Home for productivity tools',
-    ogDescription: 'Personal website of senior frontend developer Alexander Nenashev',
-    ogImage: new URL('./assets/logo.jpg', import.meta.url).pathname
-});
+if (lang === 'en') {
+    useSeoMeta({
+        ogTitle: 'Sharper Vision with Stereo Reader by Alek Labs',
+        ogDescription: 'Train or relax your eyes with Stereo Reader while reading books and documents in stereo or mono mode. Supports text, PDF, EPUB, FB2, images, stereo pairs, voice commands, mouse control, and timers.',
+        ogImage: new URL('./assets/logo.jpg', import.meta.url).pathname
+    });
+} else {
+    useSeoMeta({
+        ogTitle: 'Исправляйте близорукость с помощью Стерео Чтения',
+        ogDescription: 'Тренируйте или расслабляйте глаза со Стерео Чтение, читая книги и документы в стерео- или моно-режиме. Поддерживает текст, PDF, EPUB, FB2, изображения, стереопары, голосовые команды, мышь и таймеры.',
+        ogImage: new URL('./assets/logo.jpg', import.meta.url).pathname
+    });
+}
 
 </script>
 
 <template>
+    <div class="lang-switch">
+        <a href="/stereo-reader/ru" v-if="lang === 'en'">Русский</a>
+        <a href="/stereo-reader" v-else>English</a>
+    </div>
     <div class="cover">
         <al-cover :image-src="coverImg" />
         <div class="text" v-html="parseMarkdown(content.title)">
@@ -68,6 +83,23 @@ useSeoMeta({
 </template>
 
 <style scoped lang="scss">
+.lang-switch {
+    position: absolute;
+    font-size: smaller;
+    --offset: 16px;
+    top: var(--offset);
+    right: var(--offset);
+
+    a {
+        text-decoration: none;
+        color: #555;
+
+        &:hover {
+            color: #fff;
+        }
+    }
+}
+
 .cover {
 
     margin-bottom: 32px;
@@ -81,6 +113,9 @@ useSeoMeta({
         .text {
             text-align: center;
         }
+
+        a {}
+
     }
 
     :deep(*) {
@@ -93,6 +128,38 @@ useSeoMeta({
 
         .promo {
             font-size: 20px
+        }
+
+        a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75em 1.4em;
+            border-radius: 9999px;
+            color: #063b35;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 160ms ease;
+            animation: sea-button-bg 3s ease-in-out infinite alternate;
+        }
+
+        a:hover {
+            animation-duration: 200ms;
+            transform: translateY(-1px);
+        }
+
+        a:active {
+            transform: translateY(0);
+        }
+
+        @keyframes sea-button-bg {
+            from {
+                background-color: rgb(105, 212, 255);
+            }
+
+            to {
+                background-color: white;
+            }
         }
     }
 

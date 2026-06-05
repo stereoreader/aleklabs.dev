@@ -18,7 +18,7 @@ useHead({
 </script>
 
 <template>
-    <al-header/>
+    <al-header />
     <main>
         <slot />
     </main>
@@ -60,5 +60,6 @@ main {
     padding: 48px 0;
     background: #161616;
     border-radius: var(--border-radius);
+    position: relative;
 }
 </style>
