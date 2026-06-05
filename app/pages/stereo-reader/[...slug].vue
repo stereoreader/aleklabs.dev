@@ -17,6 +17,7 @@ if (lang.length !== 2) {
 }
 
 useHead({
+    title: lang === 'ru' ? 'СТЕРЕО ЧТЕНИЕ: Улучшайте зрение читая любимые книги в стерео режиме' : 'STEREO READER: Improve your vision while reading your favorite books in stereo mode',
     htmlAttrs: {
         lang
     }
@@ -42,13 +43,11 @@ import FeatureCmp from './feature.vue';
 
 if (lang === 'en') {
     useSeoMeta({
-        ogTitle: 'Sharper Vision with Stereo Reader by Alek Labs',
         ogDescription: 'Train or relax your eyes with Stereo Reader while reading books and documents in stereo or mono mode. Supports text, PDF, EPUB, FB2, images, stereo pairs, voice commands, mouse control, and timers.',
         ogImage: new URL('./assets/logo.jpg', import.meta.url).pathname
     });
 } else {
     useSeoMeta({
-        ogTitle: 'Исправляйте близорукость с помощью Стерео Чтения',
         ogDescription: 'Тренируйте или расслабляйте глаза со Стерео Чтение, читая книги и документы в стерео- или моно-режиме. Поддерживает текст, PDF, EPUB, FB2, изображения, стереопары, голосовые команды, мышь и таймеры.',
         ogImage: new URL('./assets/logo.jpg', import.meta.url).pathname
     });
