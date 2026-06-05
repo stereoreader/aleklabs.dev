@@ -1,0 +1,1 @@
+az be bg bn bs ca cs da de el en es es-419 et fi fr ha hi hr hu hy id is it ja ka kk ko ky lt lv mk mn mr nl no pl pt-BR pt-PT ro ru sk sl sr-Latn sv sw ta te tg tk tr uk uz-Latn vi zh-Hans zh-Hant
