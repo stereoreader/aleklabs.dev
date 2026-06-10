@@ -15,12 +15,15 @@ async function main(): Promise<void> {
     const buildGitDir = resolve(buildDir, '.git');
     const publicDir = resolve(process.cwd(), '.output', 'public');
     const stereoReaderAppDir = 'C:\\www\\stereoreader\\dist';
+    const stereoReaderAppBetaDir = 'C:\\www\\stereoreader\\dist-beta';
     const stereoReaderBuildDir = resolve(buildDir, 'stereo-reader');
     const stereoReaderBuildAppDir = resolve(stereoReaderBuildDir, 'app');
+    const stereoReaderBuildAppBetaDir = resolve(stereoReaderBuildDir, 'app-beta');
 
     await assertDirectoryExists(buildGitDir);
     await assertDirectoryExists(publicDir);
     await assertDirectoryExists(stereoReaderAppDir);
+    await assertDirectoryExists(stereoReaderAppBetaDir);
 
     const exceptions = ['.git', 'CNAME'];
     console.log('[deploy] Clearing build folder except ' + exceptions.join(', '));
@@ -37,6 +40,10 @@ async function main(): Promise<void> {
 
     console.log('[deploy] Copying Stereo Reader app into build/stereo-reader/app');
     await cp(stereoReaderAppDir, stereoReaderBuildAppDir, { recursive: true, force: true });
+
+    console.log('[deploy] Copying Stereo Reader app beta into build/stereo-reader/app-beta');
+    await cp(stereoReaderAppBetaDir, stereoReaderBuildAppBetaDir, { recursive: true, force: true });
+
 
     console.log('[deploy] Reading latest source repo commit message');
     const commitMessage = await runCommand('git', ['log', '-1', '--pretty=%B'], { captureStdout: true });
