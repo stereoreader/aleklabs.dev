@@ -21,7 +21,7 @@ useHead({
             innerHTML: `
 const script = document.createElement('script');
 
-if (false && (location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+if ((location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
     script.type = 'module';
     script.src = 'http://localhost:8001/benchmark.js';
 } else {
