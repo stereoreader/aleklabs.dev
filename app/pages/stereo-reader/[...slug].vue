@@ -7,13 +7,25 @@ import feature3Img from './assets/feature-train.png?w=250';
 const foundMarkdown = import.meta.glob('./content/**/*.md', { query: '?raw', eager: true, import: 'default' }) as Record<string, string>;
 
 const route = useRoute();
-const slug = route.params.slug;
-let lang = slug?.[0] || 'en';
-if (lang.length !== 2) {
-    throw createError({
-        statusCode: 404,
-        statusMessage: 'Page not found'
-    });
+const routeSlug = Array.isArray(route.params.slug) ? route.params.slug : route.params.slug ? [route.params.slug] : [];
+const slugParts = routeSlug.flatMap(part => part.split('/')).filter(Boolean);
+
+let lang = 'en';
+let folderPath = '';
+
+if (slugParts.length === 1) {
+    if (slugParts[0]!.length === 2) {
+        lang = slugParts[0]!;
+    } else {
+        folderPath = slugParts[0]!;
+    }
+} else if (slugParts.length > 1) {
+    if (slugParts[0]!.length === 2) {
+        lang = slugParts[0]!;
+        folderPath = slugParts.slice(1).join('/');
+    } else {
+        folderPath = slugParts.join('/');
+    }
 }
 
 useHead({
@@ -23,20 +35,58 @@ useHead({
     }
 });
 
+function hasMarkdown(path: string) {
+
+    return path in foundMarkdown;
+}
+
+function getMarkdown(path: string) {
+
+    const markdown = foundMarkdown[path];
+    if (!markdown) {
+        throw createError({
+            statusCode: 404,
+            statusMessage: 'Page not found'
+        });
+    }
+    return markdown;
+}
+
+function getDefaultPagePath(page: string, targetLang = lang) {
+
+    return targetLang === 'en' ? `./content/${page}.md` : `./content/lang/${targetLang}/${page}.md`;
+}
+
+function getFolderIndexPath(targetFolderSlug: string, targetLang = lang) {
+
+    return targetLang === 'en' ? `./content/${targetFolderSlug}/index.md` : `./content/${targetFolderSlug}/lang/${targetLang}/index.md`;
+}
+
 function findContent<T extends string[]>(...pages: T) {
 
     const out = {} as Record<T[number], string>;
-    const keys = Object.keys(foundMarkdown);
 
     for (const page of pages) {
-        const foundKey = keys.find(key => key.includes(lang === 'en' ? `content/${page}.md` : `content/lang/${lang}/${page}.md`));
-        if (!foundKey) throw new Error('Cant find page ' + page);
-        out[page as any as T[number]] = foundMarkdown[foundKey] as string;
+        out[page as any as T[number]] = getMarkdown(getDefaultPagePath(page)) as string;
     }
     return out;
 }
 
 const content = findContent('title', 'feature1', 'feature2', 'feature3', 'story', 'results', 'warning', 'app', 'goals', 'bates', 'join');
+const titleContent = content.title;
+const storyContent = folderPath ? getMarkdown(getFolderIndexPath(folderPath)) : '';
+const storyChapters = folderPath
+    ? storyContent
+        .split(/(?=^## )/m)
+        .map(chapter => chapter.trim())
+        .filter(Boolean)
+    : [];
+const alternateLang = lang === 'en' ? 'ru' : 'en';
+const alternateLangPath = folderPath ? getFolderIndexPath(folderPath, alternateLang) : getDefaultPagePath('title', alternateLang);
+const hasAlternateLang = hasMarkdown(alternateLangPath);
+const alternateLangHref = alternateLang === 'en'
+    ? folderPath ? `/stereo-reader/${folderPath}` : '/stereo-reader'
+    : folderPath ? `/stereo-reader/${alternateLang}/${folderPath}` : `/stereo-reader/${alternateLang}`;
 
 import coverImg from './assets/logo.svg';
 import FeatureCmp from './feature.vue';
@@ -53,35 +103,86 @@ if (lang === 'en') {
     });
 }
 
+const titleHtml = computed(() => {
+    let html = parseMarkdown(titleContent);
+    if (folderPath) {
+        html = html.replaceAll('h1', 'div');
+    }
+    return html;
+});
+
 </script>
 
 <template>
     <div class="lang-switch">
-        <a href="/stereo-reader/ru" v-if="lang === 'en'">Русский</a>
-        <a href="/stereo-reader" v-else>English</a>
+        <a :href="alternateLangHref" v-if="hasAlternateLang && lang === 'en'">Русский</a>
+        <a :href="alternateLangHref" v-else-if="hasAlternateLang">English</a>
     </div>
     <div class="cover">
         <al-cover :image-src="coverImg" />
-        <div class="text" v-html="parseMarkdown(content.title)">
+        <div class="text" v-html="titleHtml">
         </div>
     </div>
-    <div class="features">
+    <div class="features" v-if="!folderPath">
         <feature-cmp :image-url="feature1Img" :src="content.feature1" />
         <feature-cmp :image-url="feature2Img" :src="content.feature2" />
         <feature-cmp :image-url="feature3Img" :src="content.feature3" />
     </div>
     <div class="story">
-        <al-markdown class="chapter" :src="content.story" />
-        <al-markdown class="chapter" :src="content.results" />
-        <al-markdown class="chapter" :src="content.app" />
-        <al-markdown class="chapter" :src="content.goals" />
-        <al-markdown class="chapter" :src="content.bates" />
-        <al-markdown class="chapter" :src="content.warning" />
-        <al-markdown class="chapter" :src="content.join" />
+        <template v-if="folderPath">
+            <div class="home"><a href="/stereo-reader">{{ lang !== 'ru' ? 'Back to Stereo Reader home' :
+                'Назад на страницу Стерео Чтение' }}</a></div>
+            <h1>{{ storyChapters[0]?.replace('#', '').trim() }}</h1>
+            <al-markdown class="chapter" :key="idx" :src="chapter"
+                v-for="(chapter, idx) of storyChapters.slice(1)" />
+        </template>
+        <template v-else>
+            <div class="roadmap">
+                <a v-if="lang !== 'ru'" href='/stereo-reader/roadmap'>From Eye-Muscle Stretching to Stereo
+                    Reading:<br />My Roadmap of Functional Vision Sharpness</a>
+                <a v-else href='/stereo-reader/roadmap'>From Eye-Muscle Stretching to Stereo Reading:<br />My Roadmap of
+                    Functional Vision Sharpness</a>
+            </div>
+            <al-markdown class="chapter" :src="content.story" />
+            <al-markdown class="chapter" :src="content.results" />
+            <al-markdown class="chapter" :src="content.app" />
+            <al-markdown class="chapter" :src="content.goals" />
+            <al-markdown class="chapter" :src="content.bates" />
+            <al-markdown class="chapter" :src="content.warning" />
+            <al-markdown class="chapter" :src="content.join" />
+        </template>
     </div>
 </template>
 
 <style scoped lang="scss">
+.home {
+    margin-top: -32px;
+    a{
+        text-decoration: none;
+    }
+
+}
+
+h1 {
+    text-align: center;
+}
+
+.roadmap {
+    display: flex;
+    justify-content: center;
+
+    a {
+        text-decoration: none;
+        text-align: center;
+        width: min(500px, 100%);
+        font-size: 20px;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
 .lang-switch {
     position: absolute;
     font-size: smaller;
@@ -118,7 +219,9 @@ if (lang === 'en') {
     }
 
     :deep(*) {
-        h1 {
+
+        h1,
+        div {
             font-weight: 400;
             font-size: 48px;
             margin: 0 !important;
