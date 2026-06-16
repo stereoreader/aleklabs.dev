@@ -9,6 +9,7 @@ const foundMarkdown = import.meta.glob('./content/**/*.md', { query: '?raw', eag
 const route = useRoute();
 const routeSlug = Array.isArray(route.params.slug) ? route.params.slug : route.params.slug ? [route.params.slug] : [];
 const slugParts = routeSlug.flatMap(part => part.split('/')).filter(Boolean);
+const markdownKeys = Object.keys(foundMarkdown);
 
 let lang = 'en';
 let folderPath = '';
@@ -35,31 +36,48 @@ useHead({
     }
 });
 
-function hasMarkdown(path: string) {
+function normalizeMarkdownPath(path: string) {
 
-    return path in foundMarkdown;
+    return path.replaceAll('\\', '/').replace(/^\.?\//, '');
 }
 
-function getMarkdown(path: string) {
+function findMarkdownPath(...paths: string[]) {
 
-    const markdown = foundMarkdown[path];
+    const normalizedPaths = paths.map(normalizeMarkdownPath);
+    return markdownKeys.find(key => {
+        const normalizedKey = normalizeMarkdownPath(key);
+        return normalizedPaths.some(path => normalizedKey === path || normalizedKey.endsWith(`/${path}`));
+    });
+}
+
+function hasMarkdown(...paths: string[]) {
+
+    return !!findMarkdownPath(...paths);
+}
+
+function getMarkdown(...paths: string[]) {
+
+    const foundPath = findMarkdownPath(...paths);
+    const markdown = foundPath ? foundMarkdown[foundPath] : '';
     if (!markdown) {
         throw createError({
             statusCode: 404,
-            statusMessage: 'Page not found'
+            statusMessage: `Page not found: ${paths.join(' | ')}`
         });
     }
     return markdown;
 }
 
-function getDefaultPagePath(page: string, targetLang = lang) {
+function getDefaultPagePaths(page: string, targetLang = lang) {
 
-    return targetLang === 'en' ? `./content/${page}.md` : `./content/lang/${targetLang}/${page}.md`;
+    return targetLang === 'en' ? [`./content/${page}.md`] : [`./content/lang/${targetLang}/${page}.md`];
 }
 
-function getFolderIndexPath(targetFolderSlug: string, targetLang = lang) {
+function getFolderIndexPaths(targetFolderSlug: string, targetLang = lang) {
 
-    return targetLang === 'en' ? `./content/${targetFolderSlug}/index.md` : `./content/${targetFolderSlug}/lang/${targetLang}/index.md`;
+    return targetLang === 'en'
+        ? [`./content/${targetFolderSlug}/index.md`]
+        : [`./content/${targetFolderSlug}/lang/${targetLang}/index.md`, `./content/lang/${targetLang}/${targetFolderSlug}/index.md`];
 }
 
 function findContent<T extends string[]>(...pages: T) {
@@ -67,14 +85,14 @@ function findContent<T extends string[]>(...pages: T) {
     const out = {} as Record<T[number], string>;
 
     for (const page of pages) {
-        out[page as any as T[number]] = getMarkdown(getDefaultPagePath(page)) as string;
+        out[page as any as T[number]] = getMarkdown(...getDefaultPagePaths(page)) as string;
     }
     return out;
 }
 
 const content = findContent('title', 'feature1', 'feature2', 'feature3', 'story', 'results', 'warning', 'app', 'goals', 'bates', 'join');
 const titleContent = content.title;
-const storyContent = folderPath ? getMarkdown(getFolderIndexPath(folderPath)) : '';
+const storyContent = folderPath ? getMarkdown(...getFolderIndexPaths(folderPath)) : '';
 const storyChapters = folderPath
     ? storyContent
         .split(/(?=^## )/m)
@@ -82,8 +100,8 @@ const storyChapters = folderPath
         .filter(Boolean)
     : [];
 const alternateLang = lang === 'en' ? 'ru' : 'en';
-const alternateLangPath = folderPath ? getFolderIndexPath(folderPath, alternateLang) : getDefaultPagePath('title', alternateLang);
-const hasAlternateLang = hasMarkdown(alternateLangPath);
+const alternateLangPaths = folderPath ? getFolderIndexPaths(folderPath, alternateLang) : getDefaultPagePaths('title', alternateLang);
+const hasAlternateLang = hasMarkdown(...alternateLangPaths);
 const alternateLangHref = alternateLang === 'en'
     ? folderPath ? `/stereo-reader/${folderPath}` : '/stereo-reader'
     : folderPath ? `/stereo-reader/${alternateLang}/${folderPath}` : `/stereo-reader/${alternateLang}`;
@@ -130,8 +148,10 @@ const titleHtml = computed(() => {
     </div>
     <div class="story">
         <template v-if="folderPath">
-            <div class="home"><a href="/stereo-reader">{{ lang !== 'ru' ? 'Back to Stereo Reader home' :
-                'Назад на страницу Стерео Чтение' }}</a></div>
+            <div class="home">
+                <a href="/stereo-reader" v-if="lang !== 'ru'">Back to Stereo Reader home</a>
+                <a href="/stereo-reader/ru" v-else>Назад на страницу Стерео Чтение</a>
+            </div>
             <h1>{{ storyChapters[0]?.replace('#', '').trim() }}</h1>
             <al-markdown class="chapter" :key="idx" :src="chapter"
                 v-for="(chapter, idx) of storyChapters.slice(1)" />
@@ -140,8 +160,8 @@ const titleHtml = computed(() => {
             <div class="roadmap">
                 <a v-if="lang !== 'ru'" href='/stereo-reader/roadmap'>From Eye-Muscle Stretching to Stereo
                     Reading:<br />My Roadmap of Functional Vision Sharpness</a>
-                <a v-else href='/stereo-reader/roadmap'>From Eye-Muscle Stretching to Stereo Reading:<br />My Roadmap of
-                    Functional Vision Sharpness</a>
+                <a v-else href='/stereo-reader/ru/roadmap'>От растяжки глазных мышц к стерео-чтению:<br />моя дорожная
+                    карта Функциональной Резкости Зрения</a>
             </div>
             <al-markdown class="chapter" :src="content.story" />
             <al-markdown class="chapter" :src="content.results" />
@@ -157,7 +177,8 @@ const titleHtml = computed(() => {
 <style scoped lang="scss">
 .home {
     margin-top: -32px;
-    a{
+
+    a {
         text-decoration: none;
     }
 
@@ -283,7 +304,7 @@ h1 {
 
     :deep(h2) {
         color: #888;
-        position: absolute;
+        //position: absolute;
         left: 0;
         top: calc(-1 * var(--margin-top) + 8px);
         font-weight: normal;
@@ -324,5 +345,10 @@ h1 {
 
 .story {
     padding: 32px;
+
+    @media (max-width: 767px) {
+        padding-inline: 0;
+    }
+
 }
 </style>
