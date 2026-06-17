@@ -58,11 +58,35 @@ const stats = (() => {
             <span class="words">{{ stats.words }} words ~ {{ stats.minutes }} minutes</span>
         </div>
 
+        <div class="video">
+            <iframe src="https://www.youtube.com/embed/0xOTwnxID_I?si=Lxs2KaYW3ikEoPJq"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <a target="_blank" href="https://www.youtube.com/watch?v=0xOTwnxID_I">Alek Labs Keyboard Layer demo / VS Code (Vue + TS) coding</a>
+        </div>
+
         <span v-html="html"></span>
     </div>
 </template>
 
 <style scoped lang="scss">
+.video {
+    flex: 0 0 100%;
+    width: 100%;
+    margin-top: 32px;
+    display: flex;
+    flex-flow: column;
+    gap: 16px;
+    align-items: center;
+
+    iframe {
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        max-width: 600px;
+    }
+}
+
 .article {
     background-color: #111;
     padding: 32px;
@@ -80,6 +104,7 @@ const stats = (() => {
 
 <style lang="scss">
 .article {
+
     h1,
     h2,
     h3 {
