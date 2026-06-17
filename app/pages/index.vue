@@ -5,6 +5,7 @@ import ArticlesCmp from './index/articles.vue';
 import stereoReaderPreview from './assets/stereo-reader-preview.jpg';
 import youtubeChatPreview from './assets/youtube-send-to-ai-chat.png';
 import jsbenchPreview from './js-benchmark/assets/cover.png';
+import keyboardLayerPreview from './keyboard-layer/cover.png';
 
 import coverImg from './assets/logo.jpg';
 
@@ -61,6 +62,14 @@ useSeoMeta({
             :image-src="stereoReaderPreview">
             A reader aimed to improve vision by training or relaxing your eyes while
             reading books. Supports text, PDF, EPUB, and FB2 files in stereo or mono mode.
+        </card-cmp>
+        <card-cmp
+            href="/keyboard-layer"
+            title="Alek Labs Keyboard Layer"
+            :image-src="keyboardLayerPreview">
+            A Windows keyboard command layer for faster programming and text editing. Adds ergonomic shortcuts for
+            navigation, selection, deletion, copy, paste, undo, redo, and Enter while keeping standard QWERTY typing
+            unchanged.
         </card-cmp>
         <card-cmp
             href="/js-benchmark"
