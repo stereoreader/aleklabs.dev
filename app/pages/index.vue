@@ -65,7 +65,7 @@ useSeoMeta({
         </card-cmp>
         <card-cmp
             href="/keyboard-layer"
-            title="Alek Labs Keyboard Layer"
+            title="Keyboard Layer"
             :image-src="keyboardLayerPreview">
             A Windows keyboard command layer for faster programming and text editing. Adds ergonomic shortcuts for
             navigation, selection, deletion, copy, paste, undo, redo, and Enter while keeping standard QWERTY typing
