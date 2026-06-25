@@ -10,7 +10,7 @@ defineProps<{
     <a class="card" :class="{ 'card--without-image': !imageSrc }" :href>
         <img v-if="imageSrc" class="thumb" :src="imageSrc" :alt="title">
         <div>
-            <h2 class="title">{{ title }}</h2>
+            <h3 class="title">{{ title }}</h3>
             <p class="description">
                 <slot />
             </p>
@@ -54,9 +54,10 @@ defineProps<{
 
 .title {
     margin: 0 0 8px;
-    font-size: 19px;
     line-height: 1.2;
-    font-weight: 700;
+    font-weight: 500;
+    font-size: 22px;
+
 }
 
 .description {

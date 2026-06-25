@@ -1,7 +1,10 @@
 <script setup lang="ts">
 
 import CardCmp from './index/card.vue';
+
+import ExperienceCmp from './index/experience.vue';
 import ArticlesCmp from './index/articles.vue';
+
 import stereoReaderPreview from './assets/stereo-reader-preview.jpg';
 import youtubeChatPreview from './assets/youtube-send-to-ai-chat.png';
 import jsbenchPreview from './js-benchmark/assets/cover.png';
@@ -55,7 +58,12 @@ useSeoMeta({
             <span>My CSS SO answers</span>
         </a>
     </div>
-    <section class="tools" aria-label="Productivity tools">
+    <section class="tools" aria-label="Production experience">
+        <h2><al-icon icon="experience" />Production experience</h2>
+        <experience-cmp />
+    </section>
+    <section class="tools" aria-label="Alek Labs Projects">
+        <h2><al-icon icon="labs" />Alek Labs Projects</h2>
         <card-cmp
             href="/stereo-reader"
             title="Stereo Reader"
@@ -88,22 +96,43 @@ useSeoMeta({
             customizable prompts.
         </card-cmp>
     </section>
+
     <section class="tools" aria-label="Articles">
-        <h2><img src="./assets/icons/information.svg">Articles</h2>
+        <h2><al-icon icon="information" />Articles</h2>
         <articles-cmp />
     </section>
 </template>
 
 <style scoped lang="scss">
 .tools {
+    margin-bottom: 32px;
+
+    position: relative;
+    --icon-color: #aaa;
     display: flex;
     flex-direction: column;
     gap: 16px;
+
+    :deep(.al-icon) {
+        opacity: .4;
+        z-index: -1;
+        left: -64px;
+        top: 32px;
+
+        --icon-size: 128px;
+        position: absolute;
+    }
+
+    > * {
+        position: relative;
+    }
 
     > h2 {
         margin-top: 16px;
         margin-bottom: 0;
         margin-left: 16px;
+        font-size: 32px;
+        font-weight: 200;
         opacity: .5;
         display: flex;
         align-items: center;
@@ -113,6 +142,11 @@ useSeoMeta({
             position: relative;
             top: 2px;
             width: 24px;
+        }
+
+        .section-icon {
+            position: relative;
+            top: 2px;
         }
     }
 }
