@@ -1,5 +1,6 @@
 <script setup lang="ts">
 
+import ExperienceCmp from '../index/experience.vue';
 import { articles } from './articles';
 import * as marked from 'marked';
 
@@ -40,6 +41,9 @@ type MarkdownReadingStats = {
 <template>
     <div class="article">
         <img :src="article.coverUrl" class="article-cover">
+        <div class="article-experience">
+            <experience-cmp exclude-current />
+        </div>
 
         <span v-html="html"></span>
     </div>
@@ -57,6 +61,10 @@ type MarkdownReadingStats = {
     border-radius: 8px;
     color: #ccc;
     overflow: hidden;
+}
+
+.article-experience {
+    margin-bottom: 40px;
 }
 
 .topbar {
