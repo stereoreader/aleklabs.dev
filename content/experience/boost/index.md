@@ -1,11 +1,12 @@
 ---
 slug: senior-frontend-develop-at-luqon
-seoDescription: "Why the mobile web should not become a second-class platform: browsers, PWAs, open standards, user control, and the risks of app-first ecosystems."
+seoDescription: Built complex SPA interfaces, scalable frontend architecture with stores and reactive model classes, custom
+            UI components including virtual tables and forms, and AI-agent-assisted delivery with E2E verification.
 description: Built complex SPA interfaces, scalable frontend architecture with stores and reactive model classes, custom
             UI components including virtual tables and forms, and AI-agent-assisted delivery with E2E verification.
 ---
 
-# BOOST — Enterprise Resource Management SPA
+# Enterprise Resource Management SPA
 
 BOOST is a modular Enterprise Resource Management SPA built with Vue 3, TypeScript, Vite, and a custom frontend framework. The application covers multiple business domains including sales, accounting, finance, HRM, inventory, procurement, document management, projects, work orders, facility management, contact center, users, settings, reporting, and API management.
 

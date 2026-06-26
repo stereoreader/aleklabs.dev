@@ -8,7 +8,7 @@ import { articles } from './articles';
             <h1>Articles</h1>
 
             <article v-for="article in articles" :key="article.slug" class="article">
-                <NuxtLink :to="`/articles/${article.slug}`">
+                <NuxtLink :to="`/experience/${article.slug}`">
                     {{ article.title }}
                 </NuxtLink>
 
