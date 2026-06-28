@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
     href: string,
     title: string,
     imageSrc?: string,
@@ -24,14 +24,20 @@ function push(e: PointerEvent) {
     opacity.value = (1 - pos) * .1;
 }
 
-
+const $card = useTemplateRef('$card');
+function nav(){
+    location.href = props.href;
+}
 </script>
 
 <template>
     <div class="wrapper">
-        <a class="card" :class="{ 'card--without-image': !imageSrc, down: isDown }" :href ref="$card"
+        <a class="card" @click.prevent="nav" :class="{ 'card--without-image': !imageSrc, down: isDown }" :href ref="$card"
             @pointermove="push"
-            @pointerleave="rotate = '0', pushZ = '0'">
+            @pointerleave="rotate = '0', pushZ = '0'"
+            @pointercancel="$card?.classList.remove('pressed')"
+            @pointerup="$card?.classList.remove('pressed')"
+            @pointerdown.prevent="e => ($card?.classList.add('pressed'), push(e))">
             <img v-if="imageSrc" class="thumb" :src="imageSrc" :alt="title">
             <div>
                 <h3 class="title">{{ title }}</h3>
@@ -51,16 +57,22 @@ function push(e: PointerEvent) {
 }
 
 .wrapper {
+    user-select: none;
     perspective: 800px;
 
 }
 
 .card {
 
+    -webkit-tap-highlight-color: transparent !important;
+
+    --push-rotate: 1;
+    --push-z: 1;
+
     --card-padding: 16px;
     --transition-duration: .2s;
 
-    transform: rotateX(v-bind(rotate)) translateZ(v-bind(pushZ));
+    transform: rotateX(calc(var(--push-rotate) * v-bind(rotate))) translateZ(calc(var(--push-z) * v-bind(pushZ)));
     transition: transform var(--transition-duration);
     position: relative;
     display: flex;
@@ -72,6 +84,11 @@ function push(e: PointerEvent) {
     color: inherit;
     text-decoration: none;
     overflow: hidden;
+
+    &.pressed {
+        --push-rotate: 2;
+        --push-z: 2;
+    }
 
     @include mobile {
         flex-flow: column;
@@ -102,6 +119,7 @@ function push(e: PointerEvent) {
     }
 
 
+    &.pressed,
     &:hover,
     &:focus-visible {
         background: var(--panel-hover);
@@ -118,8 +136,7 @@ function push(e: PointerEvent) {
 
         &:after {
             transition: none;
-
-            opacity: calc(.01 + v-bind(opacity));
+            opacity: calc(.01 * var(--push-z) + v-bind(opacity));
         }
 
     }
