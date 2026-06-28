@@ -105,7 +105,6 @@ useSeoMeta({
 
 <style scoped lang="scss">
 .tools {
-    perspective: 800px;
     margin-bottom: 32px;
 
     position: relative;

@@ -28,16 +28,19 @@ function push(e: PointerEvent) {
 </script>
 
 <template>
-    <a class="card" :class="{ 'card--without-image': !imageSrc, down: isDown }" :href ref="$card" @pointermove="push"
-        @pointerleave="rotate = '0', pushZ = '0'">
-        <img v-if="imageSrc" class="thumb" :src="imageSrc" :alt="title">
-        <div>
-            <h3 class="title">{{ title }}</h3>
-            <p class="description">
-                <slot />
-            </p>
-        </div>
-    </a>
+    <div class="wrapper">
+        <a class="card" :class="{ 'card--without-image': !imageSrc, down: isDown }" :href ref="$card"
+            @pointermove="push"
+            @pointerleave="rotate = '0', pushZ = '0'">
+            <img v-if="imageSrc" class="thumb" :src="imageSrc" :alt="title">
+            <div>
+                <h3 class="title">{{ title }}</h3>
+                <p class="description">
+                    <slot />
+                </p>
+            </div>
+        </a>
+    </div>
 </template>
 
 <style scoped lang="scss">
@@ -47,7 +50,13 @@ function push(e: PointerEvent) {
     }
 }
 
+.wrapper {
+    perspective: 800px;
+
+}
+
 .card {
+
     --card-padding: 16px;
     --transition-duration: .2s;
 
