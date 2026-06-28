@@ -105,13 +105,14 @@ useSeoMeta({
 
 <style scoped lang="scss">
 .tools {
+    perspective: 800px;
     margin-bottom: 32px;
 
     position: relative;
     --icon-color: #aaa;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 32px;
 
     :deep(.al-icon) {
         opacity: .4;
