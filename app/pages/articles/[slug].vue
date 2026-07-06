@@ -187,5 +187,26 @@ function getMarkdownReadingStats(markdown: string, wordsPerMinute = 200): Markdo
         border: 1px solid #333;
     }
 
+    table {
+        width: 100%;
+
+        tr {
+
+            --row-bg: #222;
+
+            &:nth-child(odd) {
+                background-color: var(--row-bg);
+            }
+
+            &:nth-child(even) {
+                background-color: color-mix(in srgb, var(--row-bg) 95%, white 5%);
+            }
+
+            td,
+            th {
+                padding: 8px;
+            }
+        }
+    }
 }
 </style>

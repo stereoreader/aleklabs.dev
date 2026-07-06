@@ -1,9 +1,9 @@
 import { parse } from 'yaml';
 import { lexer } from 'marked';
 
-const covers = import.meta.glob('@content/articles/**/cover.webp', {
+const covers = import.meta.glob('@content/articles/**/cover.{webp,png,jpg,jpeg}', {
     eager: true,
-    query: '?url',
+    query: '?url&w=1000',
     import: 'default',
 }) as Record<string, string>;
 
@@ -40,7 +40,8 @@ export const articles = (Object.entries(pages) as [string, string][]).map(([path
     meta.date = new Date(meta.date);
     meta.readOn ??= [];
 
-    const coverUrl = covers[path.replace('index.md', 'cover.webp')];
+    const key = Object.keys(covers).find(key => key.includes(path.replace('index.md', ''))) ?? '';
+    const coverUrl = covers[key];
     if (!coverUrl) {
         throw new Error('No cover image for ' + meta.title);
     }
