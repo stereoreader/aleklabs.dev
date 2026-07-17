@@ -7,6 +7,7 @@ const isHome = route.fullPath === '/';
 </template>
 <style setup lang="scss">
 header {
+    height: 95px;
     width: min(920px, calc(100% - 32px));
     margin: 0 auto;
     text-transform: uppercase;
@@ -14,5 +15,8 @@ header {
     padding-top: 16px;
     margin-bottom: 16px;
     letter-spacing: 4px;
+    a{
+        margin: 0;
+    }
 }
 </style>
