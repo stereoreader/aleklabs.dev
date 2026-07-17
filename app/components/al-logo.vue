@@ -4,8 +4,9 @@ import * as opentype from 'opentype.js';
 import type { Path } from 'opentype.js';
 import { downloadGoogleFont } from '@/utils/al-logo';
 
-const props = defineProps<{
-    text: string
+const { size = 128, ...props } = defineProps<{
+    text: string,
+    size?: number
 }>();
 
 const textPaths = ref<string[]>([]);
@@ -21,8 +22,6 @@ const ascii =
     '0123456789' +
     ' .,;:!?\'"()[]{}+-=*/\\_@#$%^&|<>';
 
-
-const size = 128;
 
 async function createLogoPath() {
 
@@ -164,7 +163,7 @@ function toClosedSvgPathData(
         xmlns="http://www.w3.org/2000/svg">
         <defs>
             <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#44AA44" stop-opacity=".7"/>
+                <stop offset="0%" stop-color="#44AA44" stop-opacity=".7" />
                 <stop offset="100%" stop-color="#003355" />
             </linearGradient>
         </defs>
@@ -182,13 +181,12 @@ function toClosedSvgPathData(
 </template>
 
 <style scoped lang="scss">
-
 #animated-text {
     overflow: visible;
     filter:
-        drop-shadow(0 0 4px rgb(255 255 255 / 80%))
-        drop-shadow(0 0 14px rgb(0 180 255 / 70%));
+        drop-shadow(0 0 4px rgb(255 255 255 / 80%)) drop-shadow(0 0 14px rgb(0 180 255 / 70%));
 }
+
 #trace path {
     stroke-dasharray: 1000;
     stroke-dashoffset: 1000;
