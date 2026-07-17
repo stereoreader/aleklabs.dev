@@ -1,12 +1,11 @@
 <script setup lang="ts">
 
-defineProps<{
-    imageSrc: string
+const props = defineProps<{
+    imageSrc: string,
+    text?: string
 }>();
 
 const $overlay = useTemplateRef('$overlay');
-
-
 
 let interval: ReturnType<typeof setInterval>;
 let screenImageWorker: Worker | undefined;
@@ -15,7 +14,17 @@ let screenImageObjectUrl: string | undefined;
 const screenImageAbortController = new AbortController();
 const screenImageAbortError = new Error('Cover background image load cancelled');
 
+const showText = ref(true);
+
 onMounted(async () => {
+
+    if (props.text) {
+        setInterval(async () => {
+            showText.value = false;
+            await nextTick();
+            showText.value = true;
+        }, 10000);
+    }
 
     const element = document.querySelector('.logo') as HTMLDivElement;
 
@@ -238,18 +247,37 @@ async function waitForImages(timeout = 10000): Promise<void> {
     <div class="logo">
         <img :src="imageSrc">
         <div class="overlay" ref="$overlay"></div>
+        <div class="text">
+            <al-logo v-if="text && showText" :text />
+        </div>
     </div>
 </template>
 
 <style scoped lang="scss">
 .logo {
+
     border-radius: var(--border-radius);
+
     overflow: hidden;
     position: relative;
+
     transition:
         filter 40ms linear,
         transform 40ms linear,
         opacity 40ms linear;
+
+
+    .text {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        > * {
+            flex: 0 0 auto;
+        }
+    }
 
     img {
         aspect-ratio: 16 / 9;

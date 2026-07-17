@@ -21,7 +21,7 @@ useSeoMeta({
 </script>
 
 <template>
-    <al-cover :image-src="coverImg" style="margin-bottom:32px" />
+    <al-cover :image-src="coverImg" style="margin-bottom:32px" text="ALEK LABS"/>
     <div class="links">
         <canvas id="heartbeat"></canvas>
         <a href="https://www.linkedin.com/in/alexander-nenashev-930731288/" target="_blank">
