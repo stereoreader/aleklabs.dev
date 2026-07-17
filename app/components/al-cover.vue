@@ -16,17 +16,7 @@ let screenImageObjectUrl: string | undefined;
 const screenImageAbortController = new AbortController();
 const screenImageAbortError = new Error('Cover background image load cancelled');
 
-const showText = ref(true);
-
 onMounted(async () => {
-
-    if (props.text) {
-        setInterval(async () => {
-            showText.value = false;
-            await nextTick();
-            showText.value = true;
-        }, 10000);
-    }
 
     const element = document.querySelector('.logo') as HTMLDivElement;
 
@@ -250,8 +240,8 @@ async function waitForImages(timeout = 10000): Promise<void> {
     <div class="logo">
         <img :src="imageSrc">
         <div class="overlay" ref="$overlay"></div>
-        <div class="text">
-            <al-logo v-if="text && showText" :text />
+        <div class="text" v-if="text">
+            <al-logo :text />
         </div>
     </div>
 </template>

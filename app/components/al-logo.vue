@@ -12,7 +12,18 @@ const { size = 128, ...props } = defineProps<{
 const textPaths = ref<string[]>([]);
 const textWidth = ref(0);
 
+const showText = ref(false);
+const loaded = ref(false);
+
 onMounted(async () => {
+    watch(loaded, () => {
+        showText.value = true;
+        setInterval(async () => {
+            showText.value = false;
+            await nextTick();
+            showText.value = true;
+        }, 10000);
+    });
     createLogoPath();
 });
 
@@ -31,10 +42,9 @@ async function createLogoPath() {
         ascii
     );
 
-
     const { paths, width } = textToGlyphPaths(
         buffer,
-        'ALEK LABS',
+        props.text,
         {
             fontSize: size,
             baseline: size,
@@ -45,6 +55,7 @@ async function createLogoPath() {
 
     textPaths.value = paths;
     textWidth.value = width;
+    loaded.value = true;
 
 
     // const font = opentype.parse(buffer);
@@ -157,6 +168,7 @@ function toClosedSvgPathData(
 
 <template>
     <svg
+        v-if="showText"
         id="animated-text"
         :style="`width:${textWidth}px`"
         :viewBox="`0 0 ${textWidth} ${size + 10}`"
