@@ -9,7 +9,7 @@ const { size = 128, ...props } = defineProps<{
     size?: number
 }>();
 
-const textPaths = ref<string[]>([]);
+const textPaths = ref<GlyphPaths[]>([]);
 const textWidth = ref(0);
 
 const showText = ref(false);
@@ -68,6 +68,12 @@ async function createLogoPath() {
 
 }
 
+type GlyphPaths = {
+    fillPath: string;
+    contours: string[];
+};
+
+
 function textToGlyphPaths(
     fontBuffer: ArrayBuffer,
     text: string,
@@ -76,9 +82,13 @@ function textToGlyphPaths(
         baseline?: number;
         letterSpacing?: number;
         kerning?: boolean;
+        precision?: number;
     },
 ): {
-    paths: string[];
+    paths: {
+        fillPath: string;
+        contours: string[];
+    }[];
     width: number;
 } {
     const font = opentype.parse(fontBuffer);
@@ -88,19 +98,47 @@ function textToGlyphPaths(
     const baseline = options.baseline ?? fontSize;
     const letterSpacing = options.letterSpacing ?? 0;
     const useKerning = options.kerning ?? true;
+    const precision = options.precision ?? 2;
     const scale = fontSize / font.unitsPerEm;
 
-    const paths: string[] = [];
+    const paths: {
+        fillPath: string;
+        contours: string[];
+    }[] = [];
+
     let x = 0;
 
     for (let i = 0; i < glyphs.length; i++) {
         const glyph = glyphs[i]!;
+        let fillPath = '';
+        let contours: string[] = [];
 
         if (glyph.path.commands.length > 0) {
-            const path = glyph.getPath(x, baseline, fontSize);
+            const glyphPath = glyph.getPath(
+                x,
+                baseline,
+                fontSize,
+            );
 
-            paths.push(toClosedSvgPathData(path, 2));
+            fillPath = toClosedSvgPathData(
+                glyphPath,
+                precision,
+            );
+
+            contours = splitPathIntoContours(glyphPath).map(
+                function (contour) {
+                    return toClosedSvgPathData(
+                        contour,
+                        precision,
+                    );
+                },
+            );
         }
+
+        paths.push({
+            fillPath,
+            contours,
+        });
 
         const advance = (glyph.advanceWidth ?? 0) * scale;
         const nextGlyph = glyphs[i + 1];
@@ -108,7 +146,9 @@ function textToGlyphPaths(
         let kerning = 0;
 
         if (useKerning && nextGlyph) {
-            kerning = font.getKerningValue(glyph, nextGlyph) * scale;
+            kerning =
+                font.getKerningValue(glyph, nextGlyph) *
+                scale;
         }
 
         x += advance + kerning;
@@ -118,50 +158,99 @@ function textToGlyphPaths(
         }
     }
 
-    return {
-        paths,
-        width: x,
-    };
-}
+    function splitPathIntoContours(path: Path): Path[] {
+        const contours: Path[] = [];
+        let commands: Path['commands'] = [];
 
-function toClosedSvgPathData(
-    path: Path,
-    precision = 2,
-): string {
-    const originalCommands = path.commands;
-    const closedCommands: Path['commands'] = [];
+        for (const command of path.commands) {
+            if (
+                command.type === 'M' &&
+                commands.length > 0
+            ) {
+                finishContour();
+            }
 
-    let contourOpen = false;
+            commands.push({
+                ...command,
+            } as Path['commands'][number]);
 
-    for (const command of originalCommands) {
-        if (command.type === 'M') {
-            if (contourOpen) {
-                closedCommands.push({
+            if (command.type === 'Z') {
+                finishContour();
+            }
+        }
+
+        finishContour();
+
+        return contours;
+
+        function finishContour(): void {
+            if (commands.length === 0) {
+                return;
+            }
+
+            if (commands.at(-1)?.type !== 'Z') {
+                commands.push({
                     type: 'Z',
                 } as Path['commands'][number]);
             }
 
-            contourOpen = true;
-        } else if (command.type === 'Z') {
-            contourOpen = false;
+            const contour = new opentype.Path();
+
+            contour.commands = commands;
+            contours.push(contour);
+
+            commands = [];
+        }
+    }
+
+    function toClosedSvgPathData(
+        path: Path,
+        pathPrecision: number,
+    ): string {
+        const closedPath = new opentype.Path();
+
+        closedPath.commands = path.commands.map(
+            function (command) {
+                return {
+                    ...command,
+                } as Path['commands'][number];
+            },
+        );
+
+        const closedCommands: Path['commands'] = [];
+        let contourOpen = false;
+
+        for (const command of closedPath.commands) {
+            if (command.type === 'M') {
+                if (contourOpen) {
+                    closedCommands.push({
+                        type: 'Z',
+                    } as Path['commands'][number]);
+                }
+
+                contourOpen = true;
+            } else if (command.type === 'Z') {
+                contourOpen = false;
+            }
+
+            closedCommands.push(command);
         }
 
-        closedCommands.push(command);
+        if (contourOpen) {
+            closedCommands.push({
+                type: 'Z',
+            } as Path['commands'][number]);
+        }
+
+        closedPath.commands = closedCommands;
+
+        return closedPath.toPathData(pathPrecision);
     }
 
-    if (contourOpen) {
-        closedCommands.push({
-            type: 'Z',
-        } as Path['commands'][number]);
-    }
-
-    path.commands = closedCommands;
-
-    try {
-        return path.toPathData(precision);
-    } finally {
-        path.commands = originalCommands;
-    }
+    return {
+        paths,
+        width: x,
+    };
 }
 
 </script>
@@ -184,10 +273,14 @@ function toClosedSvgPathData(
             fill="url(#gradient)"
             stroke="none"
             fill-rule="evenodd">
-            <path v-for="d in textPaths" :d />
+            <template v-for="glyph in textPaths">
+                <path :d="glyph.fillPath" />
+            </template>
         </g>
-        <g id="trace" fill="transparent" stroke="white" stroke-width="1.5">
-            <path v-for="d in textPaths" :d />
+        <g id="trace" fill="none" stroke="white" stroke-width="1.5">
+            <template v-for="glyph in textPaths">
+                <path v-for="d in glyph.contours" :d />
+            </template>
         </g>
     </svg>
 </template>
