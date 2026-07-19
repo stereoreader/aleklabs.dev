@@ -198,7 +198,6 @@ export function textToGlyphPaths(
 
     for (let i = 0; i < glyphs.length; i++) {
         const glyph = glyphs[i]!;
-        debugger;
         const strokes: GlyphStroke[] = [];
 
         let fillPath = '';

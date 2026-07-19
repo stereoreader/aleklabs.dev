@@ -8,6 +8,7 @@ gsap.registerPlugin(MotionPathPlugin);
 const glyphDelay = 0.15;
 const drawingSpeed = 50;
 const globalDelay = 0;
+const dotRadius = 2.5;
 
 const { size = 128, ...props } = defineProps<{
     text: string,
@@ -142,7 +143,33 @@ function createAnimation(): void {
                     visibility: 'visible'
                 }, startTime);
 
-                timeline.to(dot, {
+                type PathPositionWithAngle = {
+                    x: number;
+                    y: number;
+                    angle: number;
+                };
+
+                const rawPath = MotionPathPlugin.getRawPath(path);
+                MotionPathPlugin.cacheRawPathMeasurements(rawPath);
+                const detectCornerAngle = 30;
+
+                const pathLength = MotionPathPlugin.getLength(rawPath);
+                const sampleDistance = 2;
+                const sampleProgress = sampleDistance / pathLength;
+
+                const flashDuration = 0.35;
+
+                let insideCorner = false;
+
+                function getPathPosition(progress: number): PathPositionWithAngle {
+                    return MotionPathPlugin.getPositionOnPath(rawPath, progress, true) as PathPositionWithAngle;
+                }
+
+                function normalizeAngle(angle: number): number {
+                    return ((angle + 180) % 360 + 360) % 360 - 180;
+                }
+
+                const dotMotion = gsap.to(dot, {
                     motionPath: {
                         path,
                         align: path,
@@ -151,12 +178,57 @@ function createAnimation(): void {
                         end: 1
                     },
                     duration,
-                    ease: 'none'
-                }, startTime);
+                    ease: 'none',
+                    onUpdate() {
+                        if (sampleProgress === 0) {
+                            return;
+                        }
+
+                        const progress = dotMotion.progress();
+                        const beforeProgress = Math.max(0, progress - sampleProgress);
+                        const afterProgress = Math.min(1, progress + sampleProgress);
+
+                        const before = getPathPosition(beforeProgress);
+                        const after = getPathPosition(afterProgress);
+                        const directionChange = Math.abs(normalizeAngle(after.angle - before.angle));
+
+                        if (!insideCorner && directionChange >= detectCornerAngle) {
+                            insideCorner = true;
+
+                            const current = getPathPosition(progress);
+
+                            //console.log('Corner:', current.x, current.y, directionChange);
+                            flashDot();
+
+                        } else if (insideCorner && directionChange < detectCornerAngle * 0.5) {
+                            insideCorner = false;
+                        }
+                    }, onComplete(){
+                        flashDot();
+                    }
+                });
+
+                function flashDot() {
+                    gsap.fromTo(dot!, {
+                        attr: {
+                            r: 7
+                        },
+                    }, {
+                        attr: {
+                            r: dotRadius
+                        },
+                        duration: flashDuration,
+                        ease: 'power2.out',
+                        overwrite: 'auto'
+                    });
+
+                }
+
+                timeline.add(dotMotion, startTime);
 
                 timeline.set(dot, {
                     visibility: 'hidden'
-                }, startTime + duration);
+                }, startTime + duration + flashDuration);
             }
         }
 
@@ -210,7 +282,7 @@ function createAnimation(): void {
                 height="1000%"
                 color-interpolation-filters="sRGB">
                 <feGaussianBlur
-                    stdDeviation="3"
+                    stdDeviation="10"
                     result="blur" />
 
                 <feMerge>
@@ -261,7 +333,7 @@ function createAnimation(): void {
                 <circle
                     v-for="(_, strokeIndex) in glyph.strokes"
                     :key="`dot-${glyphIndex}-${strokeIndex}`"
-                    r="2.5"
+                    :r="dotRadius"
                     fill="white"
                     visibility="hidden"
                     filter="url(#dot-glow)" />
@@ -275,7 +347,6 @@ function createAnimation(): void {
     overflow: visible;
 
     filter:
-        drop-shadow(0 0 4px rgb(255 255 255 / 80%))
-        drop-shadow(0 0 14px rgb(0 180 255 / 70%));
+        drop-shadow(0 0 4px rgb(255 255 255 / 80%)) drop-shadow(0 0 14px rgb(0 180 255 / 70%));
 }
 </style>

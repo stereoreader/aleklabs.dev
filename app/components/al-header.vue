@@ -3,7 +3,7 @@ const route = useRoute();
 const isHome = route.fullPath === '/';
 </script>
 <template>
-    <header v-if="!isHome"><a href="/"><al-logo text="ALEK LABS" style="height:100%" :size="64"/></a></header>
+    <header v-if="!isHome"><a href="/"><al-logo text="ALEK LABS" style="height:100%"/></a></header>
 </template>
 <style setup lang="scss">
 header {
