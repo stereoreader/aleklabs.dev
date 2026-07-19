@@ -91,14 +91,31 @@ function createAnimation(): void {
 
         const strokeElements = svg.querySelectorAll<SVGPathElement>('.stroke path');
         const dotElements = svg.querySelectorAll<SVGCircleElement>('.glowing-dots circle');
-        const fillElement = svg.querySelector<SVGGElement>('.fill');
+        const fillElements = svg.querySelectorAll<SVGGElement>('.fill path');
 
         let elementIndex = 0;
 
         for (let glyphIndex = 0; glyphIndex < textPaths.value.length; glyphIndex++) {
+
             const glyph = textPaths.value[glyphIndex]!;
+            if (!glyph.fillPath) continue;
+
+            const startTime = globalDelay + glyphIndex * glyphDelay;
+
+            const fill = fillElements[glyphIndex]!;
+
+            gsap.set(fill, {
+                opacity: 0
+            });
+
+            timeline.to(fill, {
+                opacity: 1,
+                duration: 1,
+                ease: 'power1.inOut'
+            }, startTime + 1.5);
 
             for (let strokeIndex = 0; strokeIndex < glyph.strokes.length; strokeIndex++) {
+
                 const stroke = glyph.strokes[strokeIndex]!;
                 const path = strokeElements[elementIndex];
                 const dot = dotElements[elementIndex];
@@ -109,8 +126,8 @@ function createAnimation(): void {
                     continue;
                 }
 
+
                 const duration = stroke.length / drawingSpeed;
-                const startTime = globalDelay + glyphIndex * glyphDelay;
 
                 /*
                  * Establish every initial state while the timeline
@@ -203,7 +220,7 @@ function createAnimation(): void {
                         } else if (insideCorner && directionChange < detectCornerAngle * 0.5) {
                             insideCorner = false;
                         }
-                    }, onComplete(){
+                    }, onComplete() {
                         flashDot();
                     }
                 });
@@ -232,17 +249,7 @@ function createAnimation(): void {
             }
         }
 
-        if (fillElement) {
-            gsap.set(fillElement, {
-                opacity: 0
-            });
 
-            timeline.to(fillElement, {
-                opacity: 1,
-                duration: 1,
-                ease: 'power1.inOut'
-            }, globalDelay + 1.5);
-        }
     }, svg);
 
     animationTimeline?.play(0);
@@ -297,9 +304,8 @@ function createAnimation(): void {
             class="fill"
             fill="url(#gradient)"
             stroke="none"
-            fill-rule="evenodd"
-            opacity="0">
-            <path
+            fill-rule="evenodd">
+            <path opacity="0"
                 v-for="(glyph, glyphIndex) in textPaths"
                 v-show="glyph.fillPath"
                 :key="`fill-${glyphIndex}`"
