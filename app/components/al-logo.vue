@@ -86,7 +86,13 @@ function createAnimation(): void {
 
     animationContext = gsap.context(() => {
         const timeline = gsap.timeline({
-            paused: true
+            paused: true,
+            onStart() {
+                startTurbulenceAnimation();
+            },
+            onComplete() {
+                stopTurbulenceAnimation();
+            }
         });
 
         animationTimeline = timeline;
@@ -194,7 +200,9 @@ function createAnimation(): void {
                         align: path,
                         alignOrigin: [0.5, 0.5],
                         start: 0,
-                        end: 1
+                        end: 1,
+                        offsetX: -2.5,
+                        offsetY: -2.5
                     },
                     duration,
                     ease: 'none',
@@ -216,58 +224,6 @@ function createAnimation(): void {
 
                             //console.log('Corner:', current.x, current.y, directionChange);
                             flashDot();
-
-                            // const current = getPathPosition(progress);
-
-                            // const targetPathData = createPushTargetPath(
-                            //     stroke.sourcePath,
-                            //     current.x,
-                            //     current.y,
-                            //     current.x - before.x,
-                            //     current.y - before.y,
-                            //     128,
-                            //     4
-                            // );
-
-
-                            // const fillTargetPathData = createPushTargetPath(
-                            //     glyph.fillSourcePath,
-                            //     current.x,
-                            //     current.y,
-                            //     current.x - before.x,
-                            //     current.y - before.y,
-                            //     128,
-                            //     4
-                            // );
-                            // //debugger;
-
-                            // //path.setAttribute('d', targetPathData);
-
-                            // gsap.timeline()
-                            //     .to(path, {
-                            //         morphSVG: targetPathData,
-                            //         duration: 0.08,
-                            //         ease: 'power2.out',
-                            //         overwrite: 'auto'
-                            //     })
-                            //     .to(path, {
-                            //         morphSVG: stroke.path,
-                            //         duration: 0.5,
-                            //         ease: 'power2.out'
-                            //     });
-
-                            // gsap.timeline()
-                            //     .to(fill, {
-                            //         morphSVG: fillTargetPathData,
-                            //         duration: 0.08,
-                            //         ease: 'power2.out',
-                            //         overwrite: 'auto'
-                            //     })
-                            //     .to(fill, {
-                            //         morphSVG: glyph.fillPath,
-                            //         duration: 0.5,
-                            //         ease: 'power2.out'
-                            //     });
 
                         } else if (insideCorner && directionChange < detectCornerAngle * 0.5) {
                             insideCorner = false;
@@ -301,16 +257,68 @@ function createAnimation(): void {
             }
         }
 
-        timeline.add(gsap.set($svg.value?.querySelector('g.stroke')!, { mask: 'url(#stripe-mask)' }));
-        timeline.add(gsap.set($svg.value?.querySelector('g.fill')!, { mask: 'url(#stripe-mask)' }));
+        timeline.add(gsap.set($svg.value?.querySelector('g.stroke')!, { mask: 'url(#stripe-mask)', filter: 'url(#dot-distort-glow)' }));
+        timeline.add(gsap.set($svg.value?.querySelector('g.fill')!, { mask: 'url(#stripe-mask)', filter: 'url(#dot-distort-glow)' }));
+        timeline.add(gsap.set($svg.value?.querySelector('#stripe-mask')!, { filter: 'url(#dot-distort-glow)' }));
+
+
+        const endTime = timeline.duration();
         timeline.add(gsap.to($svg.value?.querySelector('#stripe-gradient')!, {
             attr: {
                 //x2: 100,
                 y2: 100
             },
             duration: 2,
-            repeat: Infinity
-        }), timeline.duration())
+        }), endTime);
+
+
+        timeline.add(gsap.to($svg.value?.querySelector('#displacement')!, {
+            attr: {
+                scale: 50
+            },
+            duration: 2,
+        }), endTime);
+
+
+        const turbulence = $svg.value?.querySelector<SVGFETurbulenceElement>('#dot-turbulence');
+
+        if (!turbulence) {
+            return;
+        }
+
+        let turbulenceSeed = 1;
+        let turbulenceRunning = false;
+
+        function startTurbulenceAnimation(): void {
+            if (turbulenceRunning) {
+                return;
+            }
+
+            turbulenceRunning = true;
+            gsap.ticker.add(updateTurbulence);
+        }
+
+        function stopTurbulenceAnimation(): void {
+            turbulenceRunning = false;
+            gsap.ticker.remove(updateTurbulence);
+        }
+
+        function updateTurbulence(): void {
+            turbulenceSeed++;
+            turbulence.setAttribute('seed', turbulenceSeed.toString());
+        }
+
+
+
+        gsap.timeline({
+            paused: true,
+            onStart() {
+                startTurbulenceAnimation();
+            },
+            onComplete() {
+                stopTurbulenceAnimation();
+            }
+        });
 
 
     }, svg);
@@ -386,22 +394,42 @@ function createAnimation(): void {
             </linearGradient>
 
             <filter
-                id="dot-glow"
+                id="dot-distort-glow"
                 x="-500%"
                 y="-500%"
                 width="1000%"
                 height="1000%"
                 color-interpolation-filters="sRGB">
+                <feTurbulence
+                    id="dot-turbulence"
+                    type="turbulence"
+                    baseFrequency="0.05"
+                    numOctaves="2"
+                    seed="1"
+                    result="turbulence" />
+
+                <feDisplacementMap
+                    id="displacement"
+                    in="SourceGraphic"
+                    in2="turbulence"
+                    scale="10"
+                    xChannelSelector="R"
+                    yChannelSelector="G"
+                    result="distorted" />
+
                 <feGaussianBlur
+                    in="distorted"
                     stdDeviation="10"
                     result="blur" />
 
                 <feMerge>
                     <feMergeNode in="blur" />
                     <feMergeNode in="blur" />
-                    <feMergeNode in="SourceGraphic" />
+                    <feMergeNode in="distorted" />
                 </feMerge>
             </filter>
+
+
         </defs>
 
         <g
@@ -436,20 +464,20 @@ function createAnimation(): void {
             </template>
         </g>
 
-        <g class="glowing-dots">
+        <g class="glowing-dots"">
             <template
                 v-for="(glyph, glyphIndex) in textPaths"
-                :key="`dots-glyph-${glyphIndex}`">
-                <circle
-                    v-for="(_, strokeIndex) in glyph.strokes"
-                    :key="`dot-${glyphIndex}-${strokeIndex}`"
-                    :r="dotRadius"
-                    fill="white"
-                    visibility="hidden"
-                    filter="url(#dot-glow)" />
-            </template>
-        </g>
-    </svg>
+            :key="`dots-glyph-${glyphIndex}`">
+            <circle
+                v-for="(_, strokeIndex) in glyph.strokes"
+                :key="`dot-${glyphIndex}-${strokeIndex}`"
+                :r="dotRadius"
+                fill="white"
+                visibility="hidden"
+                filter="url(#dot-distort-glow)" />
+</template>
+</g>
+</svg>
 </template>
 
 <style scoped lang="scss">
