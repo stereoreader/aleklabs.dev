@@ -201,8 +201,8 @@ function createAnimation(): void {
                         alignOrigin: [0.5, 0.5],
                         start: 0,
                         end: 1,
-                        offsetX: -2.5,
-                        offsetY: -2.5
+                        offsetX: -2.6 * .75,
+                        offsetY: -2.5 * .75
                     },
                     duration,
                     ease: 'none',
@@ -412,7 +412,7 @@ function createAnimation(): void {
                     id="displacement"
                     in="SourceGraphic"
                     in2="turbulence"
-                    scale="10"
+                    scale="7.5"
                     xChannelSelector="R"
                     yChannelSelector="G"
                     result="distorted" />
