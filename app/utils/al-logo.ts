@@ -1,5 +1,5 @@
 import * as opentype from 'opentype.js';
-import type {Path} from 'opentype.js';
+import type { Path } from 'opentype.js';
 
 export async function downloadGoogleFont(
     family: string,
@@ -129,6 +129,7 @@ type GlyphStroke = {
      * Complete closed glyph subpath.
      */
     path: string;
+    sourcePath: Path
 
     /**
      * Absolute geometric length of the complete subpath.
@@ -138,11 +139,12 @@ type GlyphStroke = {
     /**
      * Corner prefixes followed by the complete subpath.
      */
-    segments: GlyphStrokeSegment[];
+    //segments: GlyphStrokeSegment[];
 };
 
 export type GlyphPaths = {
     fillPath: string;
+    fillSourcePath: Path;
     strokes: GlyphStroke[];
 };
 
@@ -239,91 +241,16 @@ export function textToGlyphPaths(
                     strokePath,
                 );
 
-                const segments: GlyphStrokeSegment[] = [];
-
-                const corners = detectCorners(
-                    subpath,
-                    detectCornerAngle,
-                );
-
-                for (const corner of corners) {
-                    const segmentPath =
-                        toPrefixSvgPathData(
-                            subpath,
-                            corner.commandIndex,
-                            precision,
-                        );
-
-                    const segmentLength =
-                        measurePathData(segmentPath);
-
-                    /*
-                     * If the explicit path already returns to its
-                     * starting point before Z, this prefix may equal
-                     * the complete path. The final full segment below
-                     * already represents that position.
-                     */
-                    if (
-                        Math.abs(
-                            segmentLength -
-                            strokeLength,
-                        ) <= 1e-6
-                    ) {
-                        continue;
-                    }
-
-                    segments.push({
-                        path: segmentPath,
-                        length: segmentLength,
-
-                        progress:
-                            strokeLength > 0
-                                ? segmentLength /
-                                  strokeLength
-                                : 0,
-
-                        endX: roundCoordinate(
-                            corner.x,
-                            precision,
-                        ),
-
-                        endY: roundCoordinate(
-                            corner.y,
-                            precision,
-                        ),
-                    });
-                }
-
-                /*
-                 * The complete stroke is always the final segment.
-                 * Since it ends through Z, its endpoint is the
-                 * original M coordinate.
-                 */
-                segments.push({
-                    path: strokePath,
-                    length: strokeLength,
-                    progress: 1,
-
-                    endX: roundCoordinate(
-                        startCommand.x,
-                        precision,
-                    ),
-
-                    endY: roundCoordinate(
-                        startCommand.y,
-                        precision,
-                    ),
-                });
-
                 strokes.push({
                     path: strokePath,
+                    sourcePath: subpath,
                     length: strokeLength,
-                    segments,
                 });
             }
         }
 
         paths.push({
+            fillSourcePath: glyph.path,
             fillPath,
             strokes,
         });
@@ -355,263 +282,6 @@ export function textToGlyphPaths(
         width: x,
     };
 
-    function detectCorners(
-        subpath: Path,
-        minimumAngle: number,
-    ): {
-        commandIndex: number;
-        x: number;
-        y: number;
-    }[] {
-        const segments = createPathSegments(
-            subpath,
-        );
-
-        const corners: {
-            commandIndex: number;
-            x: number;
-            y: number;
-        }[] = [];
-
-        /*
-         * The final segment is normally Z. We compare every
-         * segment with the following segment, but do not compare
-         * the final closing segment back to the first one.
-         *
-         * The closing point is represented by the final full
-         * GlyphStrokeSegment instead.
-         */
-        for (
-            let i = 0;
-            i < segments.length - 1;
-            i++
-        ) {
-            const current = segments[i]!;
-            const next = segments[i + 1]!;
-
-            const angle = getDirectionChange(
-                current.endDirection,
-                next.startDirection,
-            );
-
-            if (angle < minimumAngle) {
-                continue;
-            }
-
-            corners.push({
-                commandIndex:
-                    current.commandIndex,
-
-                x: current.end.x,
-                y: current.end.y,
-            });
-        }
-
-        return corners;
-    }
-
-    function createPathSegments(
-        subpath: Path,
-    ): {
-        commandIndex: number;
-        start: Point;
-        end: Point;
-        startDirection: Point;
-        endDirection: Point;
-    }[] {
-        const segments: {
-            commandIndex: number;
-            start: Point;
-            end: Point;
-            startDirection: Point;
-            endDirection: Point;
-        }[] = [];
-
-        let currentPoint: Point | undefined;
-        let subpathStart: Point | undefined;
-
-        for (
-            let commandIndex = 0;
-            commandIndex <
-            subpath.commands.length;
-            commandIndex++
-        ) {
-            const command =
-                subpath.commands[commandIndex]!;
-
-            if (command.type === 'M') {
-                currentPoint = getPoint(
-                    command.x,
-                    command.y,
-                    'M endpoint',
-                );
-
-                subpathStart = currentPoint;
-                continue;
-            }
-
-            if (!currentPoint) {
-                throw new Error(
-                    'Path command encountered before M',
-                );
-            }
-
-            if (command.type === 'L') {
-                const end = getPoint(
-                    command.x,
-                    command.y,
-                    'L endpoint',
-                );
-
-                const direction = subtractPoints(
-                    end,
-                    currentPoint,
-                );
-
-                segments.push({
-                    commandIndex,
-                    start: currentPoint,
-                    end,
-                    startDirection: direction,
-                    endDirection: direction,
-                });
-
-                currentPoint = end;
-                continue;
-            }
-
-            if (command.type === 'Q') {
-                const control = getPoint(
-                    command.x1,
-                    command.y1,
-                    'Q control point',
-                );
-
-                const end = getPoint(
-                    command.x,
-                    command.y,
-                    'Q endpoint',
-                );
-
-                segments.push({
-                    commandIndex,
-                    start: currentPoint,
-                    end,
-
-                    startDirection: pickDirection(
-                        subtractPoints(
-                            control,
-                            currentPoint,
-                        ),
-                        subtractPoints(
-                            end,
-                            currentPoint,
-                        ),
-                    ),
-
-                    endDirection: pickDirection(
-                        subtractPoints(
-                            end,
-                            control,
-                        ),
-                        subtractPoints(
-                            end,
-                            currentPoint,
-                        ),
-                    ),
-                });
-
-                currentPoint = end;
-                continue;
-            }
-
-            if (command.type === 'C') {
-                const control1 = getPoint(
-                    command.x1,
-                    command.y1,
-                    'C first control point',
-                );
-
-                const control2 = getPoint(
-                    command.x2,
-                    command.y2,
-                    'C second control point',
-                );
-
-                const end = getPoint(
-                    command.x,
-                    command.y,
-                    'C endpoint',
-                );
-
-                segments.push({
-                    commandIndex,
-                    start: currentPoint,
-                    end,
-
-                    startDirection: pickDirection(
-                        subtractPoints(
-                            control1,
-                            currentPoint,
-                        ),
-                        subtractPoints(
-                            control2,
-                            currentPoint,
-                        ),
-                        subtractPoints(
-                            end,
-                            currentPoint,
-                        ),
-                    ),
-
-                    endDirection: pickDirection(
-                        subtractPoints(
-                            end,
-                            control2,
-                        ),
-                        subtractPoints(
-                            end,
-                            control1,
-                        ),
-                        subtractPoints(
-                            end,
-                            currentPoint,
-                        ),
-                    ),
-                });
-
-                currentPoint = end;
-                continue;
-            }
-
-            if (
-                command.type === 'Z' &&
-                subpathStart
-            ) {
-                const direction = subtractPoints(
-                    subpathStart,
-                    currentPoint,
-                );
-
-                if (
-                    getVectorLength(direction) >
-                    Number.EPSILON
-                ) {
-                    segments.push({
-                        commandIndex,
-                        start: currentPoint,
-                        end: subpathStart,
-                        startDirection: direction,
-                        endDirection: direction,
-                    });
-                }
-
-                currentPoint = subpathStart;
-            }
-        }
-
-        return segments;
-    }
 
     function splitPathIntoSubpaths(
         path: Path,
@@ -660,24 +330,6 @@ export function textToGlyphPaths(
         }
     }
 
-    function toPrefixSvgPathData(
-        subpath: Path,
-        commandIndex: number,
-        pathPrecision: number,
-    ): string {
-        const prefix = new opentype.Path();
-
-        prefix.commands = subpath.commands
-            .slice(0, commandIndex + 1)
-            .filter(function (command) {
-                return command.type !== 'Z';
-            })
-            .map(cloneCommand);
-
-        return prefix.toPathData(
-            pathPrecision,
-        );
-    }
 
     function toClosedSvgPathData(
         path: Path,
@@ -731,114 +383,7 @@ export function textToGlyphPaths(
         return measuringPath.getTotalLength();
     }
 
-    function getDirectionChange(
-        incoming: Point,
-        outgoing: Point,
-    ): number {
-        const incomingLength =
-            getVectorLength(incoming);
 
-        const outgoingLength =
-            getVectorLength(outgoing);
-
-        if (
-            incomingLength === 0 ||
-            outgoingLength === 0
-        ) {
-            return 0;
-        }
-
-        const cosine =
-            (
-                incoming.x * outgoing.x +
-                incoming.y * outgoing.y
-            ) /
-            (
-                incomingLength *
-                outgoingLength
-            );
-
-        const clampedCosine = Math.max(
-            -1,
-            Math.min(1, cosine),
-        );
-
-        return (
-            Math.acos(clampedCosine) *
-            180 /
-            Math.PI
-        );
-    }
-
-    function pickDirection(
-        ...directions: Point[]
-    ): Point {
-        for (const direction of directions) {
-            if (
-                getVectorLength(direction) >
-                Number.EPSILON
-            ) {
-                return direction;
-            }
-        }
-
-        return {
-            x: 0,
-            y: 0,
-        };
-    }
-
-    function subtractPoints(
-        end: Point,
-        start: Point,
-    ): Point {
-        return {
-            x: end.x - start.x,
-            y: end.y - start.y,
-        };
-    }
-
-    function getVectorLength(
-        vector: Point,
-    ): number {
-        return Math.hypot(
-            vector.x,
-            vector.y,
-        );
-    }
-
-    function getPoint(
-        x: unknown,
-        y: unknown,
-        description: string,
-    ): Point {
-        if (
-            typeof x !== 'number' ||
-            typeof y !== 'number'
-        ) {
-            throw new Error(
-                `${description} has invalid coordinates`,
-            );
-        }
-
-        return {
-            x,
-            y,
-        };
-    }
-
-    function roundCoordinate(
-        value: number,
-        pathPrecision: number,
-    ): number {
-        const multiplier =
-            10 ** pathPrecision;
-
-        return (
-            Math.round(value * multiplier) /
-            multiplier
-        );
-    }
 
     function cloneCommand(
         command: Path['commands'][number],
@@ -846,5 +391,81 @@ export function textToGlyphPaths(
         return {
             ...command,
         } as Path['commands'][number];
+    }
+}
+
+type MutablePathCommand = opentype.PathCommand & {
+    x?: number;
+    y?: number;
+    x1?: number;
+    y1?: number;
+    x2?: number;
+    y2?: number;
+};
+
+export function createPushTargetPath(
+    sourcePath: opentype.Path,
+    hitX: number,
+    hitY: number,
+    approachX: number,
+    approachY: number,
+    influenceRadius = 14,
+    pushDistance = 8,
+    affectedSubpathIndex?: number
+): string {
+    const approachLength = Math.hypot(approachX, approachY);
+
+    if (approachLength === 0) {
+        return sourcePath.toPathData(3);
+    }
+
+    const directionX = approachX / approachLength;
+    const directionY = approachY / approachLength;
+    const targetPath = new opentype.Path();
+
+    let currentSubpathIndex = -1;
+
+    targetPath.commands = sourcePath.commands.map(function (sourceCommand) {
+        const command = { ...sourceCommand } as MutablePathCommand;
+
+        if (command.type === 'M') {
+            currentSubpathIndex++;
+        }
+
+        if (affectedSubpathIndex === undefined || currentSubpathIndex === affectedSubpathIndex) {
+            deformPoint(command, 'x', 'y');
+            deformPoint(command, 'x1', 'y1');
+            deformPoint(command, 'x2', 'y2');
+        }
+
+        return command;
+    });
+
+    return targetPath.toPathData(3);
+
+    function deformPoint(
+        command: MutablePathCommand,
+        xKey: 'x' | 'x1' | 'x2',
+        yKey: 'y' | 'y1' | 'y2'
+    ): void {
+        const x = command[xKey];
+        const y = command[yKey];
+
+        if (x === undefined || y === undefined) {
+            return;
+        }
+
+        const distance = Math.hypot(x - hitX, y - hitY);
+
+        if (distance >= influenceRadius) {
+            return;
+        }
+
+        const normalizedDistance = distance / influenceRadius;
+        const weight = Math.exp(-4 * normalizedDistance * normalizedDistance);
+        const displacement = pushDistance * weight;
+
+        command[xKey] = x + directionX * displacement;
+        command[yKey] = y + directionY * displacement;
     }
 }

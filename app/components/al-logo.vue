@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { gsap } from 'gsap';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
-import { downloadGoogleFont, type GlyphPaths, textToGlyphPaths } from '@/utils/al-logo';
+import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
 
-gsap.registerPlugin(MotionPathPlugin);
+import { downloadGoogleFont, type GlyphPaths, textToGlyphPaths, createPushTargetPath } from '@/utils/al-logo';
+
+gsap.registerPlugin(MotionPathPlugin, MorphSVGPlugin);
 
 const glyphDelay = 0.15;
 const drawingSpeed = 50;
@@ -212,10 +214,60 @@ function createAnimation(): void {
                         if (!insideCorner && directionChange >= detectCornerAngle) {
                             insideCorner = true;
 
-                            const current = getPathPosition(progress);
-
                             //console.log('Corner:', current.x, current.y, directionChange);
                             flashDot();
+
+                            // const current = getPathPosition(progress);
+
+                            // const targetPathData = createPushTargetPath(
+                            //     stroke.sourcePath,
+                            //     current.x,
+                            //     current.y,
+                            //     current.x - before.x,
+                            //     current.y - before.y,
+                            //     128,
+                            //     4
+                            // );
+
+
+                            // const fillTargetPathData = createPushTargetPath(
+                            //     glyph.fillSourcePath,
+                            //     current.x,
+                            //     current.y,
+                            //     current.x - before.x,
+                            //     current.y - before.y,
+                            //     128,
+                            //     4
+                            // );
+                            // //debugger;
+
+                            // //path.setAttribute('d', targetPathData);
+
+                            // gsap.timeline()
+                            //     .to(path, {
+                            //         morphSVG: targetPathData,
+                            //         duration: 0.08,
+                            //         ease: 'power2.out',
+                            //         overwrite: 'auto'
+                            //     })
+                            //     .to(path, {
+                            //         morphSVG: stroke.path,
+                            //         duration: 0.5,
+                            //         ease: 'power2.out'
+                            //     });
+
+                            // gsap.timeline()
+                            //     .to(fill, {
+                            //         morphSVG: fillTargetPathData,
+                            //         duration: 0.08,
+                            //         ease: 'power2.out',
+                            //         overwrite: 'auto'
+                            //     })
+                            //     .to(fill, {
+                            //         morphSVG: glyph.fillPath,
+                            //         duration: 0.5,
+                            //         ease: 'power2.out'
+                            //     });
 
                         } else if (insideCorner && directionChange < detectCornerAngle * 0.5) {
                             insideCorner = false;
