@@ -301,6 +301,17 @@ function createAnimation(): void {
             }
         }
 
+        timeline.add(gsap.set($svg.value?.querySelector('g.stroke')!, { mask: 'url(#stripe-mask)' }));
+        timeline.add(gsap.set($svg.value?.querySelector('g.fill')!, { mask: 'url(#stripe-mask)' }));
+        timeline.add(gsap.to($svg.value?.querySelector('#stripe-gradient')!, {
+            attr: {
+                //x2: 100,
+                y2: 100
+            },
+            duration: 2,
+            repeat: Infinity
+        }), timeline.duration())
+
 
     }, svg);
 
@@ -316,6 +327,48 @@ function createAnimation(): void {
         :viewBox="`0 0 ${textWidth} ${size + 10}`"
         xmlns="http://www.w3.org/2000/svg">
         <defs>
+            <linearGradient
+                id="stripe-gradient"
+                gradientUnits="userSpaceOnUse"
+                spreadMethod="repeat"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="2"
+                gradientTransform="translate(0 0)">
+                <stop
+                    offset="0"
+                    stop-color="white" />
+
+                <stop
+                    offset=".5"
+                    stop-color="white" />
+
+                <stop
+                    offset=".5"
+                    stop-color="black" />
+
+                <stop
+                    offset="1"
+                    stop-color="black" />
+            </linearGradient>
+
+            <mask
+                id="stripe-mask"
+                maskUnits="userSpaceOnUse"
+                maskContentUnits="userSpaceOnUse"
+                x="-100"
+                y="-100"
+                width="1200"
+                height="400"
+                style="mask-type: luminance">
+                <rect
+                    x="-100"
+                    y="-100"
+                    width="1200"
+                    height="400"
+                    fill="url(#stripe-gradient)" />
+            </mask>
             <linearGradient
                 id="gradient"
                 x1="0%"
