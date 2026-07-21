@@ -437,7 +437,7 @@ function createAnimation(): void {
     filter:
         drop-shadow(0 0 4px rgb(255 255 255 / 80%)) drop-shadow(0 0 14px rgb(0 180 255 / 70%));
 
-    .glowing-dots circle {
+    .glowing-dots {
         $color: #0088ff;
         filter:
             drop-shadow(0 0 2px rgb(255 255 255)) drop-shadow(0 0 5px rgba($color, 100%)) drop-shadow(0 0 12px rgba($color,  80%));
