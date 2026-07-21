@@ -87,12 +87,6 @@ function createAnimation(): void {
     animationContext = gsap.context(() => {
         const timeline = gsap.timeline({
             paused: true,
-            onStart() {
-                startTurbulenceAnimation();
-            },
-            onComplete() {
-                stopTurbulenceAnimation();
-            }
         });
 
         animationTimeline = timeline;
@@ -201,8 +195,6 @@ function createAnimation(): void {
                         alignOrigin: [0.5, 0.5],
                         start: 0,
                         end: 1,
-                        offsetX: -2.6 * .75,
-                        offsetY: -2.5 * .75
                     },
                     duration,
                     ease: 'none',
@@ -236,7 +228,7 @@ function createAnimation(): void {
                 function flashDot() {
                     gsap.fromTo(dot!, {
                         attr: {
-                            r: 7
+                            r: 5
                         },
                     }, {
                         attr: {
@@ -260,6 +252,8 @@ function createAnimation(): void {
         timeline.add(gsap.set($svg.value?.querySelector('g.stroke')!, { mask: 'url(#stripe-mask)', filter: 'url(#dot-distort-glow)' }));
         timeline.add(gsap.set($svg.value?.querySelector('g.fill')!, { mask: 'url(#stripe-mask)', filter: 'url(#dot-distort-glow)' }));
         timeline.add(gsap.set($svg.value?.querySelector('#stripe-mask')!, { filter: 'url(#dot-distort-glow)' }));
+        $svg.value?.querySelector('#blur-source')?.setAttribute('in', 'distorted');
+
 
 
         const endTime = timeline.duration();
@@ -274,51 +268,10 @@ function createAnimation(): void {
 
         timeline.add(gsap.to($svg.value?.querySelector('#displacement')!, {
             attr: {
-                scale: 50
+                scale: 150
             },
             duration: 2,
         }), endTime);
-
-
-        const turbulence = $svg.value?.querySelector<SVGFETurbulenceElement>('#dot-turbulence');
-
-        if (!turbulence) {
-            return;
-        }
-
-        let turbulenceSeed = 1;
-        let turbulenceRunning = false;
-
-        function startTurbulenceAnimation(): void {
-            if (turbulenceRunning) {
-                return;
-            }
-
-            turbulenceRunning = true;
-            gsap.ticker.add(updateTurbulence);
-        }
-
-        function stopTurbulenceAnimation(): void {
-            turbulenceRunning = false;
-            gsap.ticker.remove(updateTurbulence);
-        }
-
-        function updateTurbulence(): void {
-            turbulenceSeed++;
-            turbulence.setAttribute('seed', turbulenceSeed.toString());
-        }
-
-
-
-        gsap.timeline({
-            paused: true,
-            onStart() {
-                startTurbulenceAnimation();
-            },
-            onComplete() {
-                stopTurbulenceAnimation();
-            }
-        });
 
 
     }, svg);
@@ -424,11 +377,9 @@ function createAnimation(): void {
 
                 <feMerge>
                     <feMergeNode in="blur" />
-                    <feMergeNode in="blur" />
-                    <feMergeNode in="distorted" />
+                    <feMergeNode id="blur-source" in="SourceGraphic" />
                 </feMerge>
             </filter>
-
 
         </defs>
 
@@ -464,20 +415,19 @@ function createAnimation(): void {
             </template>
         </g>
 
-        <g class="glowing-dots"">
+        <g class="glowing-dots">
             <template
                 v-for="(glyph, glyphIndex) in textPaths"
-            :key="`dots-glyph-${glyphIndex}`">
-            <circle
-                v-for="(_, strokeIndex) in glyph.strokes"
-                :key="`dot-${glyphIndex}-${strokeIndex}`"
-                :r="dotRadius"
-                fill="white"
-                visibility="hidden"
-                filter="url(#dot-distort-glow)" />
-</template>
-</g>
-</svg>
+                :key="`dots-glyph-${glyphIndex}`">
+                <circle
+                    v-for="(_, strokeIndex) in glyph.strokes"
+                    :key="`dot-${glyphIndex}-${strokeIndex}`"
+                    :r="dotRadius"
+                    fill="white"
+                    visibility="hidden" />
+            </template>
+        </g>
+    </svg>
 </template>
 
 <style scoped lang="scss">
@@ -486,5 +436,11 @@ function createAnimation(): void {
 
     filter:
         drop-shadow(0 0 4px rgb(255 255 255 / 80%)) drop-shadow(0 0 14px rgb(0 180 255 / 70%));
+
+    .glowing-dots circle {
+        $color: #0088ff;
+        filter:
+            drop-shadow(0 0 2px rgb(255 255 255)) drop-shadow(0 0 5px rgba($color, 100%)) drop-shadow(0 0 12px rgba($color,  80%));
+    }
 }
 </style>
