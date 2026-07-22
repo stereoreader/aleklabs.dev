@@ -46,6 +46,7 @@ body {
     font-family: Segoe UI, Arial, Helvetica, sans-serif;
     font-size: 15px;
     line-height: 1.5;
+    overflow-x: hidden;
 }
 
 main {
