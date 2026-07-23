@@ -14,6 +14,8 @@ export default defineNuxtConfig({
         },
     ],
 
+    css: ['~/assets/main.scss'],
+
     pages: {
         pattern: [
             '**/index.vue',
