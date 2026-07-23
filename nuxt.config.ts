@@ -26,8 +26,10 @@ export default defineNuxtConfig({
     },
 
     experimental: {
-        payloadExtraction: false
+        payloadExtraction: false,
+        viewTransition: true
     },
+
 
     nitro: {
         prerender: {
@@ -116,6 +118,7 @@ export default defineNuxtConfig({
     },
 
     app: {
+        viewTransition: 'always',
         head: {
             script: [
                 {

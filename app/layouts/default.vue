@@ -14,7 +14,7 @@ useHead({
 </script>
 
 <template>
-    <al-header />
+    <al-header v-transition-name="['site', 'cover']"/>
     <main>
         <slot />
     </main>

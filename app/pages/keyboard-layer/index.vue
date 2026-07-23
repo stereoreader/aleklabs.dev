@@ -52,7 +52,7 @@ const stats = (() => {
 
 <template>
     <div class="article">
-        <img :src="coverUrl" :alt="title" class="article-cover">
+        <img :src="coverUrl" :alt="title" class="article-cover" v-transition-name="[$route.fullPath, 'cover']">
 
         <div class="status">
             <span class="words">{{ stats.words }} words ~ {{ stats.minutes }} minutes</span>

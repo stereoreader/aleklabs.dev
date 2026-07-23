@@ -23,7 +23,7 @@ const $links = useTemplateRef('$links');
 </script>
 
 <template>
-    <al-page-cover :image-src="coverImg" text="ALEK LABS" :content-element="$links" />
+    <al-page-cover v-transition-name="['site', 'cover']" :image-src="coverImg" text="ALEK LABS" :content-element="$links" />
     <div class="links" ref="$links">
         <canvas id="heartbeat"></canvas>
         <a href="https://www.linkedin.com/in/alexander-nenashev-930731288/" target="_blank">

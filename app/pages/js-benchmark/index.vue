@@ -25,7 +25,7 @@ const html = new MarkdownIt({ html: true }).render(docs);
     <div class="wrapper" show-benchmark-code>
         <h1><img src="./assets/gauge.svg"> AlekLabs JS benchmark</h1>
         <div class="subtitle">A benchmark to write in pure JS and host anywhere</div>
-        <img src="./assets/cover.png" class="cover">
+        <img src="./assets/cover.png" class="cover" v-transition-name="[$route.fullPath, 'cover']">
         <div class="subtitle subtitle-2">
             <nuxt-link to="/js-benchmark/playground">Open playground</nuxt-link>
             <nuxt-link

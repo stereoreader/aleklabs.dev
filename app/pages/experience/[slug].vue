@@ -18,6 +18,8 @@ if (!article) {
     });
 }
 
+const coverViewTransitionName = `al-experience-cover-${article.slug}`;
+
 useHead({ title: article.title, titleTemplate: '%s', });
 
 const html = marked.parse(article.data);
@@ -40,7 +42,7 @@ type MarkdownReadingStats = {
 
 <template>
     <div class="article">
-        <img :src="article.coverUrl" class="article-cover">
+        <img :src="article.coverUrl" class="article-cover" v-transition-name="[$route.fullPath, 'cover']">
         <div class="article-experience">
             <experience-cmp exclude-current />
         </div>
