@@ -1,9 +1,9 @@
 <script setup lang="ts">
 const route = useRoute();
-const isHome = route.fullPath === '/';
+const isHome = computed(() => route.fullPath === '/');
 </script>
 <template>
-    <header v-if="!isHome"><a href="/"><al-logo text="ALEK LABS" style="height:100%"/></a></header>
+    <header v-if="!isHome"><nuxt-link to="/"><al-logo text="ALEK LABS" style="height:100%"/></nuxt-link></header>
 </template>
 <style setup lang="scss">
 header {

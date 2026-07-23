@@ -27,10 +27,10 @@ const html = new MarkdownIt({ html: true }).render(docs);
         <div class="subtitle">A benchmark to write in pure JS and host anywhere</div>
         <img src="./assets/cover.png" class="cover">
         <div class="subtitle subtitle-2">
-            <a href="/js-benchmark/playground">Open playground</a>
-            <a
-                href="/js-benchmark/playground#H4sIAAAAAAAACm3PQQrCMBQE0KsMWUiiIVbBTUXRA3gC6yK20Rab3%2FKbClJ6dylZqOBumMVjZhB5UziRiryhLsAyY4cjs32ZGzdeDrWjeyhTrJJk1JAKuz3kQL1PcbKhNGypaLxUo1LbjDJaLnG4OspLb%2FmBW1UHx1jA2zYjy2xiI2lyyFDvsYfZKONt%2B13Osf7nsSv63EUpZilZg%2BKsj4fZDGzavivlx9NgpXG%2BqK3QIlShnn5HBc%2FuZ6sY35i0sGoZAQAA">Try
-                in playground: reduce vs filter + map</a>
+            <nuxt-link to="/js-benchmark/playground">Open playground</nuxt-link>
+            <nuxt-link
+                to="/js-benchmark/playground#H4sIAAAAAAAACm3PQQrCMBQE0KsMWUiiIVbBTUXRA3gC6yK20Rab3%2FKbClJ6dylZqOBumMVjZhB5UziRiryhLsAyY4cjs32ZGzdeDrWjeyhTrJJk1JAKuz3kQL1PcbKhNGypaLxUo1LbjDJaLnG4OspLb%2FmBW1UHx1jA2zYjy2xiI2lyyFDvsYfZKONt%2B13Osf7nsSv63EUpZilZg%2BKsj4fZDGzavivlx9NgpXG%2BqK3QIlShnn5HBc%2FuZ6sY35i0sGoZAQAA">Try
+                in playground: reduce vs filter + map</nuxt-link>
             <a href="https://stackoverflow.com/search?tab=newest&q=user%3a14098260%20benchmark&searchOn=3"
                 target="_blank">My Stack Overflow answers with benchmarks</a>
         </div>

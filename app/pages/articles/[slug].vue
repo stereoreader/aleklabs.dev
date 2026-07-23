@@ -102,11 +102,6 @@ function getMarkdownReadingStats(markdown: string, wordsPerMinute = 200): Markdo
         </div>
         <span v-html="html"></span>
     </div>
-    <!-- <div class="links">
-            <template v-if="article.devtoUrl">
-                <a target="_blank" :href="`${article.devtoUrl}#comments`">Leave a comment on DEV.TO</a>
-            </template>
-</div> -->
 </template>
 
 <style scoped lang="scss">

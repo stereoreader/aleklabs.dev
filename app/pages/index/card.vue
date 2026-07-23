@@ -24,20 +24,23 @@ function push(e: PointerEvent) {
     opacity.value = (1 - pos) * .1;
 }
 
-const $card = useTemplateRef('$card');
-function nav(){
-    location.href = props.href;
-}
+const isPressed = ref(false);
 </script>
 
 <template>
     <div class="wrapper">
-        <a class="card" @click.prevent="nav" :class="{ 'card--without-image': !imageSrc, down: isDown }" :href ref="$card"
-            @pointermove="push"
-            @pointerleave="rotate = '0', pushZ = '0'"
-            @pointercancel="$card?.classList.remove('pressed')"
-            @pointerup="$card?.classList.remove('pressed')"
-            @pointerdown.prevent="e => ($card?.classList.add('pressed'), push(e))">
+        <nuxt-link class="card"
+            :href="href"
+            :class="{
+                'card--without-image': !imageSrc,
+                down: isDown,
+                pressed: isPressed
+            }"
+            @pointermove="event => push(event)"
+            @pointerdown.prevent="event => (isPressed = true, push(event))"
+            @pointerup="isPressed = false"
+            @pointercancel="isPressed = false"
+            @pointerleave="isPressed = false, rotate = '0', pushZ = '0'">
             <img v-if="imageSrc" class="thumb" :src="imageSrc" :alt="title">
             <div>
                 <h3 class="title">{{ title }}</h3>
@@ -45,7 +48,7 @@ function nav(){
                     <slot />
                 </p>
             </div>
-        </a>
+        </nuxt-link>
     </div>
 </template>
 

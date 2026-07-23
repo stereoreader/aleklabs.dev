@@ -133,8 +133,8 @@ const titleHtml = computed(() => {
 
 <template>
     <div class="lang-switch">
-        <a :href="alternateLangHref" v-if="hasAlternateLang && lang === 'en'">Русский</a>
-        <a :href="alternateLangHref" v-else-if="hasAlternateLang">English</a>
+        <nuxt-link :to="alternateLangHref" v-if="hasAlternateLang && lang === 'en'">Русский</nuxt-link>
+        <nuxt-link :to="alternateLangHref" v-else-if="hasAlternateLang">English</nuxt-link>
     </div>
     <div class="cover">
         <al-cover :image-src="coverImg" />
@@ -149,8 +149,8 @@ const titleHtml = computed(() => {
     <div class="story">
         <template v-if="folderPath">
             <div class="home">
-                <a href="/stereo-reader" v-if="lang !== 'ru'">Back to Stereo Reader home</a>
-                <a href="/stereo-reader/ru" v-else>Назад на страницу Стерео Чтение</a>
+                <nuxt-link to="/stereo-reader" v-if="lang !== 'ru'">Back to Stereo Reader home</nuxt-link>
+                <nuxt-link to="/stereo-reader/ru" v-else>Назад на страницу Стерео Чтение</nuxt-link>
             </div>
             <h1>{{ storyChapters[0]?.replace('#', '').trim() }}</h1>
             <al-markdown class="chapter" :key="idx" :src="chapter"
@@ -158,10 +158,10 @@ const titleHtml = computed(() => {
         </template>
         <template v-else>
             <div class="roadmap">
-                <a v-if="lang !== 'ru'" href='/stereo-reader/roadmap'>From Eye-Muscle Stretching to Stereo
-                    Reading:<br />My Roadmap of Functional Vision Sharpness</a>
-                <a v-else href='/stereo-reader/ru/roadmap'>От растяжки глазных мышц к стерео-чтению:<br />моя дорожная
-                    карта Функциональной Резкости Зрения</a>
+                <nuxt-link v-if="lang !== 'ru'" to='/stereo-reader/roadmap'>From Eye-Muscle Stretching to Stereo
+                    Reading:<br />My Roadmap of Functional Vision Sharpness</nuxt-link>
+                <nuxt-link v-else to='/stereo-reader/ru/roadmap'>От растяжки глазных мышц к стерео-чтению:<br />моя дорожная
+                    карта Функциональной Резкости Зрения</nuxt-link>
             </div>
             <al-markdown class="chapter" :src="content.story" />
             <al-markdown class="chapter" :src="content.results" />
