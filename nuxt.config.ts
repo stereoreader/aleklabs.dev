@@ -85,7 +85,7 @@ export default defineNuxtConfig({
 
                     const size = statSync(filePath).size;
 
-                    if (size <= 400 * 1024) {
+                    if (size <= 255 * 1024) {
                         return directives;
                     }
 
