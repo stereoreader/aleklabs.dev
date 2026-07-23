@@ -90,7 +90,7 @@ function getMarkdownReadingStats(markdown: string, wordsPerMinute = 200): Markdo
             target="_blank"
             :href="link.link"><img :src="link.iconUrl">{{ link.title }}</a>
     </div>
-    <div class="article">
+    <div class="article" v-transition-name="[$route.fullPath, 'article']">
         <img :src="article.coverUrl" class="article-cover" v-transition-name="[$route.fullPath, 'cover']">
 
         <div class="status"><span class="date">{{ Intl.DateTimeFormat('en-us', {

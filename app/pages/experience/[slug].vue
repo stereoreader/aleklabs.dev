@@ -41,7 +41,7 @@ type MarkdownReadingStats = {
 </script>
 
 <template>
-    <div class="article">
+    <div class="article" v-transition-name="[$route.fullPath, 'article']">
         <img :src="article.coverUrl" class="article-cover" v-transition-name="[$route.fullPath, 'cover']">
         <div class="article-experience">
             <experience-cmp exclude-current />

@@ -22,7 +22,7 @@ const html = new MarkdownIt({ html: true }).render(docs);
 </script>
 
 <template>
-    <div class="wrapper" show-benchmark-code>
+    <div class="wrapper" show-benchmark-code  v-transition-name="[$route.fullPath, 'article']">
         <h1><img src="./assets/gauge.svg"> AlekLabs JS benchmark</h1>
         <div class="subtitle">A benchmark to write in pure JS and host anywhere</div>
         <img src="./assets/cover.png" class="cover" v-transition-name="[$route.fullPath, 'cover']">

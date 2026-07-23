@@ -51,7 +51,7 @@ const stats = (() => {
 </script>
 
 <template>
-    <div class="article">
+    <div class="article" v-transition-name="[$route.fullPath, 'article']">
         <img :src="coverUrl" :alt="title" class="article-cover" v-transition-name="[$route.fullPath, 'cover']">
 
         <div class="status">
@@ -63,7 +63,8 @@ const stats = (() => {
                 title="YouTube video player" frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                <a target="_blank" href="https://www.youtube.com/watch?v=0xOTwnxID_I">Alek Labs Keyboard Layer demo / VS Code (Vue + TS) coding</a>
+            <a target="_blank" href="https://www.youtube.com/watch?v=0xOTwnxID_I">Alek Labs Keyboard Layer demo / VS
+                Code (Vue + TS) coding</a>
         </div>
 
         <span v-html="html"></span>

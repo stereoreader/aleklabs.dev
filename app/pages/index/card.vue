@@ -29,7 +29,7 @@ const isPressed = ref(false);
 
 <template>
     <div class="wrapper">
-        <nuxt-link class="card"
+        <nuxt-link class="card" v-transition-name="[href, 'article']"
             :href
             :class="{
                 'card--without-image': !imageSrc,

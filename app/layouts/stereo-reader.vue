@@ -19,7 +19,7 @@ useHead({
 
 <template>
     <al-header v-transition-name="['site', 'cover']"/>
-    <main>
+    <main  v-transition-name="[$route.fullPath, 'article']">
         <slot />
     </main>
 </template>
