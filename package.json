@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --host",
     "deploy": "node ./scripts/deploy.ts",
     "deploy-site": "npm run generate && npm run deploy",
     "generate": "nuxt generate",

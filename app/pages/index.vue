@@ -18,13 +18,11 @@ useSeoMeta({
     ogImage: new URL('./assets/logo.jpg', import.meta.url).pathname
 });
 
-const $links = useTemplateRef('$links');
-
 </script>
 
 <template>
-    <al-page-cover v-transition-name="['site', 'cover']" :image-src="coverImg" text="ALEK LABS" :content-element="$links" />
-    <div class="links" ref="$links">
+    <al-page-cover v-transition-name="['site', 'cover']" :image-src="coverImg" text="ALEK LABS"  />
+    <div class="links">
         <canvas id="heartbeat"></canvas>
         <a href="https://www.linkedin.com/in/alexander-nenashev-930731288/" target="_blank">
             <img class="icon-scale-80" src="./assets/icons/linkedin.svg">

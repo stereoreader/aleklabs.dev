@@ -3,7 +3,6 @@
 const props = defineProps<{
     imageSrc: string,
     text?: string,
-    contentElement?: HTMLElement
 }>();
 
 const coverMaxWidth = 920;
@@ -20,34 +19,34 @@ const adjustedMaskHeight = computed(() => {
 const $cover = useTemplateRef('$cover');
 
 onMounted(() => {
-    window.addEventListener('resize', syncViewportWidth);
+    window.addEventListener('resize', syncMask);
     window.addEventListener('scroll', syncMask, { passive: true });
-    syncViewportWidth();
     syncMask();
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener('resize', syncViewportWidth);
+    window.removeEventListener('resize', syncMask);
     window.removeEventListener('scroll', syncMask);
 });
 
-function syncViewportWidth() {
-
-    viewportWidth.value = window.innerWidth;
-}
 
 function syncMask() {
 
-    if (!$cover.value || !props.contentElement) return;
+    if (!$cover.value) return;
+
+    viewportWidth.value = window.innerWidth;
+
+    const contentElement = $cover.value.nextElementSibling;
+    if (!contentElement) return;
 
     const rectCover = $cover.value.getBoundingClientRect();
-    const rectLinks = props.contentElement.getBoundingClientRect();
+    const rectLinks = contentElement.getBoundingClientRect();
     const currentMaskHeight = Math.max(1, adjustedMaskHeight.value);
 
     const overlap = rectLinks.top - rectCover.bottom;
 
     const amount = overlap >= 0 ? 0 : Math.min(currentMaskHeight, Math.abs(overlap)) / currentMaskHeight;
-    const opacity = overlap >= 32 ? 0 : Math.min(32, Math.abs(overlap)) / 32;
+    //const opacity = overlap >= 32 ? 0 : Math.min(32, Math.abs(overlap)) / 32;
 
     $cover.value.style.setProperty('--mask-amount', amount + '');
     $cover.value.style.setProperty('--mask-bottom-opacity', (overlap < 16 ? 1 : 0) + '');
