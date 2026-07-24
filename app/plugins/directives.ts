@@ -3,7 +3,6 @@ import * as transitions from '@/utils/v-transition-name';
 export default defineNuxtPlugin((nuxtApp) => {
     for (const name in transitions) {
         const normal = directiveNameToCssName(name);
-        debugger;
         nuxtApp.vueApp.directive(normal, (transitions as any)[name]);
     }
 });
