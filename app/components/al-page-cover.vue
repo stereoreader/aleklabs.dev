@@ -56,7 +56,7 @@ function syncMask() {
 
 <template>
 
-    <div class="cover-wrapper" ref="$cover">
+    <div class="cover-wrapper" ref="$cover" v-transition-name="'site-cover'">
         <ClientOnly>
             <al-cover class="cover" :image-src :text />
             <template #fallback>
@@ -66,6 +66,12 @@ function syncMask() {
         <div class="logo-border"></div>
     </div>
 </template>
+
+<style lang="scss">
+::view-transition-group(site-cover) {
+    z-index: 1000;
+}
+</style>
 
 <style scoped lang="scss">
 .cover-wrapper {

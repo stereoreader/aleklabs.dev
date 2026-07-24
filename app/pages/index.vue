@@ -21,7 +21,7 @@ useSeoMeta({
 </script>
 
 <template>
-    <al-page-cover v-transition-name="['site', 'cover']" :image-src="coverImg" text="ALEK LABS"  />
+    <al-page-cover :image-src="coverImg" text="ALEK LABS"  />
     <div class="links">
         <canvas id="heartbeat"></canvas>
         <a href="https://www.linkedin.com/in/alexander-nenashev-930731288/" target="_blank">
