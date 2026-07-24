@@ -57,7 +57,12 @@ function syncMask() {
 <template>
 
     <div class="cover-wrapper" ref="$cover">
-        <al-cover class="cover" :image-src :text />
+        <ClientOnly>
+            <al-cover class="cover" :image-src :text />
+            <template #fallback>
+                <div class="cover"></div>
+            </template>
+        </ClientOnly>
         <div class="logo-border"></div>
     </div>
 </template>
@@ -106,7 +111,13 @@ function syncMask() {
 
     .cover {
         margin-bottom: 0;
+        display: block;
         width: var(--cover-width);
+        aspect-ratio: 16 / 9;
+    }
+
+    .cover-fallback {
+        object-fit: cover;
     }
 
     .logo-border {
