@@ -25,22 +25,12 @@ function push(e: PointerEvent) {
 }
 
 const isPressed = ref(false);
-const cardHeight = ref(0);
-
-const $card = useTemplateRef('$card');
-
-const aspectRatio = computed(() => {
-    cardHeight.value;
-    if (!$card.value) return;
-    const rect = $card.value.getBoundingClientRect();
-    return rect.width / rect.height;
-});
 
 </script>
 
 <template>
-    <div class="wrapper" ref="$card">
-        <nuxt-link class="card" v-resize-height="height => cardHeight = height"
+    <div class="wrapper">
+        <nuxt-link class="card"
             :href
             :class="{
                 'card--without-image': !imageSrc,
@@ -60,6 +50,7 @@ const aspectRatio = computed(() => {
                 </p>
             </div>
             <div class="hover-border"></div>
+            <div class="hover-border-blur"></div>
         </nuxt-link>
     </div>
 </template>
@@ -140,7 +131,8 @@ const aspectRatio = computed(() => {
     }
 
 
-    .hover-border {
+    .hover-border,
+    .hover-border-blur {
         display: none;
     }
 
@@ -164,7 +156,7 @@ const aspectRatio = computed(() => {
             opacity: calc(.01 * var(--push-z) + v-bind(opacity));
         }
 
-        .hover-border {
+        .hover-border-blur {
             display: block;
             border-radius: var(--border-radius);
             z-index: 1;
@@ -172,18 +164,24 @@ const aspectRatio = computed(() => {
             position: absolute;
             inset: 0;
             border: 2px solid transparent;
+
+            --mask-opacity: .98;
+
             background:
                 conic-gradient(from var(--angle), rgb(0, 162, 255), rgba(0, 255, 42, 0), rgba(0, 255, 42, 0), rgb(0, 162, 255)) border-box;
             mask:
-                linear-gradient(#000 0 0) content-box,
-                linear-gradient(#000 0 0);
+                linear-gradient(rgba(0 0 0 / var(--mask-opacity)) 0 0) content-box,
+                linear-gradient(rgba(0 0 0 / var(--mask-opacity)) 0 0);
             mask-composite: exclude;
 
-            --aspect-ratio: v-bind(aspectRatio);
-            --corner-angle: atan(var(--aspect-ratio));
-
-            animation: spin 4s infinite;
+            animation: spin 3s linear infinite;
         }
+
+        // .hover-border-blur {
+        //     filter: blur(25px);
+        //     z-index: 2;
+        //     box-shadow: 0 0 30px white;
+        // }
 
     }
 
