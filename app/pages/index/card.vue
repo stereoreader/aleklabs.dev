@@ -25,11 +25,22 @@ function push(e: PointerEvent) {
 }
 
 const isPressed = ref(false);
+const cardHeight = ref(0);
+
+const $card = useTemplateRef('$card');
+
+const aspectRatio = computed(() => {
+    cardHeight.value;
+    if (!$card.value) return;
+    const rect = $card.value.getBoundingClientRect();
+    return rect.width / rect.height;
+});
+
 </script>
 
 <template>
-    <div class="wrapper">
-        <nuxt-link class="card" v-transition-name="[href, 'article']"
+    <div class="wrapper" ref="$card">
+        <nuxt-link class="card" v-resize-height="height => cardHeight = height"
             :href
             :class="{
                 'card--without-image': !imageSrc,
@@ -41,14 +52,14 @@ const isPressed = ref(false);
             @pointerup="isPressed = false"
             @pointercancel="isPressed = false"
             @pointerleave="isPressed = false, rotate = '0', pushZ = '0'">
-            <img v-if="imageSrc" class="thumb" :src="imageSrc" :alt="title"
-                v-transition-name="[href, 'cover']">
+            <img v-if="imageSrc" class="thumb" :src="imageSrc" :alt="title">
             <div>
                 <h3 class="title">{{ title }}</h3>
                 <p class="description">
                     <slot />
                 </p>
             </div>
+            <div class="hover-border"></div>
         </nuxt-link>
     </div>
 </template>
@@ -64,6 +75,12 @@ const isPressed = ref(false);
     user-select: none;
     perspective: 800px;
 
+}
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0turn;
+    inherits: false;
 }
 
 .card {
@@ -123,6 +140,10 @@ const isPressed = ref(false);
     }
 
 
+    .hover-border {
+        display: none;
+    }
+
     &.pressed,
     &:hover,
     &:focus-visible {
@@ -143,14 +164,36 @@ const isPressed = ref(false);
             opacity: calc(.01 * var(--push-z) + v-bind(opacity));
         }
 
+        .hover-border {
+            display: block;
+            border-radius: var(--border-radius);
+            z-index: 1;
+            pointer-events: none;
+            position: absolute;
+            inset: 0;
+            border: 2px solid transparent;
+            background:
+                conic-gradient(from var(--angle), rgb(0, 162, 255), rgba(0, 255, 42, 0), rgba(0, 255, 42, 0), rgb(0, 162, 255)) border-box;
+            mask:
+                linear-gradient(#000 0 0) content-box,
+                linear-gradient(#000 0 0);
+            mask-composite: exclude;
+
+            --aspect-ratio: v-bind(aspectRatio);
+            --corner-angle: atan(var(--aspect-ratio));
+
+            animation: spin 4s infinite;
+        }
+
     }
-
-
-
 
 }
 
-
+@keyframes spin {
+    to {
+        --angle: 1turn;
+    }
+}
 
 .thumb {
     margin: calc(-1 * var(--card-padding));

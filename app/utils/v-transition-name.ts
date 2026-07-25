@@ -3,7 +3,7 @@ import { viewTransitionName } from './common';
 
 export const vTransitionName: Directive<HTMLElement, [string, string] | string> = {
     mounted(el, binding) {
-        //el.style.viewTransitionName = Array.isArray(binding.value) ? viewTransitionName(...binding.value) : binding.value;
+        el.style.viewTransitionName = Array.isArray(binding.value) ? viewTransitionName(...binding.value) : binding.value;
     },
 }
 

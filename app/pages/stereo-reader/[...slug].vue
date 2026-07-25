@@ -137,7 +137,7 @@ const titleHtml = computed(() => {
         <nuxt-link :to="alternateLangHref" v-else-if="hasAlternateLang">English</nuxt-link>
     </div>
     <div class="cover">
-        <al-cover :image-src="coverImg" v-transition-name="[$route.fullPath, 'cover']"/>
+        <al-cover :image-src="coverImg" />
         <div class="text" v-html="titleHtml">
         </div>
     </div>
@@ -160,7 +160,8 @@ const titleHtml = computed(() => {
             <div class="roadmap">
                 <nuxt-link v-if="lang !== 'ru'" to='/stereo-reader/roadmap'>From Eye-Muscle Stretching to Stereo
                     Reading:<br />My Roadmap of Functional Vision Sharpness</nuxt-link>
-                <nuxt-link v-else to='/stereo-reader/ru/roadmap'>От растяжки глазных мышц к стерео-чтению:<br />моя дорожная
+                <nuxt-link v-else to='/stereo-reader/ru/roadmap'>От растяжки глазных мышц к стерео-чтению:<br />моя
+                    дорожная
                     карта Функциональной Резкости Зрения</nuxt-link>
             </div>
             <al-markdown class="chapter" :src="content.story" />
