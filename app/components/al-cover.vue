@@ -267,7 +267,6 @@ async function waitForImages(timeout = 10000): Promise<void> {
         justify-content: center;
         align-items: center;
 
-        padding: 18%;
 
     }
 

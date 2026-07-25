@@ -104,10 +104,10 @@ function syncMask() {
             rgb(0 0 0 / var(--mask-bottom-opacity))),
         linear-gradient(#000 0 0);
     mask-position:
-        left bottom,
+        left 0 bottom -1px,
         0 0;
     mask-size:
-        100% var(--mask-height),
+        100% calc(var(--mask-height) + 1px),
         100% 100%;
     mask-repeat: no-repeat;
     mask-composite: exclude;
@@ -124,6 +124,11 @@ function syncMask() {
 
     .cover-fallback {
         object-fit: cover;
+    }
+
+    :deep(.text) {
+        padding: calc(18% + var(--mask-amount) * 10%);
+        transition: padding 300ms;
     }
 
     .logo-border {
