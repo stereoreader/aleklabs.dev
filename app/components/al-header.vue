@@ -14,9 +14,8 @@ header {
     background: color-mix(in srgb, var(--bg) 97%, transparent);
     //backdrop-filter: blur(10px);
     width: min(920px, calc(100% - 32px));
+    min-height: 64px;
     margin: 0 auto;
-    text-transform: uppercase;
-    text-align: center;
     padding-top: 16px;
     padding-bottom: 16px;
     letter-spacing: 4px;
