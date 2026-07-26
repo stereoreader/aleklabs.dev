@@ -3,7 +3,7 @@ const route = useRoute();
 const isHome = computed(() => route.fullPath === '/');
 </script>
 <template>
-    <header v-transition-name="'site-cover'" v-if="!isHome"><nuxt-link to="/"><al-logo text="ALEK LABS" style="height:100%" /></nuxt-link></header>
+    <header v-if="!isHome"><nuxt-link to="/"><al-logo text="ALEK LABS" style="height:100%" /></nuxt-link></header>
 </template>
 <style setup lang="scss">
 header {

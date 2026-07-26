@@ -56,7 +56,7 @@ function syncMask() {
 
 <template>
 
-    <div class="cover-wrapper" ref="$cover" v-transition-name="'site-cover'">
+    <div class="cover-wrapper" ref="$cover">
         <ClientOnly>
             <al-cover class="cover" :image-src :text />
             <template #fallback>
