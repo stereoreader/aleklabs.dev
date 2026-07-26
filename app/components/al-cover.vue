@@ -1,7 +1,5 @@
 <script setup lang="ts">
 
-import { vResizeHeight } from '@/utils/v-resize-height';
-
 const props = defineProps<{
     imageSrc: string,
     text?: string

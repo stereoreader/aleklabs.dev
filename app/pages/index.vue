@@ -13,6 +13,15 @@ import keyboardLayerPreview from './keyboard-layer/cover.png';
 
 import coverImg from './assets/logo.jpg';
 
+useHead({
+    link: [{
+        rel: 'preload',
+        as: 'image',
+        href: coverImg,
+        fetchpriority: 'high'
+    }]
+});
+
 useSeoMeta({
     ogTitle: 'Alek Labs - Home for productivity tools',
     ogDescription: 'Personal website of senior frontend developer Alexander Nenashev',
@@ -116,5 +125,4 @@ useSeoMeta({
         }
     }
 }
-
 </style>
