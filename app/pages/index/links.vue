@@ -1,10 +1,42 @@
 <script setup lang="ts">
 
+const $parent = useTemplateRef('$links');
+
+const delay = (ms: number) => new Promise(r => setTimeout(r, ms));
+
+let interval: any;
+const flash = async (repeat = false) => {
+    if (!$parent.value) return;
+
+    const $links = $parent.value.querySelectorAll('a');
+
+    for (const $link of $links) {
+        $link.classList.add('flash');
+        delay(150).then(() => $link.classList.remove('flash'));
+        await delay(50);
+    }
+
+    if (repeat) {
+        interval = setTimeout(() => flash(true), 5000 + 3000 * Math.random());
+    }
+
+};
+
+onMounted(() => {
+
+    setTimeout(() => flash(true), 200);
+
+});
+
+onBeforeUnmount(() => {
+    clearTimeout(interval);
+});
+
 </script>
 
 <template>
 
-    <div class="links">
+    <div class="links" ref="$links">
         <a href="https://www.linkedin.com/in/alexander-nenashev-930731288/" target="_blank">
             <img class="icon-scale-80" src="../assets/icons/linkedin.svg">
             <span>My LinkedIn profile</span>
@@ -71,7 +103,8 @@
             display: none;
         }
 
-        &:hover {
+        &:hover,
+        &.flash {
             filter: saturate(var(--saturate-base));
             opacity: 1;
             transform: scale(1.1);
@@ -91,6 +124,10 @@
                 transform: translateX(-50%);
                 text-align: center;
             }
+        }
+
+        &.flash span {
+            display: none;
         }
     }
 }

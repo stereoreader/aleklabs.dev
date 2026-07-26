@@ -16,7 +16,7 @@ function push(e: PointerEvent) {
     const $card = e.currentTarget as HTMLDivElement;
     const { top, height } = $card.getBoundingClientRect();
     const pos = (e.clientY - top) / height;
-    console.log(pos);
+    //console.log(pos);
     rotate.value = (0.5 - pos) * 8 + 'deg';
     hoverColor.value = pos > .5 ? '#000' : '#fff';
     isDown.value = pos > .5;
