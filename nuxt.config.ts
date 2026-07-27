@@ -28,6 +28,7 @@ export default defineNuxtConfig({
     experimental: {
         payloadExtraction: false,
         viewTransition: true
+
     },
 
 
@@ -68,6 +69,15 @@ export default defineNuxtConfig({
         client: false
     },
 
+    hooks: {
+        'build:manifest'(manifest) {
+            for (const item of Object.values(manifest)) {
+                item.dynamicImports = [];
+                item.prefetch = false;
+            }
+        }
+    },
+
     vite: {
         build: {
             sourcemap: false
@@ -76,11 +86,21 @@ export default defineNuxtConfig({
         plugins: [
             imagetools({
                 removeMetadata: true,
-                defaultDirectives: function defaultDirectives(url) {
+                defaultDirectives: async function defaultDirectives(url, metadata) {
+
                     const directives = new URLSearchParams();
 
                     if (!/\.(png|jpe?g)$/i.test(url.pathname)) {
                         return directives;
+                    }
+
+                    if (!url.searchParams.has('w') && !url.searchParams.has('h')) {
+                        const imageMetadata = await metadata();
+                        const sourceWidth = imageMetadata.autoOrient?.width ?? imageMetadata.width;
+
+                        if (sourceWidth > 920) {
+                            directives.set('w', '920');
+                        }
                     }
 
                     const filePath = url.protocol === 'file:'
