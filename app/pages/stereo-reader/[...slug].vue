@@ -137,7 +137,7 @@ const titleHtml = computed(() => {
         <nuxt-link :to="alternateLangHref" v-else-if="hasAlternateLang">English</nuxt-link>
     </div>
     <div class="cover">
-        <al-cover :image-src="coverImg" />
+        <al-cover :image-src="coverImg" v-transition-target="[$route.fullPath, 'cover']"/>
         <div class="text" v-html="titleHtml">
         </div>
     </div>

@@ -19,7 +19,7 @@ useHead({
 
 <template>
     <al-header />
-    <main>
+    <main v-transition-target="[$route.fullPath, 'article']">
         <slot />
     </main>
 </template>

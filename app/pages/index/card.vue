@@ -31,6 +31,7 @@ const isPressed = ref(false);
 <template>
     <div class="wrapper">
         <nuxt-link class="card"
+            v-transition-source="[href, 'article']"
             :href
             :class="{
                 'card--without-image': !imageSrc,
@@ -42,7 +43,7 @@ const isPressed = ref(false);
             @pointerup="isPressed = false"
             @pointercancel="isPressed = false"
             @pointerleave="isPressed = false, rotate = '0', pushZ = '0'">
-            <img v-if="imageSrc" class="thumb" :src="imageSrc" :alt="title">
+            <img v-if="imageSrc" class="thumb" :src="imageSrc" :alt="title" v-transition-source="[href, 'cover']">
             <div>
                 <h3 class="title">{{ title }}</h3>
                 <p class="description">
