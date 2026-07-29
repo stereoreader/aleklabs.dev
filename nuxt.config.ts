@@ -81,6 +81,7 @@ export default defineNuxtConfig({
             for (const item of Object.values(manifest)) {
                 item.dynamicImports = [];
                 item.prefetch = false;
+                item.preload = false;
             }
         }
     },
@@ -92,9 +93,19 @@ export default defineNuxtConfig({
     vite: {
         build: {
             sourcemap: false,
-            cssCodeSplit: false
+            cssCodeSplit: false,
+            modulePreload: {
+                polyfill: false,
+                resolveDependencies() {
+                    return [];
+                }
+            },
+            rollupOptions: {
+                output: {
+                    experimentalMinChunkSize: 2048
+                }
+            }
         },
-
         plugins: [
             imagetools({
                 removeMetadata: true,
