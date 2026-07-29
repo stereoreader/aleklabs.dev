@@ -27,8 +27,15 @@ export default defineNuxtConfig({
 
     experimental: {
         payloadExtraction: false,
-        viewTransition: true
-
+        viewTransition: true,
+        defaults: {
+            nuxtLink: {
+                prefetchOn: {
+                    interaction: true,
+                    visibility: false
+                }
+            }
+        }
     },
 
 
@@ -78,9 +85,14 @@ export default defineNuxtConfig({
         }
     },
 
+    features: {
+        inlineStyles: false
+    },
+
     vite: {
         build: {
-            sourcemap: false
+            sourcemap: false,
+            cssCodeSplit: false
         },
 
         plugins: [

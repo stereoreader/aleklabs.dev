@@ -84,11 +84,11 @@ function getMarkdownReadingStats(markdown: string, wordsPerMinute = 200): Markdo
 
 <template>
     <div class="topbar">
-        <span>Read on:</span>
+        <span class="label">Read on:</span>
         <a
             v-for="link of links"
             target="_blank"
-            :href="link.link"><img :src="link.iconUrl">{{ link.title }}</a>
+            :href="link.link"><img :src="link.iconUrl"><span>{{ link.title }}</span></a>
     </div>
     <div class="article" v-transition-target="[$route.fullPath, 'article']">
         <img :src="article.coverUrl" class="article-cover" v-transition-target="[$route.fullPath, 'cover']">
@@ -117,7 +117,13 @@ function getMarkdownReadingStats(markdown: string, wordsPerMinute = 200): Markdo
     display: flex;
     gap: 32px;
     align-items: center;
-    margin-bottom: 16px;
+    justify-content: center;
+    margin-bottom: 24px;
+
+    .label {
+        font-size: smaller;
+        color: #888;
+    }
 
     a {
         display: flex;
@@ -127,6 +133,13 @@ function getMarkdownReadingStats(markdown: string, wordsPerMinute = 200): Markdo
 
         img {
             width: 32px;
+            filter: drop-shadow(0 0 4px rgba(255 255 255 / .3));
+        }
+
+        span {
+            @media (max-width: 600px) {
+                display: none;
+            }
         }
     }
 }
