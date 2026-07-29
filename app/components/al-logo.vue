@@ -3,7 +3,7 @@ import { gsap } from 'gsap';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
 
-import { downloadGoogleFont, type GlyphPaths, textToGlyphPaths, createPushTargetPath } from '@/utils/al-logo';
+import glyphData from '@/assets/generated/glyphs.json';
 
 gsap.registerPlugin(MotionPathPlugin, MorphSVGPlugin);
 
@@ -11,6 +11,43 @@ const glyphDelay = 0.15;
 const drawingSpeed = 50;
 const globalDelay = 0;
 const dotRadius = 2.5;
+const letterSpacing = 8;
+
+type GeneratedGlyphPathCommand = {
+    type: string;
+    x?: number;
+    y?: number;
+    x1?: number;
+    y1?: number;
+    x2?: number;
+    y2?: number;
+};
+
+type GeneratedGlyphStroke = {
+    commands: GeneratedGlyphPathCommand[];
+};
+
+type GeneratedGlyph = {
+    advanceWidth: number;
+    commands: GeneratedGlyphPathCommand[];
+    strokes: GeneratedGlyphStroke[];
+    kerning: Record<string, number>;
+};
+
+type GeneratedGlyphData = {
+    unitsPerEm: number;
+    glyphs: Record<string, GeneratedGlyph>;
+};
+
+type GlyphStroke = {
+    path: string;
+    length: number;
+};
+
+type GlyphPaths = {
+    fillPath: string;
+    strokes: GlyphStroke[];
+};
 
 const { size = 128, ...props } = defineProps<{
     text: string,
@@ -18,31 +55,53 @@ const { size = 128, ...props } = defineProps<{
 }>();
 
 const $svg = ref<SVGSVGElement | null>(null);
+const generatedGlyphData = glyphData as GeneratedGlyphData;
 
 const textPaths = ref<GlyphPaths[]>([]);
 const textWidth = ref(0);
-
-const showText = ref(false);
-const loaded = ref(false);
 
 let animationContext: ReturnType<typeof gsap.context> | undefined;
 let animationTimeline: ReturnType<typeof gsap.timeline> | undefined;
 let replayInterval: ReturnType<typeof setInterval> | undefined;
 
+watch(() => [props.text, size], syncLogoPath, { immediate: true });
+
 onMounted(() => {
-    watch(loaded, async () => {
-        showText.value = true;
+    watch(() => [props.text, size], async () => {
+        if (replayInterval !== undefined) {
+            clearInterval(replayInterval);
+            replayInterval = undefined;
+        }
+
+        animationContext?.revert();
+        animationTimeline = undefined;
 
         await nextTick();
+
+        const svg = $svg.value;
+
+        if (!svg) {
+            return;
+        }
+
+        const strokeElements = svg.querySelectorAll<SVGPathElement>('.stroke path');
+        let elementIndex = 0;
+
+        for (const glyph of textPaths.value) {
+            for (const stroke of glyph.strokes) {
+                const path = strokeElements[elementIndex];
+
+                elementIndex++;
+                stroke.length = path?.getTotalLength() ?? 0;
+            }
+        }
 
         createAnimation();
 
         replayInterval = setInterval(() => {
             animationTimeline?.restart();
         }, 10000);
-    });
-
-    createLogoPath();
+    }, { immediate: true, flush: 'post' });
 });
 
 onBeforeUnmount(() => {
@@ -53,26 +112,87 @@ onBeforeUnmount(() => {
     animationContext?.revert();
 });
 
-const ascii =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
-    'abcdefghijklmnopqrstuvwxyz' +
-    '0123456789' +
-    ' .,;:!?\'"()[]{}+-=*/\\_@#$%^&|<>';
+function syncLogoPath() {
+    const nextTextPaths: GlyphPaths[] = [];
+    const scale = size / generatedGlyphData.unitsPerEm;
+    const fallbackGlyph = generatedGlyphData.glyphs[' '];
+    let x = 0;
 
-async function createLogoPath() {
-    const buffer = await downloadGoogleFont('Share Tech', 400, ascii);
+    for (let glyphIndex = 0; glyphIndex < props.text.length; glyphIndex++) {
+        const character = props.text[glyphIndex]!;
+        const glyph = generatedGlyphData.glyphs[character] ?? fallbackGlyph;
 
-    const { paths, width } = textToGlyphPaths(buffer, props.text, {
-        fontSize: size,
-        baseline: size,
-        letterSpacing: 8,
-        kerning: true,
-        detectCornerAngle: 30
-    });
+        if (!glyph) {
+            continue;
+        }
 
-    textPaths.value = paths;
-    textWidth.value = width;
-    loaded.value = true;
+        nextTextPaths.push({
+            fillPath: toPathData(glyph.commands, x, scale),
+            strokes: glyph.strokes.map(stroke => ({
+                path: toPathData(stroke.commands, x, scale),
+                length: 0
+            }))
+        });
+
+        x += glyph.advanceWidth * scale;
+
+        const nextCharacter = props.text[glyphIndex + 1];
+
+        if (nextCharacter !== undefined) {
+            x += (glyph.kerning[nextCharacter] ?? 0) * scale + letterSpacing;
+        }
+    }
+
+    textPaths.value = nextTextPaths;
+    textWidth.value = x;
+
+    function toPathData(
+        commands: GeneratedGlyphPathCommand[],
+        offsetX: number,
+        pathScale: number
+    ): string {
+        let pathData = '';
+
+        for (const command of commands) {
+            switch (command.type) {
+                case 'M':
+                case 'L':
+                    pathData += `${command.type}${formatX(command.x)} ${formatY(command.y)}`;
+                    break;
+
+                case 'C':
+                    pathData +=
+                        `C${formatX(command.x1)} ${formatY(command.y1)} ` +
+                        `${formatX(command.x2)} ${formatY(command.y2)} ` +
+                        `${formatX(command.x)} ${formatY(command.y)}`;
+                    break;
+
+                case 'Q':
+                    pathData +=
+                        `Q${formatX(command.x1)} ${formatY(command.y1)} ` +
+                        `${formatX(command.x)} ${formatY(command.y)}`;
+                    break;
+
+                case 'Z':
+                    pathData += 'Z';
+                    break;
+            }
+        }
+
+        return pathData;
+
+        function formatX(value: number | undefined): string {
+            return formatNumber((value ?? 0) * pathScale + offsetX);
+        }
+
+        function formatY(value: number | undefined): string {
+            return formatNumber((value ?? 0) * pathScale);
+        }
+
+        function formatNumber(value: number): string {
+            return (Math.round(value * 1000) / 1000).toString();
+        }
+    }
 }
 
 function createAnimation(): void {
@@ -174,7 +294,7 @@ function createAnimation(): void {
 
                 const pathLength = MotionPathPlugin.getLength(rawPath);
                 const sampleDistance = 2;
-                const sampleProgress = sampleDistance / pathLength;
+                const sampleProgress = pathLength > 0 ? sampleDistance / pathLength : 0;
 
                 const flashDuration = 0.35;
 
@@ -282,7 +402,7 @@ function createAnimation(): void {
 
 <template>
     <svg
-        v-if="showText"
+        v-if="textPaths.length > 0"
         ref="$svg"
         id="animated-text"
         :viewBox="`0 0 ${textWidth} ${size + 10}`"
@@ -409,9 +529,7 @@ function createAnimation(): void {
                     v-for="(stroke, strokeIndex) in glyph.strokes"
                     :id="`stroke-${glyphIndex}-${strokeIndex}`"
                     :key="`trace-${glyphIndex}-${strokeIndex}`"
-                    :d="stroke.path"
-                    :stroke-dasharray="stroke.length"
-                    :stroke-dashoffset="stroke.length" />
+                    :d="stroke.path" />
             </template>
         </g>
 

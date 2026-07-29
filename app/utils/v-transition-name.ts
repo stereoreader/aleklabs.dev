@@ -25,7 +25,6 @@ export const vTransitionSource: Directive<HTMLElement, [string, string]> = {
         elems.delete(el);
     },
     mounted(el, binding, vnodes) {
-        debugger;
 
         const name = viewTransitionName(...binding.value);
 
@@ -43,7 +42,6 @@ export const vTransitionSource: Directive<HTMLElement, [string, string]> = {
                 /\b_blank\b/i.test(el.getAttribute('target') ?? '')
             ) return;
 
-            debugger;
             pendingSourceEl = el;
 
             const related: HTMLElement[] = [el];

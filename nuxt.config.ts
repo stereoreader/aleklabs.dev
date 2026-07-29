@@ -130,7 +130,11 @@ export default defineNuxtConfig({
         },
     },
 
-    modules: ['@nuxtjs/sitemap', 'nuxt-site-config'],
+    modules: [
+        '@nuxtjs/sitemap',
+        'nuxt-site-config',
+        fileURLToPath(new URL('./modules/glyph-data/module.ts', import.meta.url)),
+    ],
 
     site: {
         url: 'https://aleklabs.dev',
