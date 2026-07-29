@@ -94,12 +94,12 @@ export default defineNuxtConfig({
         build: {
             sourcemap: false,
             cssCodeSplit: false,
-            modulePreload: {
-                polyfill: false,
-                resolveDependencies() {
-                    return [];
-                }
-            },
+            // modulePreload: {
+            //     polyfill: false,
+            //     resolveDependencies() {
+            //         return [];
+            //     }
+            // },
             rollupOptions: {
                 output: {
                     experimentalMinChunkSize: 2048
