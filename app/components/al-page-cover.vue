@@ -57,12 +57,7 @@ function syncMask() {
 <template>
 
     <div class="cover-wrapper" ref="$cover">
-        <ClientOnly>
-            <al-cover class="cover" :image-src :text />
-            <template #fallback>
-                <div class="cover"></div>
-            </template>
-        </ClientOnly>
+        <al-cover class="cover" :image-src :text />
         <div class="logo-border"></div>
     </div>
 </template>

@@ -66,7 +66,10 @@ let replayInterval: ReturnType<typeof setInterval> | undefined;
 
 watch(() => [props.text, size], syncLogoPath, { immediate: true });
 
+const isMounted = ref(false);
+
 onMounted(() => {
+
     watch(() => [props.text, size], async () => {
         if (replayInterval !== undefined) {
             clearInterval(replayInterval);
@@ -96,6 +99,8 @@ onMounted(() => {
             }
         }
 
+        isMounted.value = true;
+        await nextTick();
         createAnimation();
 
         replayInterval = setInterval(() => {
@@ -403,6 +408,7 @@ function createAnimation(): void {
 <template>
     <svg
         v-if="textPaths.length > 0"
+        v-show="isMounted"
         ref="$svg"
         id="animated-text"
         :viewBox="`0 0 ${textWidth} ${size + 10}`"
@@ -558,7 +564,7 @@ function createAnimation(): void {
     .glowing-dots {
         $color: #0088ff;
         filter:
-            drop-shadow(0 0 2px rgb(255 255 255)) drop-shadow(0 0 5px rgba($color, 100%)) drop-shadow(0 0 12px rgba($color,  80%));
+            drop-shadow(0 0 2px rgb(255 255 255)) drop-shadow(0 0 5px rgba($color, 100%)) drop-shadow(0 0 12px rgba($color, 80%));
     }
 }
 </style>
