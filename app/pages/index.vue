@@ -33,10 +33,7 @@ useSeoMeta({
 <template>
     <al-page-cover :image-src="coverImg" text="ALEK LABS" />
     <links-cmp />
-    <section class="tools" aria-label="Production experience">
-        <h2><al-icon icon="experience" />Production experience</h2>
-        <experience-cmp />
-    </section>
+
     <section class="tools" aria-label="Alek Labs Projects">
         <h2><al-icon icon="labs" />Alek Labs Projects</h2>
         <card-cmp
@@ -75,6 +72,11 @@ useSeoMeta({
     <section class="tools" aria-label="Articles">
         <h2><al-icon icon="information" />Articles</h2>
         <articles-cmp />
+    </section>
+
+    <section class="tools" aria-label="Production experience">
+        <h2><al-icon icon="experience" />Production experience</h2>
+        <experience-cmp />
     </section>
 </template>
 
