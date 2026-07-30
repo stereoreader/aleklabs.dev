@@ -9,8 +9,8 @@
 :root {
     color-scheme: dark;
     --bg: #0b0b0d;
-    --panel: #121318;
-    --panel-hover: #161821;
+    --panel: color-mix(in srgb, #121318 85%, transparent);
+    --panel-hover: color-mix(in srgb, #161821 85%, transparent);
     --text: #f1f1f3;
     --muted: #b8bac4;
     --border: #2d303a;
