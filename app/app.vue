@@ -4,8 +4,8 @@ import coverImg from './pages/assets/logo.jpg';
 <template>
     <div>
         <!-- <al-page-cover text="ALEK LABS" :image-src="coverImg" /> -->
-        <NuxtLayout>
-            <NuxtPage />
-        </NuxtLayout>
+        <nuxt-layout>
+            <nuxt-page />
+        </nuxt-layout>
     </div>
 </template>

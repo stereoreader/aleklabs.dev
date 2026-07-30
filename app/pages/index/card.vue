@@ -31,6 +31,7 @@ const isPressed = ref(false);
 <template>
     <div class="wrapper">
         <nuxt-link class="card"
+            data-glowing-blob-parent
             v-transition-source="[href, 'article']"
             :href
             :class="{
@@ -43,8 +44,11 @@ const isPressed = ref(false);
             @pointerup="isPressed = false"
             @pointercancel="isPressed = false"
             @pointerleave="isPressed = false, rotate = '0', pushZ = '0'">
+            <div class="blob-layer">
+                <al-glowing-blob />
+            </div>
             <img v-if="imageSrc" class="thumb" :src="imageSrc" :alt="title" v-transition-source="[href, 'cover']">
-            <div>
+            <div class="body">
                 <h3 class="title">{{ title }}</h3>
                 <p class="description">
                     <slot />
@@ -98,6 +102,21 @@ const isPressed = ref(false);
     text-decoration: none;
     overflow: hidden;
 
+    .blob-layer {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 260ms ease;
+    }
+
+    .thumb,
+    .body {
+        position: relative;
+        z-index: 1;
+    }
+
     &.pressed {
         --push-rotate: 2;
         --push-z: 2;
@@ -118,6 +137,7 @@ const isPressed = ref(false);
         inset: 0;
         display: block;
         position: absolute;
+        z-index: 3;
         pointer-events: none;
         transition: opacity var(--transition-duration);
 
@@ -135,6 +155,13 @@ const isPressed = ref(false);
     .hover-border,
     .hover-border-blur {
         display: none;
+        z-index: 4;
+    }
+
+    &:hover {
+        .blob-layer {
+            opacity: 1;
+        }
     }
 
     &.pressed,
@@ -160,7 +187,7 @@ const isPressed = ref(false);
         .hover-border-blur {
             display: block;
             border-radius: var(--border-radius);
-            z-index: 1;
+            z-index: 4;
             pointer-events: none;
             position: absolute;
             inset: 0;
