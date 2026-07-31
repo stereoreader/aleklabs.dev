@@ -1,6 +1,6 @@
 declare global {
     interface Window {
-        dataLayer: unknown[][];
+        dataLayer: unknown[];
         gtag: (...args: unknown[]) => void;
     }
 }
@@ -32,13 +32,15 @@ export default defineNuxtPlugin(() => {
         if (started) return;
 
         started = true;
-        window.dataLayer = [];
+        window.dataLayer = window.dataLayer || [];
         window.gtag = function gtag(...args: unknown[]) {
-            window.dataLayer.push(args);
+            window.dataLayer.push(arguments);
         };
 
         window.gtag('js', new Date());
-        window.gtag('config', measurementId);
+        window.gtag('config', measurementId, {
+            product_surface: 'website'
+        });
 
         const script = document.createElement('script');
 
