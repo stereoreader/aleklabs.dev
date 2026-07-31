@@ -8,13 +8,17 @@ const props = defineProps<{
 const rotate = ref('0');
 const hoverColor = ref('#fff');
 const pushZ = ref('0');
+const borderAngle = ref('0deg');
+const borderAngleTransition = ref('750ms cubic-bezier(.34, 1.56, .64, 1)');
+const isBorderSpinning = ref(false);
 
 const isDown = ref(false);
 const opacity = ref(0);
+let spinRestartTimer: ReturnType<typeof setTimeout> | null = null;
 
-function push(e: PointerEvent) {
+function push(e: PointerEvent, immediateAngle = false) {
     const $card = e.currentTarget as HTMLDivElement;
-    const { top, height } = $card.getBoundingClientRect();
+    const { left, top, width, height } = $card.getBoundingClientRect();
     const pos = (e.clientY - top) / height;
     //console.log(pos);
     rotate.value = (0.5 - pos) * 8 + 'deg';
@@ -22,9 +26,38 @@ function push(e: PointerEvent) {
     isDown.value = pos > .5;
     pushZ.value = (0.5 - Math.abs(0.5 - pos)) * -8 + 'px';
     opacity.value = (1 - pos) * .1;
+
+    const centerX = left + width / 2;
+    const centerY = top + height / 2;
+    const angle = (Math.atan2(e.clientY - centerY, e.clientX - centerX) * 180 / Math.PI + 450) % 360;
+
+    borderAngleTransition.value = immediateAngle
+        ? '0s'
+        : '750ms cubic-bezier(.34, 1.56, .64, 1)';
+    borderAngle.value = `${angle}deg`;
+    isBorderSpinning.value = false;
+    clearSpinRestartTimer();
+    spinRestartTimer = setTimeout(() => {
+        isBorderSpinning.value = true;
+        spinRestartTimer = null;
+    }, 500);
 }
 
 const isPressed = ref(false);
+
+function clearSpinRestartTimer(): void {
+    if (spinRestartTimer === null) {
+        return;
+    }
+
+    clearTimeout(spinRestartTimer);
+    spinRestartTimer = null;
+}
+
+onBeforeUnmount(() => {
+
+    clearSpinRestartTimer();
+});
 
 </script>
 
@@ -39,11 +72,12 @@ const isPressed = ref(false);
                 down: isDown,
                 pressed: isPressed
             }"
+            @pointerenter="event => push(event, true)"
             @pointermove="event => push(event)"
             @pointerdown.prevent="event => (isPressed = true, push(event))"
             @pointerup="isPressed = false"
             @pointercancel="isPressed = false"
-            @pointerleave="isPressed = false, rotate = '0', pushZ = '0'">
+            @pointerleave="isPressed = false, rotate = '0', pushZ = '0', isBorderSpinning = false, clearSpinRestartTimer()">
             <div class="blob-layer">
                 <al-glowing-blob />
             </div>
@@ -55,7 +89,7 @@ const isPressed = ref(false);
                 </p>
             </div>
             <div class="hover-border"></div>
-            <div class="hover-border-blur"></div>
+            <div class="hover-border-blur" :class="{ spinning: isBorderSpinning }" :style="{ '--angle': borderAngle }"></div>
         </nuxt-link>
     </div>
 </template>
@@ -74,6 +108,12 @@ const isPressed = ref(false);
 }
 
 @property --angle {
+    syntax: "<angle>";
+    initial-value: 0turn;
+    inherits: false;
+}
+
+@property --spin-angle {
     syntax: "<angle>";
     initial-value: 0turn;
     inherits: false;
@@ -194,14 +234,18 @@ const isPressed = ref(false);
             border: 2px solid transparent;
 
             --mask-opacity: .98;
+            --spin-angle: 0turn;
 
             background:
-                conic-gradient(from var(--angle), rgb(0, 162, 255), rgba(0, 255, 42, 0), rgba(0, 255, 42, 0), rgb(0, 162, 255)) border-box;
+                conic-gradient(from calc(var(--angle) + var(--spin-angle)), rgb(0, 162, 255), rgba(0, 255, 42, 0), rgba(0, 255, 42, 0), rgb(0, 162, 255)) border-box;
             mask:
                 linear-gradient(rgba(0 0 0 / var(--mask-opacity)) 0 0) content-box,
                 linear-gradient(rgba(0 0 0 / var(--mask-opacity)) 0 0);
             mask-composite: exclude;
+            transition: --angle v-bind(borderAngleTransition);
+        }
 
+        .hover-border-blur.spinning {
             animation: spin 3s linear infinite;
         }
 
@@ -217,7 +261,7 @@ const isPressed = ref(false);
 
 @keyframes spin {
     to {
-        --angle: 1turn;
+        --spin-angle: 1turn;
     }
 }
 
