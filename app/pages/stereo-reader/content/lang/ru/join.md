@@ -8,6 +8,5 @@ Stereo Reader сейчас находится на ранней стадии р�
 
 * [Задать мне любой вопрос в Telegram](https://t.me/alexoran)
 * [Отправить мне email](mailto:aleklabs.dev@gmail.com?subject=Stereo%20Reader) с темой **Stereo Reader**, если хотите подписаться на будущие обновления проекта.
-* [Подписаться на subreddit](https://www.reddit.com/r/stereoreader/) и задавать вопросы там.
 * [Присоединиться к Telegram-каналу](https://t.me/stereoreader), задавать вопросы или делиться своим опытом.
 * [Подписаться на YouTube-канал](https://www.youtube.com/@IMPROVE-VISION-STEREO-READER) для будущих туториалов, объяснений и обучающих видео.
