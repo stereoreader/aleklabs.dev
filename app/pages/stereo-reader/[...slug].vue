@@ -235,13 +235,14 @@ const titleHtml = computed(() => {
 
 .hook {
 
-    margin-bottom: 64px;
+    margin-top: 16px;
+    margin-bottom: 48px;
     text-align: center;
     line-height: 1em;
 
-    color: #555;
-    font-size: 48px;
-    font-weight: 500;
+    color: #777;
+    font-size: 32px;
+    font-weight: 400;
     letter-spacing: 0.08em;
 }
 
