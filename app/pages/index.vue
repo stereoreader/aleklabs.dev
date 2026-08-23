@@ -80,14 +80,14 @@ const stereoReaderCardBackground = `url("${stereoReaderCardBg}")`;
             websites, comparing algorithms and data transformations, and learning how to write high-performance
             JavaScript.
         </card-cmp>
-        <card-cmp
+        <!-- <card-cmp
             href="https://chromewebstore.google.com/detail/youtube-send-to-ai-chat/jfclfogdljgmnbbkdpkbnmfkfaahelhp"
             title="Youtube: Send to AI chat"
             :image-src="youtubeChatPreview">
             A browser extension that sends YouTube transcripts to AI chats for
             timestamped summaries, Q&amp;A, inline video playback, clickable timestamp navigation, and
             customizable prompts.
-        </card-cmp>
+        </card-cmp> -->
     </section>
 
     <section class="tools" aria-label="Articles">
