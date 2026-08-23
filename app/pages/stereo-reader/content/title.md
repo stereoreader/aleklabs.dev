@@ -1,5 +1,5 @@
 # STEREO READER
 
-Improve your vision while reading your favorite books in stereo mode
+Parallel-view reader and eye trainer
 
 [Open application](/stereo-reader/app/)

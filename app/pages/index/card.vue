@@ -1,4 +1,7 @@
 <script setup lang="ts">
+
+defineOptions({inheritAttrs: false});
+
 const props = defineProps<{
     href: string,
     title: string,
@@ -64,6 +67,7 @@ onBeforeUnmount(() => {
 <template>
     <div class="wrapper">
         <nuxt-link class="card"
+            :="$attrs"
             data-glowing-blob-parent
             v-transition-source="[href, 'article']"
             :href

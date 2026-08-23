@@ -10,6 +10,7 @@ import stereoReaderPreview from './stereo-reader/assets/logo.svg';
 import youtubeChatPreview from './assets/youtube-send-to-ai-chat.png';
 import jsbenchPreview from './js-benchmark/assets/cover.png';
 import keyboardLayerPreview from './keyboard-layer/cover.png';
+import stereoReaderCardBg from './assets/stereo-reader-card-bg.png';
 
 import coverImg from './assets/logo.jpg';
 
@@ -28,6 +29,8 @@ useSeoMeta({
     ogImage: new URL('./assets/logo.jpg', import.meta.url).pathname
 });
 
+const stereoReaderCardBackground = `url("${stereoReaderCardBg}")`;
+
 </script>
 
 <template>
@@ -37,11 +40,29 @@ useSeoMeta({
     <section class="tools" aria-label="Alek Labs Projects">
         <h2><al-icon icon="labs" />Alek Labs Projects</h2>
         <card-cmp
+            class="stereo-reader-card"
             href="/stereo-reader"
             title="Stereo Reader"
             :image-src="stereoReaderPreview">
-            A reader aimed to improve vision by training or relaxing your eyes while
-            reading books. Supports text, PDF, EPUB, and FB2 files in stereo or mono mode.
+            <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px;">
+                <div style="font-size: 20px; font-weight: 300; line-height: 1.3;">
+                    Parallel-view reader and eye trainer
+                </div>
+
+                <div class="stereo-reader-button">
+                    <span>Explore Stereo Reader</span><svg width="32px" height="32px"
+                        viewBox="0 0 15.00 15.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"
+                        stroke-width="0.00015000000000000001">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M0 7.5C0 3.35786 3.35786 0 7.5 0C11.6421 0 15 3.35786 15 7.5C15 11.6421 11.6421 15 7.5 15C3.35786 15 0 11.6421 0 7.5ZM8.50008 4.79285L11.2072 7.49995L8.50008 10.2071L7.79297 9.49995L9.29292 8H4V7H9.29302L7.79297 5.49995L8.50008 4.79285Z"
+                                fill="#ffffff"></path>
+                        </g>
+                    </svg>
+                </div>
+            </div>
         </card-cmp>
         <card-cmp
             href="/keyboard-layer"
@@ -81,6 +102,43 @@ useSeoMeta({
 </template>
 
 <style scoped lang="scss">
+:deep(.stereo-reader-card::before) {
+    content: '';
+    position: absolute;
+    display: block;
+    inset: 0;
+    z-index: 1;
+    opacity: .3;
+    background-position:  right center ;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: v-bind(stereoReaderCardBackground);
+}
+
+.stereo-reader-button {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 8px 32px;
+    border: 1px solid rgb(130 205 255 / 55%);
+    border-radius: 999px;
+    background: linear-gradient(110deg, rgb(90 190 255 / 14%), rgb(150 110 255 / 14%));
+    box-shadow: 0 0 12px rgb(110 180 255 / 20%);
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.8;
+
+    > *:first-child {
+        position: relative;
+        top: -3px;
+    }
+
+    > *:last-child {
+        position: relative;
+        left: 20px;
+    }
+}
+
 .tools {
     margin-bottom: 32px;
 

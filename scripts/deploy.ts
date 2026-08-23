@@ -1,7 +1,9 @@
 import { spawn } from 'node:child_process';
 import { constants } from 'node:fs';
-import { access, cp, readdir, rm, stat } from 'node:fs/promises';
+import { access, cp, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+
+const APP_ASSET_GENERATION_RETENTION = 4;
 
 void main().catch((error: unknown) => {
     console.error('[deploy] Deployment failed');
@@ -25,7 +27,7 @@ async function main(): Promise<void> {
     await assertDirectoryExists(stereoReaderAppDir);
     await assertDirectoryExists(stereoReaderAppBetaDir);
 
-    const exceptions = ['.git', 'CNAME'];
+    const exceptions = ['.git', 'CNAME', 'stereo-reader'];
     console.log('[deploy] Clearing build folder except ' + exceptions.join(', '));
     for (const entry of await readdir(buildDir)) {
         if (exceptions.includes(entry)) {
@@ -39,10 +41,10 @@ async function main(): Promise<void> {
     await cp(publicDir, buildDir, { recursive: true, force: true });
 
     console.log('[deploy] Copying Stereo Reader app into build/stereo-reader/app');
-    await cp(stereoReaderAppDir, stereoReaderBuildAppDir, { recursive: true, force: true });
+    await copyStereoReaderApp(stereoReaderAppDir, stereoReaderBuildAppDir);
 
     console.log('[deploy] Copying Stereo Reader app beta into build/stereo-reader/app-beta');
-    await cp(stereoReaderAppBetaDir, stereoReaderBuildAppBetaDir, { recursive: true, force: true });
+    await copyStereoReaderApp(stereoReaderAppBetaDir, stereoReaderBuildAppBetaDir);
 
 
     console.log('[deploy] Reading latest source repo commit message');
@@ -72,6 +74,123 @@ async function main(): Promise<void> {
 
         if (!directoryStats.isDirectory()) {
             throw new Error(`Expected a directory: ${directoryPath}`);
+        }
+    }
+
+    async function copyStereoReaderApp(sourceAppDir: string, buildAppDir: string): Promise<void> {
+
+        const assetGenerations = await getAssetGenerations(buildAppDir);
+        const sourceAssetsDir = resolve(sourceAppDir, 'assets');
+        const currentAssetPaths = new Set((await getFiles(sourceAssetsDir)).map(filePath =>
+            `assets/${filePath.slice(sourceAssetsDir.length + 1).replaceAll('\\', '/')}`
+        ));
+
+        if (await isDirectory(buildAppDir)) {
+            for (const entry of await readdir(buildAppDir)) {
+                if (entry === 'assets') {
+                    continue;
+                }
+
+                await rm(resolve(buildAppDir, entry), { recursive: true, force: true });
+            }
+        }
+
+        await cp(sourceAppDir, buildAppDir, { recursive: true, force: true });
+
+        const currentPrecachedAssetPaths = await getPrecachedAssetPaths(buildAppDir);
+        assetGenerations.unshift([...currentPrecachedAssetPaths]);
+        assetGenerations.length = Math.min(assetGenerations.length, APP_ASSET_GENERATION_RETENTION);
+
+        const retainedAssetPaths = new Set([...currentAssetPaths, ...assetGenerations.flat()]);
+        const assetsDir = resolve(buildAppDir, 'assets');
+
+        if (!retainedAssetPaths.size || !await isDirectory(assetsDir)) {
+            return;
+        }
+
+        for (const filePath of await getFiles(assetsDir)) {
+            const assetPath = `assets/${filePath.slice(assetsDir.length + 1).replaceAll('\\', '/')}`;
+
+            if (retainedAssetPaths.has(assetPath)) {
+                continue;
+            }
+
+            await rm(filePath, { force: true });
+        }
+
+        await writeFile(resolve(buildAppDir, 'pwa-asset-generations.json'), JSON.stringify(assetGenerations));
+    }
+
+    async function getAssetGenerations(appDir: string): Promise<string[][]> {
+
+        const generationsPath = resolve(appDir, 'pwa-asset-generations.json');
+
+        try {
+            const generations = JSON.parse(await readFile(generationsPath, 'utf8'));
+
+            if (!Array.isArray(generations) || !generations.every(generation =>
+                Array.isArray(generation) && generation.every(assetPath => typeof assetPath === 'string' && assetPath.startsWith('assets/'))
+            )) {
+                throw new Error(`Invalid asset generation manifest: ${generationsPath}`);
+            }
+
+            return generations;
+        } catch (e) {
+            if ((e as NodeJS.ErrnoException).code !== 'ENOENT') {
+                throw e;
+            }
+
+            const previousAssetPaths = await getPrecachedAssetPaths(appDir);
+            return previousAssetPaths.size ? [[...previousAssetPaths]] : [];
+        }
+    }
+
+    async function getPrecachedAssetPaths(appDir: string): Promise<Set<string>> {
+
+        const serviceWorkerPath = resolve(appDir, 'service-worker.js');
+
+        try {
+            const serviceWorker = await readFile(serviceWorkerPath, 'utf8');
+            return new Set([...serviceWorker.matchAll(/"url":"(assets\/[^"]+)"/g)].map(([, assetPath]) => assetPath));
+        } catch (e) {
+            if ((e as NodeJS.ErrnoException).code !== 'ENOENT') {
+                throw e;
+            }
+
+            return new Set();
+        }
+    }
+
+    async function getFiles(directoryPath: string): Promise<string[]> {
+
+        const files: string[] = [];
+
+        for (const entry of await readdir(directoryPath, { withFileTypes: true })) {
+            const entryPath = resolve(directoryPath, entry.name);
+
+            if (entry.isDirectory()) {
+                files.push(...await getFiles(entryPath));
+                continue;
+            }
+
+            if (entry.isFile()) {
+                files.push(entryPath);
+            }
+        }
+
+        return files;
+    }
+
+    async function isDirectory(directoryPath: string): Promise<boolean> {
+
+        try {
+            return (await stat(directoryPath)).isDirectory();
+        } catch (e) {
+            if ((e as NodeJS.ErrnoException).code === 'ENOENT') {
+                return false;
+            }
+
+            throw e;
         }
     }
 

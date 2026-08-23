@@ -3,6 +3,11 @@
 import feature1Img from './assets/feature-read.png?w=250';
 import feature2Img from './assets/feature-relax.png?w=250';
 import feature3Img from './assets/feature-train.png?w=250';
+import SectionTitle from './section-title.vue';
+
+import stereoReaderCardBg from '../assets/stereo-reader-card-bg.png';
+const stereoReaderCardBackground = `url("${stereoReaderCardBg}")`;
+
 
 const foundMarkdown = import.meta.glob('./content/**/*.md', { query: '?raw', eager: true, import: 'default' }) as Record<string, string>;
 
@@ -90,7 +95,7 @@ function findContent<T extends string[]>(...pages: T) {
     return out;
 }
 
-const content = findContent('title', 'feature1', 'feature2', 'feature3', 'story', 'results', 'warning', 'app', 'goals', 'bates', 'join');
+const content = findContent('title', 'section1', 'modulations', 'section2', 'feature1', 'feature2', 'feature3', 'story', 'results', 'warning', 'app', 'goals', 'bates', 'join');
 const titleContent = content.title;
 const storyContent = folderPath ? getMarkdown(...getFolderIndexPaths(folderPath)) : '';
 const storyChapters = folderPath
@@ -132,20 +137,20 @@ const titleHtml = computed(() => {
 </script>
 
 <template>
-    <div class="lang-switch">
+    <!-- <div class="lang-switch">
         <nuxt-link :to="alternateLangHref" v-if="hasAlternateLang && lang === 'en'">Русский</nuxt-link>
         <nuxt-link :to="alternateLangHref" v-else-if="hasAlternateLang">English</nuxt-link>
-    </div>
+    </div> -->
     <div class="cover">
-        <al-cover :image-src="coverImg" v-transition-target="[$route.fullPath, 'cover']"/>
+        <al-cover :image-src="coverImg" v-transition-target="[$route.fullPath, 'cover']" />
         <div class="text" v-html="titleHtml">
         </div>
     </div>
-    <div class="features" v-if="!folderPath">
+    <!-- <div class="features" v-if="!folderPath">
         <feature-cmp :image-url="feature1Img" :src="content.feature1" />
         <feature-cmp :image-url="feature2Img" :src="content.feature2" />
         <feature-cmp :image-url="feature3Img" :src="content.feature3" />
-    </div>
+    </div> -->
     <div class="story">
         <template v-if="folderPath">
             <div class="home">
@@ -157,25 +162,106 @@ const titleHtml = computed(() => {
                 v-for="(chapter, idx) of storyChapters.slice(1)" />
         </template>
         <template v-else>
-            <div class="roadmap">
-                <nuxt-link v-if="lang !== 'ru'" to='/stereo-reader/roadmap'>From Eye-Muscle Stretching to Stereo
-                    Reading:<br />My Roadmap of Functional Vision Sharpness</nuxt-link>
-                <nuxt-link v-else to='/stereo-reader/ru/roadmap'>От растяжки глазных мышц к стерео-чтению:<br />моя
-                    дорожная
-                    карта Функциональной Резкости Зрения</nuxt-link>
+            <div class="hook">What is Stereo Reader?</div>
+            <section-title title="Parallel-view reader" />
+            <al-markdown class="chapter" :src="content.section1" />
+            <iframe class="preview"
+                src="https://aleklabs.dev/stereo-reader/app/#try"></iframe>
+
+            <div class="preview-link" v-if="lang !== 'ru'">
+                Read a book in stereo mode using parallel view<br />
+                <a href="https://aleklabs.dev/stereo-reader/app/#try"
+                    target="_blank">
+                    Open in STEREO READER
+                </a>
+            </div>
+
+            <section-title title="Eye trainer" style="margin-top:64px;" />
+            <al-markdown class="chapter" :src="content.section2" />
+            <iframe class="preview"
+                src="https://aleklabs.dev/stereo-reader/app/#modulation:H4sIAAAAAAAAA81XS0skVxT%2BL7Vuwnk%2FeheyHjIky8FFjdY4TVpbuktDEP97OFeDVt8yMCQTslK%2BOve8H18%2FDuPN4f52Hra4Ge724x%2Bfx8vffr2bpquGPEzH0%2B5w2%2F7fzdPNadh%2Behzm3byfhu0wbIbxct49TMN2Pt5Pm%2BHmMO8Otz%2FdHwt6HK7uj%2BPcnjMAbIbT1%2FFuGrafYAM%2FAIAhemIkhSUbUUNJRM1BUDDNIhqoko7irposRs9guoariaCFM3OBqEQA5gYQbhZWIGGYO5pElh1pWFqosGIGeAA3QQ5TgSRR1zTTBkq4oguIIYVFaIGaqWwW6iSgAQ10IiYx9lSXFk2oaoB7GAYENL8zIz0BXDMTpbxBVEILARVwVPDCuAIWSExkDChfUMI4A4VdFSTbWzMzArVADIPKAoYqADCDMlJ4YQSK4CYsKC5A5TCRCluCeES53eTEhAMswBSRpVwmC9B0zvBI1SaWQJIAwa4RWtoYKRXVydINuHxjNkQM1zBJRGtimuZMAs6Syi1%2BDlYPgLBM8ywDAu7mVsUxbK0hTBgMBlH58AapuYkAkIqRY0GBoqgiomzpXKlUMAwBz2C0wPJCGRJQAp0BWq1UVYXJSEkEmkUNgPI7TTwySpWBsCaUIjTzUmUUgmxGlS%2FmLEgJlTMJEdii%2FDJXJUxXTgFubW0ZYiBkrQ24dDlBIhOSmVu2HLpQkHKYJde0FGSCwkzGECBYFj0q8DDKMtt6NKquKZDhytr8ChKoRjRQCKBqqRASrfxbq0eDDKBSyOwSAJWJaLVAEUOF9MpEJKmRM4JlUstEgnONTf1RpAo7CYnZgGpavKUwWYDTqSQcoPxKUQ82Tzczb7lPNWFzchAzkqbeNJ08HS0dWwOkC1uosrvwcxtmYHWfIrAztQWQ4fU0OJU0sLKaSUrlvWkYY5PKGlJOdnDV1iWZYcSBieH8PEeZGeJAYWQqL1Ir0MrDFfULJ%2FwdV5cBaR%2B29cnhPoXWJ5q7cqzULNcre1Z%2F7rsk%2B17idzpu2Zfeda%2Fgeo%2BfTUL08%2BL9VHE%2Fe9FN6MoYUzfsza3lSoj1vbG2XRYrqE3x2aLyfp9pv%2FXWdqP2G1S8X7TU72Pu13YL4Gy7W38DjPtTIe9dlMXlEaSVC9UfMqP%2B3rVrtLyL2q7x2f1syTy7s8j9PfaVu83dccd2es9YQCvOGV14llvyinanzglIvkdUlozG01e4z9%2BxpAWfcmk3ZZV7XWyG083hMH%2Fd3V4PW9gMV8fx9w%2BHqyJ6X%2B73%2B%2BFp88IVV%2FidCiwY3jcq%2B%2Fl22H4Z96dpM8zj8XqaTx%2FfUtH%2Bc6OhS%2B65uxq2w%2FV4N2yGq2k%2Fj8MWVyntaR6P88ev42lqju1uH6bj%2FOPbwF5MPX%2F58JbSti9Pm1fTf4mW7ctSMR1%2FOczjPL16Ed%2FdiTfxf97fH19NE%2F3btsvU00UZ%2F%2FbfAP5POmSpyuD%2F0W7%2Fbckvni6e%2FgTuywAdsA0AAA%3D%3D"></iframe>
+            <div class="preview-link" v-if="lang !== 'ru'">
+                Train your eye muscles with dynamic stereo modulation<br />
+                <a href="https://aleklabs.dev/stereo-reader/app/#modulation:H4sIAAAAAAAAA81XS0skVxT%2BL7Vuwnk%2FeheyHjIky8FFjdY4TVpbuktDEP97OFeDVt8yMCQTslK%2BOve8H18%2FDuPN4f52Hra4Ge724x%2Bfx8vffr2bpquGPEzH0%2B5w2%2F7fzdPNadh%2Behzm3byfhu0wbIbxct49TMN2Pt5Pm%2BHmMO8Otz%2FdHwt6HK7uj%2BPcnjMAbIbT1%2FFuGrafYAM%2FAIAhemIkhSUbUUNJRM1BUDDNIhqoko7irposRs9guoariaCFM3OBqEQA5gYQbhZWIGGYO5pElh1pWFqosGIGeAA3QQ5TgSRR1zTTBkq4oguIIYVFaIGaqWwW6iSgAQ10IiYx9lSXFk2oaoB7GAYENL8zIz0BXDMTpbxBVEILARVwVPDCuAIWSExkDChfUMI4A4VdFSTbWzMzArVADIPKAoYqADCDMlJ4YQSK4CYsKC5A5TCRCluCeES53eTEhAMswBSRpVwmC9B0zvBI1SaWQJIAwa4RWtoYKRXVydINuHxjNkQM1zBJRGtimuZMAs6Syi1%2BDlYPgLBM8ywDAu7mVsUxbK0hTBgMBlH58AapuYkAkIqRY0GBoqgiomzpXKlUMAwBz2C0wPJCGRJQAp0BWq1UVYXJSEkEmkUNgPI7TTwySpWBsCaUIjTzUmUUgmxGlS%2FmLEgJlTMJEdii%2FDJXJUxXTgFubW0ZYiBkrQ24dDlBIhOSmVu2HLpQkHKYJde0FGSCwkzGECBYFj0q8DDKMtt6NKquKZDhytr8ChKoRjRQCKBqqRASrfxbq0eDDKBSyOwSAJWJaLVAEUOF9MpEJKmRM4JlUstEgnONTf1RpAo7CYnZgGpavKUwWYDTqSQcoPxKUQ82Tzczb7lPNWFzchAzkqbeNJ08HS0dWwOkC1uosrvwcxtmYHWfIrAztQWQ4fU0OJU0sLKaSUrlvWkYY5PKGlJOdnDV1iWZYcSBieH8PEeZGeJAYWQqL1Ir0MrDFfULJ%2FwdV5cBaR%2B29cnhPoXWJ5q7cqzULNcre1Z%2F7rsk%2B17idzpu2Zfeda%2Fgeo%2BfTUL08%2BL9VHE%2Fe9FN6MoYUzfsza3lSoj1vbG2XRYrqE3x2aLyfp9pv%2FXWdqP2G1S8X7TU72Pu13YL4Gy7W38DjPtTIe9dlMXlEaSVC9UfMqP%2B3rVrtLyL2q7x2f1syTy7s8j9PfaVu83dccd2es9YQCvOGV14llvyinanzglIvkdUlozG01e4z9%2BxpAWfcmk3ZZV7XWyG083hMH%2Fd3V4PW9gMV8fx9w%2BHqyJ6X%2B73%2B%2BFp88IVV%2FidCiwY3jcq%2B%2Fl22H4Z96dpM8zj8XqaTx%2FfUtH%2Bc6OhS%2B65uxq2w%2FV4N2yGq2k%2Fj8MWVyntaR6P88ev42lqju1uH6bj%2FOPbwF5MPX%2F58JbSti9Pm1fTf4mW7ctSMR1%2FOczjPL16Ed%2FdiTfxf97fH19NE%2F3btsvU00UZ%2F%2FbfAP5POmSpyuD%2F0W7%2Fbckvni6e%2FgTuywAdsA0AAA%3D%3D"
+                    target="_blank">
+                    Open in STEREO READER
+                </a>
             </div>
             <al-markdown class="chapter" :src="content.story" />
             <al-markdown class="chapter" :src="content.results" />
             <al-markdown class="chapter" :src="content.app" />
+            <al-markdown class="chapter" :src="content.modulations" />
             <al-markdown class="chapter" :src="content.goals" />
             <al-markdown class="chapter" :src="content.bates" />
             <al-markdown class="chapter" :src="content.warning" />
             <al-markdown class="chapter" :src="content.join" />
         </template>
     </div>
+
+    <div class="footer">
+        <div class="roadmap">
+            <nuxt-link v-if="lang !== 'ru'" to='/stereo-reader/roadmap'>From Eye-Muscle Stretching to Stereo
+                Reading:<br />My Roadmap of Functional Vision Sharpness</nuxt-link>
+            <nuxt-link v-else to='/stereo-reader/ru/roadmap'>От растяжки глазных мышц к стерео-чтению:<br />моя
+                дорожная карта Функциональной Резкости Зрения</nuxt-link>
+        </div>
+    </div>
 </template>
 
 <style scoped lang="scss">
+.cover {
+
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    overflow: hidden;
+    margin-top: -48px;
+    padding-block: 48px;
+
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: v-bind(stereoReaderCardBackground) center / cover no-repeat;
+        opacity: 0.35;
+        pointer-events: none;
+    }
+
+    > * {
+        position: relative;
+        z-index: 1;
+    }
+}
+
+.hook {
+
+    margin-bottom: 64px;
+    text-align: center;
+    line-height: 1em;
+
+    color: #555;
+    font-size: 48px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+}
+
+.preview {
+    margin-top: 32px;
+    width: 100%;
+    aspect-ratio: 16/9;
+    border: 1px #333 solid;
+    border-radius: 5px;
+    ;
+
+    @media (width < 580px) {
+        aspect-ratio: 9/16;
+    }
+}
+
+.preview-link {
+    text-align: center;
+}
+
 .home {
     margin-top: -32px;
 
@@ -224,7 +310,6 @@ h1 {
 
 .cover {
 
-    margin-bottom: 32px;
     display: flex;
     gap: 32px;
 
@@ -297,7 +382,7 @@ h1 {
     position: relative;
     --margin-top: 74px;
     margin-top: var(--margin-top);
-    margin-bottom: 32px;
+    margin-bottom: 0;
     background: #222;
     border-radius: 8px;
     padding: 16px;
