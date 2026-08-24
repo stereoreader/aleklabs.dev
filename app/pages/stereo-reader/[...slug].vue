@@ -163,7 +163,7 @@ const titleHtml = computed(() => {
         </template>
         <template v-else>
 
-            <div class="hook" style="margin-bottom: 0">What is Parallel-view</div>
+            <div class="hook" style="margin-bottom: 0">What is Parallel view?</div>
             <al-markdown class="chapter" :src="content.parallelview" style="margin-top:32px" />
             <iframe class="video" src="https://www.youtube.com/embed/_HdoPnvChe0?si=Wq7je_dMPEFAiXU-"
                 title="YouTube video player" frameborder="0"
