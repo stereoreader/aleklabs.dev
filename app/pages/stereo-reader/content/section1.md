@@ -1,7 +1,7 @@
-## Read with your eyes more relaxed
+Stereo Reader lets you keep a parallel-view eye position while reading normal text. Each eye follows its own copy of the text, and your brain combines the two into one readable view.
 
-Stereo Reader lets you read while your eyes stay in a more open, less inward-turned position than during ordinary close-up reading. Instead of constantly pulling both eyes toward the same nearby point, you can read with a wider eye position while still following normal text.
+During ordinary close-up reading, both eyes stay turned inward for long periods. This keeps the **inner eye muscles** - the medial rectus muscles - working almost constantly and gives the eyes very little practice moving the other way. Over time, this convergence-heavy habit can reduce the eyes' ability to diverge and may contribute to temporary distance blur after near work. Within the Stereo Reader approach, repeating this pattern for years may also contribute to more persistent problems with distance focusing.
 
-This can make long reading sessions feel more comfortable because the eyes are not held in the same strongly converged position for a long time. It also gives the muscles that move the eyes outward more work to do, which helps balance the constant inward work created by phones, books, and computer screens.
+Parallel-view reading changes that balance. It reduces the constant load on the inner eye muscles and gives the outward-moving muscles more work to do. Used regularly, it can serve both as **prevention against convergence-heavy visual habits** and as training intended to improve distance vision over time like myopia.
 
-Within the Stereo Reader approach, spending more time reading this way may help reduce convergence-heavy visual habits and support better distance focusing over time. The main idea is simple: keep reading useful or enjoyable content, but do it in a way that gives the eye muscles a different type of work.
+The main idea is simple: keep reading useful or enjoyable content, but give your eyes a different type of work while you do it.

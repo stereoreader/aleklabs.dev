@@ -95,7 +95,7 @@ function findContent<T extends string[]>(...pages: T) {
     return out;
 }
 
-const content = findContent('title', 'section1', 'modulations', 'section2', 'feature1', 'feature2', 'feature3', 'story', 'results', 'warning', 'app', 'goals', 'bates', 'join');
+const content = findContent('title', 'parallelview', 'section1', 'modulations', 'section2', 'feature1', 'feature2', 'feature3', 'story', 'results', 'warning', 'app', 'goals', 'bates', 'join');
 const titleContent = content.title;
 const storyContent = folderPath ? getMarkdown(...getFolderIndexPaths(folderPath)) : '';
 const storyChapters = folderPath
@@ -162,7 +162,18 @@ const titleHtml = computed(() => {
                 v-for="(chapter, idx) of storyChapters.slice(1)" />
         </template>
         <template v-else>
-            <div class="hook">What is Stereo Reader?</div>
+
+            <div class="hook" style="margin-bottom: 0">What is Parallel-view</div>
+            <al-markdown class="chapter" :src="content.parallelview" style="margin-top:32px" />
+            <iframe class="video" src="https://www.youtube.com/embed/_HdoPnvChe0?si=Wq7je_dMPEFAiXU-"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <div class="preview-link">
+                <a href="https://youtu.be/ikvzroKPpgI" target="_blank">Having trouble? Try another parallel-view tutorial.</a>
+            </div>
+
+            <div class="hook" style="margin-top:48px">What is Stereo Reader?</div>
             <section-title title="Parallel-view reader" />
             <al-markdown class="chapter" :src="content.section1" />
             <iframe class="preview"
@@ -209,6 +220,14 @@ const titleHtml = computed(() => {
 </template>
 
 <style scoped lang="scss">
+.video {
+    aspect-ratio: 16/9;
+    width: min(100%, 680px);
+    margin-inline: auto;
+    margin-top: 32px;
+    display: block;
+}
+
 .cover {
 
     border-radius: var(--border-radius) var(--border-radius) 0 0;

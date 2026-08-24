@@ -96,5 +96,9 @@ const html = markdown.render(src);
         margin-bottom: 16px;
     }
 
+    strong {
+        font-weight: bold;
+    }
+
 }
 </style>
