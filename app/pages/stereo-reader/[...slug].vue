@@ -260,7 +260,8 @@ const titleHtml = computed(() => {
     text-align: center;
     line-height: 1em;
 
-    color: #777;
+    color: #aaa;
+    text-shadow: 0 0 12px rgb(255 255 255 / .6);
     font-size: 32px;
     font-weight: 400;
     letter-spacing: 0.08em;
@@ -400,6 +401,7 @@ h1 {
 
 .chapter {
 
+    container-type: inline-size;
     position: relative;
     --margin-top: 74px;
     margin-top: var(--margin-top);
@@ -441,11 +443,12 @@ h1 {
     :deep(.statement) {
         max-width: 720px;
         margin: 40px auto;
-        font-size: clamp(26px, 3vw, 38px);
+        font-size: clamp(32px, 5cqw, 64px);
         line-height: 1.35;
         font-weight: 300;
         text-align: center;
         letter-spacing: 0.01em;
+        text-shadow: 0 0 12px black;
     }
 }
 
