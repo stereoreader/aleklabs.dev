@@ -170,7 +170,8 @@ const titleHtml = computed(() => {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             <div class="preview-link">
-                <a href="https://youtu.be/ikvzroKPpgI" target="_blank">Having trouble? Try another parallel-view tutorial.</a>
+                <a href="https://youtu.be/ikvzroKPpgI" target="_blank">Having trouble? Try another parallel-view
+                    tutorial.</a>
             </div>
 
             <div class="hook" style="margin-top:48px">What is Stereo Reader?</div>
@@ -435,6 +436,16 @@ h1 {
         margin-block: 0;
         font-size: 24px;
         text-align: center;
+    }
+
+    :deep(.statement) {
+        max-width: 720px;
+        margin: 40px auto;
+        font-size: clamp(26px, 3vw, 38px);
+        line-height: 1.35;
+        font-weight: 300;
+        text-align: center;
+        letter-spacing: 0.01em;
     }
 }
 
