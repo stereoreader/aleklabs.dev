@@ -90,15 +90,17 @@ const stereoReaderCardBackground = `url("${stereoReaderCardBg}")`;
         </card-cmp> -->
     </section>
 
+    <section class="tools" aria-label="Production experience">
+        <h2><al-icon icon="experience" />Production experience</h2>
+        <experience-cmp />
+    </section>
+
     <section class="tools" aria-label="Articles">
         <h2><al-icon icon="information" />Articles</h2>
         <articles-cmp />
     </section>
 
-    <section class="tools" aria-label="Production experience">
-        <h2><al-icon icon="experience" />Production experience</h2>
-        <experience-cmp />
-    </section>
+
 </template>
 
 <style scoped lang="scss">
@@ -109,7 +111,7 @@ const stereoReaderCardBackground = `url("${stereoReaderCardBg}")`;
     inset: 0;
     z-index: 1;
     opacity: .3;
-    background-position:  right center ;
+    background-position: right center;
     background-size: cover;
     background-repeat: no-repeat;
     background-image: v-bind(stereoReaderCardBackground);
