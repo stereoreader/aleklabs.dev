@@ -74,7 +74,7 @@ This project established several ideas that I would reuse later:
 
 ## Luqon BOOST: Virtual Tables as UI Infrastructure
 
-Years later, I encountered the same general problem in BOOST at Luqon, but the requirements were different.
+Years later, I encountered the same general problem in [BOOST at Luqon](/experience/senior-frontend-develop-at-luqon), but the requirements were different.
 
 BOOST is a large Vue 3 and TypeScript enterprise application. Instead of continuing to depend on a third-party data table, I implemented a custom table as part of the application's internal UI framework.
 
@@ -144,7 +144,7 @@ The table could be embedded into pages, forms, selectors, and hierarchical compo
 
 ## Stereo Reader: Virtual Scrolling as a Document Layout Engine
 
-The third case comes from my personal project, Stereo Reader.
+The third case comes from my personal project, [Stereo Reader](/stereo-reader).
 
 Here the problem is no longer a conventional data table.
 
