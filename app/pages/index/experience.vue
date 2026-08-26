@@ -39,6 +39,11 @@ const visibleArticles = computed(() => {
 </template>
 
 <style scoped lang="scss">
+.experience-cards {
+    display: grid;
+    gap: 32px;
+}
+
 .experience-cards--compact {
     display: flex;
     flex-wrap: wrap;
