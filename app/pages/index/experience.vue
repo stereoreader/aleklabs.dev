@@ -51,12 +51,14 @@ const visibleArticles = computed(() => {
     justify-content: center;
 
     :deep(.wrapper) {
+        display: flex;
         flex: 0 0 calc((100% - 16px) / 2);
         min-width: 0;
     }
 
     :deep(.card) {
         display: block;
+        flex: 1;
         min-height: 0;
         padding: 0;
     }
@@ -80,9 +82,24 @@ const visibleArticles = computed(() => {
         display: none;
     }
 
+    @media (max-width: 760px) {
+        :deep(.title) {
+            font-weight: 400;
+        }
+    }
+
     @media (max-width: 560px) {
-        :deep(.wrapper) {
-            flex-basis: 100%;
+        flex-wrap: nowrap;
+
+        :deep(.body) {
+            padding: 6px 8px;
+        }
+
+        :deep(.title) {
+            overflow: hidden;
+            font-size: 12px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
 }

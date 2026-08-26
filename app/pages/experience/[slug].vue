@@ -69,18 +69,6 @@ type MarkdownReadingStats = {
     margin-bottom: 40px;
 }
 
-@media (max-width: 560px) {
-    .article {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .article-experience {
-        order: 1;
-        margin-top: 32px;
-    }
-}
-
 .topbar {
     display: flex;
     gap: 32px;
