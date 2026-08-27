@@ -88,9 +88,9 @@ onBeforeUnmount(() => {
             <img v-if="imageSrc" class="thumb" :src="imageSrc" :alt="title" v-transition-source="[href, 'cover']">
             <div class="body">
                 <h3 class="title">{{ title }}</h3>
-                <p class="description">
+                <div class="description">
                     <slot />
-                </p>
+                </div>
             </div>
             <div class="hover-border"></div>
             <div class="hover-border-blur" :class="{ spinning: isBorderSpinning }" :style="{ '--angle': borderAngle }"></div>
