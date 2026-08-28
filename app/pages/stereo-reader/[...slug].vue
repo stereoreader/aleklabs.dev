@@ -177,7 +177,7 @@ const titleHtml = computed(() => {
             <div class="hook" style="margin-top:48px">What is Stereo Reader?</div>
             <section-title title="Parallel-view reader" />
             <al-markdown class="chapter" :src="content.section1" />
-            <iframe class="preview"
+            <iframe class="preview" loading="lazy"
                 src="https://aleklabs.dev/stereo-reader/app/#try"></iframe>
 
             <div class="preview-link" v-if="lang !== 'ru'">
@@ -190,7 +190,7 @@ const titleHtml = computed(() => {
 
             <section-title title="Eye trainer" style="margin-top:64px;" />
             <al-markdown class="chapter" :src="content.section2" />
-            <iframe class="preview"
+            <iframe class="preview" loading="lazy"
                 src="https://aleklabs.dev/stereo-reader/app/#modulation:H4sIAAAAAAAAA81XS0skVxT%2BL7Vuwnk%2FeheyHjIky8FFjdY4TVpbuktDEP97OFeDVt8yMCQTslK%2BOve8H18%2FDuPN4f52Hra4Ge724x%2Bfx8vffr2bpquGPEzH0%2B5w2%2F7fzdPNadh%2Behzm3byfhu0wbIbxct49TMN2Pt5Pm%2BHmMO8Otz%2FdHwt6HK7uj%2BPcnjMAbIbT1%2FFuGrafYAM%2FAIAhemIkhSUbUUNJRM1BUDDNIhqoko7irposRs9guoariaCFM3OBqEQA5gYQbhZWIGGYO5pElh1pWFqosGIGeAA3QQ5TgSRR1zTTBkq4oguIIYVFaIGaqWwW6iSgAQ10IiYx9lSXFk2oaoB7GAYENL8zIz0BXDMTpbxBVEILARVwVPDCuAIWSExkDChfUMI4A4VdFSTbWzMzArVADIPKAoYqADCDMlJ4YQSK4CYsKC5A5TCRCluCeES53eTEhAMswBSRpVwmC9B0zvBI1SaWQJIAwa4RWtoYKRXVydINuHxjNkQM1zBJRGtimuZMAs6Syi1%2BDlYPgLBM8ywDAu7mVsUxbK0hTBgMBlH58AapuYkAkIqRY0GBoqgiomzpXKlUMAwBz2C0wPJCGRJQAp0BWq1UVYXJSEkEmkUNgPI7TTwySpWBsCaUIjTzUmUUgmxGlS%2FmLEgJlTMJEdii%2FDJXJUxXTgFubW0ZYiBkrQ24dDlBIhOSmVu2HLpQkHKYJde0FGSCwkzGECBYFj0q8DDKMtt6NKquKZDhytr8ChKoRjRQCKBqqRASrfxbq0eDDKBSyOwSAJWJaLVAEUOF9MpEJKmRM4JlUstEgnONTf1RpAo7CYnZgGpavKUwWYDTqSQcoPxKUQ82Tzczb7lPNWFzchAzkqbeNJ08HS0dWwOkC1uosrvwcxtmYHWfIrAztQWQ4fU0OJU0sLKaSUrlvWkYY5PKGlJOdnDV1iWZYcSBieH8PEeZGeJAYWQqL1Ir0MrDFfULJ%2FwdV5cBaR%2B29cnhPoXWJ5q7cqzULNcre1Z%2F7rsk%2B17idzpu2Zfeda%2Fgeo%2BfTUL08%2BL9VHE%2Fe9FN6MoYUzfsza3lSoj1vbG2XRYrqE3x2aLyfp9pv%2FXWdqP2G1S8X7TU72Pu13YL4Gy7W38DjPtTIe9dlMXlEaSVC9UfMqP%2B3rVrtLyL2q7x2f1syTy7s8j9PfaVu83dccd2es9YQCvOGV14llvyinanzglIvkdUlozG01e4z9%2BxpAWfcmk3ZZV7XWyG083hMH%2Fd3V4PW9gMV8fx9w%2BHqyJ6X%2B73%2B%2BFp88IVV%2FidCiwY3jcq%2B%2Fl22H4Z96dpM8zj8XqaTx%2FfUtH%2Bc6OhS%2B65uxq2w%2FV4N2yGq2k%2Fj8MWVyntaR6P88ev42lqju1uH6bj%2FOPbwF5MPX%2F58JbSti9Pm1fTf4mW7ctSMR1%2FOczjPL16Ed%2FdiTfxf97fH19NE%2F3btsvU00UZ%2F%2FbfAP5POmSpyuD%2F0W7%2Fbckvni6e%2FgTuywAdsA0AAA%3D%3D"></iframe>
             <div class="preview-link" v-if="lang !== 'ru'">
                 Train your eye muscles with dynamic stereo modulation<br />
