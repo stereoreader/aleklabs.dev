@@ -166,7 +166,7 @@ const titleHtml = computed(() => {
             <div class="hook" style="margin-bottom: 0">What is Parallel view?</div>
             <al-markdown class="chapter" :src="content.parallelview" style="margin-top:32px" />
             <iframe class="video" src="https://www.youtube.com/embed/_HdoPnvChe0?si=Wq7je_dMPEFAiXU-"
-                title="YouTube video player" frameborder="0"
+                title="YouTube video player" frameborder="0" loading="lazy"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             <div class="preview-link">
