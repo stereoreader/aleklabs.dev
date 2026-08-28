@@ -269,11 +269,9 @@ function createAnimation(): void {
                 gsap.set(dot, {
                     visibility: 'hidden',
                     motionPath: {
-                        path,
-                        align: path,
-                        alignOrigin: [0.5, 0.5],
+                        path: stroke.path,
                         start: 0,
-                        end: 0
+                        end: 1
                     }
                 });
 
@@ -315,11 +313,9 @@ function createAnimation(): void {
 
                 const dotMotion = gsap.to(dot, {
                     motionPath: {
-                        path,
-                        align: path,
-                        alignOrigin: [0.5, 0.5],
+                        path: stroke.path,
                         start: 0,
-                        end: 1,
+                        end: 1
                     },
                     duration,
                     ease: 'none',

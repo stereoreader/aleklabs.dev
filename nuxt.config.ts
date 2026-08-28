@@ -1,6 +1,7 @@
 import { fileURLToPath, URL } from 'node:url';
 import { imagetools } from 'vite-imagetools';
-import { statSync } from 'node:fs';
+import { readFileSync, statSync } from 'node:fs';
+import { transformWithOxc } from 'vite';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -40,6 +41,16 @@ export default defineNuxtConfig({
 
 
     nitro: {
+        ignore: ['plugins/delay-client.ts'],
+        virtual: {
+            '#delay-client': async () => {
+                const filePath = fileURLToPath(new URL('./server/plugins/delay-client.ts', import.meta.url));
+                const source = readFileSync(filePath, 'utf8');
+                const transformed = await transformWithOxc(source, filePath, { loader: 'ts', target: 'esnext' });
+
+                return `export default ${JSON.stringify(transformed.code)}`;
+            },
+        },
         prerender: {
             crawlLinks: true,
             autoSubfolderIndex: false
