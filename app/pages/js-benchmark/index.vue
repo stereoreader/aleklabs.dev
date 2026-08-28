@@ -16,8 +16,41 @@ useHead({
     ]
 });
 
+useHead({
+    script: [
+        {
+            src: 'https://cdn.jsdelivr.net/gh/silentmantra/benchmark/loader.js',
+        },
+    ],
+});
 
 const html = new MarkdownIt({ html: true }).render(docs);
+const benchmarkCode = `const arr = Array.from({length: 100}, () => ({num: Math.random()}));
+
+// @benchmark filter + map
+arr.filter(n => n.num > .5).map(n => n.num * 2);
+
+// @benchmark reduce
+arr.reduce((r, n) => (n.num > .5 && r.push(n.num * 2), r), []);`;
+const $benchmark = ref();
+
+onMounted(() => {
+    let benchmarkMounted = false;
+
+    const mountBenchmark = () => {
+        if (benchmarkMounted || !$benchmark.value || !window.SilentMantraBenchmark) {
+            return;
+        }
+        benchmarkMounted = true;
+        window.SilentMantraBenchmark.set($benchmark.value, benchmarkCode);
+    };
+
+    if (window.SilentMantraBenchmark) {
+        mountBenchmark();
+    } else {
+        window.addEventListener('silentmantra/benchmark:loaded', mountBenchmark, { once: true });
+    }
+});
 
 </script>
 
@@ -28,11 +61,15 @@ const html = new MarkdownIt({ html: true }).render(docs);
         <img src="./assets/cover.png" class="cover" v-transition-target="[$route.fullPath, 'cover']">
         <div class="subtitle subtitle-2">
             <nuxt-link to="/js-benchmark/playground">Open playground</nuxt-link>
-            <nuxt-link
-                to="/js-benchmark/playground#H4sIAAAAAAAACm3PQQrCMBQE0KsMWUiiIVbBTUXRA3gC6yK20Rab3%2FKbClJ6dylZqOBumMVjZhB5UziRiryhLsAyY4cjs32ZGzdeDrWjeyhTrJJk1JAKuz3kQL1PcbKhNGypaLxUo1LbjDJaLnG4OspLb%2FmBW1UHx1jA2zYjy2xiI2lyyFDvsYfZKONt%2B13Osf7nsSv63EUpZilZg%2BKsj4fZDGzavivlx9NgpXG%2BqK3QIlShnn5HBc%2FuZ6sY35i0sGoZAQAA">Try
-                in playground: reduce vs filter + map</nuxt-link>
             <a href="https://stackoverflow.com/search?tab=newest&q=user%3a14098260%20benchmark&searchOn=3"
                 target="_blank">My Stack Overflow answers with benchmarks</a>
+        </div>
+        <h2 class="benchmark-title">Try it</h2>
+        <div ref="$benchmark" class="benchmark"></div>
+        <div class="subtitle subtitle-2">
+            <nuxt-link
+                to="/js-benchmark/playground#H4sIAAAAAAAACm3PQQrCMBQE0KsMWUiiIVbBTUXRA3gC6yK20Rab3%2FKbClJ6dylZqOBumMVjZhB5UziRiryhLsAyY4cjs32ZGzdeDrWjeyhTrJJk1JAKuz3kQL1PcbKhNGypaLxUo1LbjDJaLnG4OspLb%2FmBW1UHx1jA2zYjy2xiI2lyyFDvsYfZKONt%2B13Osf7nsSv63EUpZilZg%2BKsj4fZDGzavivlx9NgpXG%2BqK3QIlShnn5HBc%2FuZ6sY35i0sGoZAQAA">
+                Edit in playground</nuxt-link>
         </div>
 
         <div class="content jsbench-content" v-html="html"></div>
@@ -63,6 +100,14 @@ h1,
     max-width: 100%;
     display: block;
     margin: auto;
+}
+
+.benchmark {
+    margin-bottom: 32px;
+}
+
+.benchmark-title {
+    margin-top: 32px;
 }
 
 .wrapper {
