@@ -1,13 +1,15 @@
 <script setup lang="ts">
 
-import { articles } from './articles';
 import * as marked from 'marked';
 
 const route = useRoute();
 
 const slug = route.path.split('/').at(-1);
 
-const article = articles.find(article => article.slug === slug);
+let { data: { value: article } } = await useAsyncData(`article:${slug}`, async () => {
+    const { articles } = await import('@pages/articles/articles');
+    return articles.find(article => article.slug === slug);
+});
 
 if (!article) {
     throw createError({

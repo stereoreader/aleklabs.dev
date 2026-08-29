@@ -8,7 +8,7 @@ export async function useHomeData() {
             title: article.title
         });
 
-        return { articles: articles.filter(filter), experience: experience.filter(filter) };
+        return { articles: articles.map(filter), experience: experience.map(filter) };
     });
     return data.value!;
 }

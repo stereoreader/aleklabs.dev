@@ -8,9 +8,12 @@ const route = useRoute();
 
 const slug = route.path.split('/').at(-1);
 
-const { experience: articles } = await useHomeData();
+const { experience } = await useHomeData();
 
-const article = articles.find(article => article.slug === slug);
+let { data: { value: article } } = await useAsyncData(`experience:${slug}`, async () => {
+    const { articles } = await import('@pages/experience/articles');
+    return articles.find(article => article.slug === slug);
+});
 
 if (!article) {
     throw createError({
@@ -19,8 +22,6 @@ if (!article) {
         fatal: true
     });
 }
-
-const coverViewTransitionName = `al-experience-cover-${article.slug}`;
 
 useHead({ title: article.title, titleTemplate: '%s', });
 
@@ -47,7 +48,7 @@ type MarkdownReadingStats = {
     <div class="article" v-transition-target="[$route.fullPath, 'article']">
         <img :src="article.coverUrl" class="article-cover" v-transition-target="[$route.fullPath, 'cover']">
         <div class="article-experience">
-            <experience-cmp exclude-current :articles />
+            <experience-cmp exclude-current :articles="experience" />
         </div>
 
         <span v-html="html"></span>
