@@ -1,12 +1,14 @@
 <script setup lang="ts">
 
 import ExperienceCmp from '../index/experience.vue';
-import { articles } from './articles';
 import * as marked from 'marked';
+import { useHomeData } from '../index/data';
 
 const route = useRoute();
 
 const slug = route.path.split('/').at(-1);
+
+const { experience: articles } = await useHomeData();
 
 const article = articles.find(article => article.slug === slug);
 
@@ -38,13 +40,14 @@ type MarkdownReadingStats = {
     minutes: number;
 };
 
+
 </script>
 
 <template>
-    <div class="article"  v-transition-target="[$route.fullPath, 'article']">
+    <div class="article" v-transition-target="[$route.fullPath, 'article']">
         <img :src="article.coverUrl" class="article-cover" v-transition-target="[$route.fullPath, 'cover']">
         <div class="article-experience">
-            <experience-cmp exclude-current />
+            <experience-cmp exclude-current :articles />
         </div>
 
         <span v-html="html"></span>

@@ -1,7 +1,11 @@
 <script setup lang="ts">
 
 import CardCmp from './card.vue';
-import { articles } from '@pages/articles/articles';
+import { type Article } from '@pages/experience/articles';
+
+const { articles } = defineProps<{
+    articles: Pick<Article, 'slug' | 'coverUrl' | 'description' | 'title'>[]
+}>();
 
 </script>
 

@@ -14,6 +14,8 @@ import stereoReaderCardBg from './assets/stereo-reader-card-bg.png';
 
 import coverImg from './assets/logo.jpg';
 
+import {useHomeData} from './index/data.ts';
+
 useHead({
     link: [{
         rel: 'preload',
@@ -30,6 +32,8 @@ useSeoMeta({
 });
 
 const stereoReaderCardBackground = `url("${stereoReaderCardBg}")`;
+
+const data = await useHomeData();
 
 </script>
 
@@ -92,12 +96,12 @@ const stereoReaderCardBackground = `url("${stereoReaderCardBg}")`;
 
     <section class="tools" aria-label="Production experience">
         <h2><al-icon icon="experience" />Production experience</h2>
-        <experience-cmp />
+        <experience-cmp :articles="data?.experience ?? []" />
     </section>
 
     <section class="tools" aria-label="Articles">
         <h2><al-icon icon="information" />Articles</h2>
-        <articles-cmp />
+        <articles-cmp :articles="data?.articles ?? []" />
     </section>
 
 

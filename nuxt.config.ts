@@ -27,7 +27,7 @@ export default defineNuxtConfig({
     },
 
     experimental: {
-        payloadExtraction: false,
+        payloadExtraction: 'client',
         viewTransition: true,
         defaults: {
             nuxtLink: {
@@ -113,7 +113,7 @@ export default defineNuxtConfig({
             // },
             rollupOptions: {
                 output: {
-                    experimentalMinChunkSize: 2048
+                    experimentalMinChunkSize: 4096
                 }
             }
         },

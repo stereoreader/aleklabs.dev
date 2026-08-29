@@ -1,13 +1,12 @@
 <script setup lang="ts">
 
 import CardCmp from './card.vue';
-import { articles } from '@pages/experience/articles';
+import { type Article } from '@pages/experience/articles';
 
-const props = withDefaults(defineProps<{
+const { articles, ...props } = defineProps<{
     excludeCurrent?: boolean,
-}>(), {
-    excludeCurrent: false,
-});
+    articles: Pick<Article, 'slug'|'coverUrl'|'description'|'title'>[]
+}>();
 
 const route = useRoute();
 

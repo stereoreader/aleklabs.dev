@@ -13,7 +13,7 @@ const pages = import.meta.glob('@content/experience/**/index.md', {
     import: 'default',
 });
 
-type Article = {
+export type Article = {
     title: string;
     description: string;
     date: Date;
