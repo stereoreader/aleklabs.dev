@@ -3,6 +3,7 @@
 import feature1Img from './assets/feature-read.png?w=250';
 import feature2Img from './assets/feature-relax.png?w=250';
 import feature3Img from './assets/feature-train.png?w=250';
+import faceDownImg from './assets/face-down.png?w=400';
 import SectionTitle from './section-title.vue';
 
 import stereoReaderCardBg from '../assets/stereo-reader-card-bg.png';
@@ -96,6 +97,10 @@ function findContent<T extends string[]>(...pages: T) {
 }
 
 const content = findContent('title', 'parallelview', 'section1', 'section2', 'feature1', 'feature2', 'feature3', 'story', 'results', 'warning', 'app', 'goals', 'bates', 'join');
+const section2Content = content.section2.replace(
+    '### Recommended training position',
+    `### Recommended training position\n\n![Face-down Stereo Reader training position](${faceDownImg}){.image-left}`
+);
 const titleContent = content.title;
 const storyContent = folderPath ? getMarkdown(...getFolderIndexPaths(folderPath)) : '';
 const storyChapters = folderPath
@@ -179,7 +184,7 @@ const trainingUrl = `https://aleklabs.dev/stereo-reader/app/#training:H4sIAAAAAA
             <div class="hook" style="margin-top:48px">What is Stereo Reader?</div>
 
             <section-title title="Eye trainer" />
-            <al-markdown class="chapter" :src="content.section2" />
+            <al-markdown class="chapter" :src="section2Content" />
 
             <iframe class="preview" loading="lazy" :src="trainingUrl"></iframe>
             <div class="preview-link" v-if="lang !== 'ru'">
@@ -453,6 +458,20 @@ h1 {
         text-align: center;
         letter-spacing: 0.01em;
         text-shadow: 0 0 12px black;
+    }
+
+    :deep(.image-left) {
+        float: left;
+        width: min(45%, 400px);
+        height: auto;
+        margin: 0 24px 16px 0;
+        border-radius: 6px;
+
+        @media (width < 450px) {
+            float: none;
+            width: 100%;
+            margin-right: 0;
+        }
     }
 }
 
