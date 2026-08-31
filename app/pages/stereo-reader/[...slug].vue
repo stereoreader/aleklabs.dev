@@ -426,6 +426,9 @@ h1 {
         font-weight: normal;
         color: white;
         font-size: 18px;
+        text-align: center;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #444;
     }
 
     :deep(.big) {
