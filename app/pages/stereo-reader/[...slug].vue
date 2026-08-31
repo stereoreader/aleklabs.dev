@@ -95,7 +95,7 @@ function findContent<T extends string[]>(...pages: T) {
     return out;
 }
 
-const content = findContent('title', 'parallelview', 'section1', 'modulations', 'section2', 'feature1', 'feature2', 'feature3', 'story', 'results', 'warning', 'app', 'goals', 'bates', 'join');
+const content = findContent('title', 'parallelview', 'section1', 'section2', 'feature1', 'feature2', 'feature3', 'story', 'results', 'warning', 'app', 'goals', 'bates', 'join');
 const titleContent = content.title;
 const storyContent = folderPath ? getMarkdown(...getFolderIndexPaths(folderPath)) : '';
 const storyChapters = folderPath
@@ -133,6 +133,8 @@ const titleHtml = computed(() => {
     }
     return html;
 });
+
+const trainingUrl = `https://aleklabs.dev/stereo-reader/app/#training:H4sIAAAAAAAAA%2B1cS28byRH%2BL5MrV6jqevOW3eSQgxEju6csfKDFkU2Eogxy5EVg6L8H3RSleVFaPf3IgAdKNdXd9VXXa6qH86VaLas5zKpm1azral5Vs%2Br9h18u1hfbal79hVCCqZpVzXax2a2a1cXmb5fbRf6u5ggAs6reLH9bndfVHBNAoSzOLy43TTXHE5xVn9aL%2F75fnP7n1091vTzQtvVZvd3Wy9u59Hrs5a5%2BO7x6tljv6ll1frG8XBfSrpr%2F%2FqWIvp9uVzfV%2FMsNiDc3jF04ckZCWrVnysNuBB6ICyc6qz7X290e8KxaNfX5fvGWwhanzepzXc2b7WWRMs%2F7y%2BU2k75Uy56%2Bdh8Xn%2Bpq%2FjvM4AQAFNECPZJrkKZUqIlZ1ICRMVTdC1E4DNlMJIg17Ylh4ibKjOpGRJmIkhKAmgK4qbpmYkJXM1T2yOtwoYW6MAmGgzlQYSRXYYjEYhKqUojsJmgMrJhc3SUTJUJI1cUSgzgUoqVEiZUsxLigcRFxMHNFB4cid4SHBYBJRCBnaRAloTqDMBgKWKZRBswQGEjokGVBdqVwZDIR4ChjVVUTiDqiK2QtoIsAABEIYXLLtASCYMrEyMaQssApCZMGsLlnsQsfK5ODOqggEmeRkzpIGIWbh0hhC0gcAE4m7pJnI0whKJY0TIGybESKiG7iyoGohU1CjRKDEYdQwU9OYg7gGqEWeQEGMzXNm6NYTIMpoRMoeNaHFZKoKTNAEtZkmEmOLCjMLKRhlFUpoOgMFk6ojlkKIQhAdjQCKHslIsKUNElihrKiOECWO5TNw%2FNUCkwSkCdCVctTaXJGUk1ZX0SRSZJQKCIhAqlnudREEoYJBQMVs9ZwVuCkxQwoz2UJAilhUjWNokPj5EnIVYOyt2SSMjJRUgIHxryieQbumiIvW2zU874GQ7gJSZHLE0M2RAUBh5RNyjmxZP1r2Y9CUoCsQiJjB8ia8LIXyKwoEJY14ZFEkxGCRqSiiQCj7Db5SzBl2JEwESmk7C1WVBjEQGEpcxhAlitYzEktTFWt6D5EmdSSAasmLtOrhCULQw3DYgBhTOoiZMa0N8NwzNYnCGSUSgAItzzUKSSJY9ZqRJKUpVdxJSxckZ2UggxMpFhJhGsix0A32vtRRDgbJNekwtdcI6SRgSPTd4SwI6J2AckQtg6VQ0MV6lDRNNiOkT2L8Z3t7T8NrSSGtkRHLK5rlzawXsZxG%2B95gg%2F9xYZeRUPf84GHjrhxGjh7EasbEnw8boxFl04IKl7cC1Q2jGcyjHpjsVGGEZRtGGjTMB7TMGwXAL3orsMcoDRMFXwso3QyD2MayVDDRKZpmO9KNurmRSnZuJc%2FizJ7eRZpmI9tJG%2FTILljSb29KqBsTq9c2PN164qSp%2FoFSBwrVLoVjYWN1D53VUmdesq45JTR2uvdrNqdX1w0H1ebD6UsXm4Xf7y5WOZC7%2Bxyva6uDuXtSH0nDJ0K74GT%2FfO20G0W2w91s3vbLkaHl0sZ2q09c0VcfVh8qmbVsl43i2rOwxJ8Vu2axbZ5%2B3Gxq4tcq83netv8tY3reqX9lTftirZcuXp3NRstgW8q9SM1MHU0hLP9J5uRJGRLFEnJoQQjwPyXOoSj5JBLM5y1hliYsAKmHMEox8IZdDk4BbO5JFMwkmyILYbClD8nSCpAoMae04TY9QQI4slTAhf3ENPWEtBb7kDDPu0EACXH%2FkTZgZ2ohKHOeqqBOk7sz5ZDKmFADpIckOuQPuzeLMUBj6Lsjsz3C5ar1OJWlguyO%2FH110YoijpsJ9PepVs7u3ffPw0o7%2BLtHqvsKzZo65NJvOjpSd6L36Dzjtw%2FP4fzzkZX%2Frz7uDprbheHF1%2F8wJpX3140i6Z%2B8dWPxa17bt35KbbRszN5qp3tZX2amfXVneRrmpo%2FbvHrGZ95r5%2B0P92pDl2trxJU2t71sadwfGX3uq8ssKk1NrXGptbY1BqbWmNTa2xqjU2tsak19kO1xr5qIdy68Ti9WF%2Beb35eX25%2FXqwXm9PWHZC%2BWEn87uoql8VZgPSQ02rCdIbvH3Bajc93Vk1TQT4V5FNBPhXkU0E%2BFeRTQT4V5FNB%2FkMV5N%2FkWTW%2B%2FHlXuyl%2Bmqeot%2F%2FqHYU88jDicSch79eX29YpTHrutfNSjz0IsR%2FkIKRz%2F%2FeaW9659aOH3PqlBYnBQ279TvgZH1Tm%2Ft3fV%2F30n6h45U%2FXVil9R4H2rgN2fdVY2z%2FxfaHHksaD7BGv15MXOvR%2BnoejfoiA283vr%2Fww2j1hTn88db%2BSm00FxbGoii8WVI4WsUc72vJNh7eppzz1lKee8tRTnnrKU0956ilPPeWpp%2Fy995S%2FlZr8roc8XuyGqNXp44d0%2BthlSXS00wcnTiNvJUgv%2BKTHnb233vWTsKSiSe5jvGZmhSC7zns5utw1ImdQYO1y9Xizb2gJdYCkVqZs%2F32fUIOJy6%2BVnPdC5vQXcD1%2FMjqQASMHI9lLALc8bRlu5rlPNXf2G9MD%2B41P6iE9X7ex2%2Fd53Z8SHWv3vWbLcdAXkNduNj7J7f%2BvW%2FzfU9r7E3b%2Fqr%2Fs6tt9vJzZtzKutDPuNeHIC43ABb24yWm922VxNpfr9axaLJf5nypB0p%2FAf0r%2BG6Y5wVwsF%2Fz%2F3mfo1dlqjAvnFCcukLl29bo%2BbTLXNYRP9Wa52nz4dVEM56qopm6KcQzea%2FTY5ztblnG%2Fskd%2FECb9yPGYPXmsYX%2FNTvJDE2axu3ftTfv753rTHMqv872Sb96KpfvgcMv9j7wp%2B5jd5715g1aXW265r2frjegPSLcDDgy3I3xsBLVGeG9E4rERfDviwHAzgkZhtEAfGG5HjKqphYP6yHkUeQsH95HzKPIWDu4jl1HkLRzSR66jyFNvAzsjRpG3cGgfuY0ib%2BGwPnIbRd7CYX3kPoq8hcP7yGMUeQtH9JHHKPIWjhhYO4xCbwG54WiNGQXfdhHoo0cchd92EuzjP%2BK7nEPFPvy1w0Qh5OvVH6tl8zG%2FYK%2BjpMPzQHH17up%2FARWYR6NPAAA%3D`;
 
 </script>
 
@@ -175,7 +177,17 @@ const titleHtml = computed(() => {
             </div>
 
             <div class="hook" style="margin-top:48px">What is Stereo Reader?</div>
-            <section-title title="Parallel-view reader" />
+
+            <section-title title="Eye trainer" />
+            <al-markdown class="chapter" :src="content.section2" />
+
+            <iframe class="preview" loading="lazy" :src="trainingUrl"></iframe>
+            <div class="preview-link" v-if="lang !== 'ru'">
+                Train your eye muscles with dynamic stereo modulation<br />
+                <a :href="trainingUrl" target="_blank">Open in STEREO READER</a>
+            </div>
+
+            <section-title title="Parallel-view reader" style="margin-top:64px;" />
             <al-markdown class="chapter" :src="content.section1" />
             <iframe class="preview" loading="lazy"
                 src="https://aleklabs.dev/stereo-reader/app/#try"></iframe>
@@ -188,21 +200,10 @@ const titleHtml = computed(() => {
                 </a>
             </div>
 
-            <section-title title="Eye trainer" style="margin-top:64px;" />
-            <al-markdown class="chapter" :src="content.section2" />
-            <iframe class="preview" loading="lazy"
-                src="https://aleklabs.dev/stereo-reader/app/#modulation:H4sIAAAAAAAAA81XS0skVxT%2BL7Vuwnk%2FeheyHjIky8FFjdY4TVpbuktDEP97OFeDVt8yMCQTslK%2BOve8H18%2FDuPN4f52Hra4Ge724x%2Bfx8vffr2bpquGPEzH0%2B5w2%2F7fzdPNadh%2Behzm3byfhu0wbIbxct49TMN2Pt5Pm%2BHmMO8Otz%2FdHwt6HK7uj%2BPcnjMAbIbT1%2FFuGrafYAM%2FAIAhemIkhSUbUUNJRM1BUDDNIhqoko7irposRs9guoariaCFM3OBqEQA5gYQbhZWIGGYO5pElh1pWFqosGIGeAA3QQ5TgSRR1zTTBkq4oguIIYVFaIGaqWwW6iSgAQ10IiYx9lSXFk2oaoB7GAYENL8zIz0BXDMTpbxBVEILARVwVPDCuAIWSExkDChfUMI4A4VdFSTbWzMzArVADIPKAoYqADCDMlJ4YQSK4CYsKC5A5TCRCluCeES53eTEhAMswBSRpVwmC9B0zvBI1SaWQJIAwa4RWtoYKRXVydINuHxjNkQM1zBJRGtimuZMAs6Syi1%2BDlYPgLBM8ywDAu7mVsUxbK0hTBgMBlH58AapuYkAkIqRY0GBoqgiomzpXKlUMAwBz2C0wPJCGRJQAp0BWq1UVYXJSEkEmkUNgPI7TTwySpWBsCaUIjTzUmUUgmxGlS%2FmLEgJlTMJEdii%2FDJXJUxXTgFubW0ZYiBkrQ24dDlBIhOSmVu2HLpQkHKYJde0FGSCwkzGECBYFj0q8DDKMtt6NKquKZDhytr8ChKoRjRQCKBqqRASrfxbq0eDDKBSyOwSAJWJaLVAEUOF9MpEJKmRM4JlUstEgnONTf1RpAo7CYnZgGpavKUwWYDTqSQcoPxKUQ82Tzczb7lPNWFzchAzkqbeNJ08HS0dWwOkC1uosrvwcxtmYHWfIrAztQWQ4fU0OJU0sLKaSUrlvWkYY5PKGlJOdnDV1iWZYcSBieH8PEeZGeJAYWQqL1Ir0MrDFfULJ%2FwdV5cBaR%2B29cnhPoXWJ5q7cqzULNcre1Z%2F7rsk%2B17idzpu2Zfeda%2Fgeo%2BfTUL08%2BL9VHE%2Fe9FN6MoYUzfsza3lSoj1vbG2XRYrqE3x2aLyfp9pv%2FXWdqP2G1S8X7TU72Pu13YL4Gy7W38DjPtTIe9dlMXlEaSVC9UfMqP%2B3rVrtLyL2q7x2f1syTy7s8j9PfaVu83dccd2es9YQCvOGV14llvyinanzglIvkdUlozG01e4z9%2BxpAWfcmk3ZZV7XWyG083hMH%2Fd3V4PW9gMV8fx9w%2BHqyJ6X%2B73%2B%2BFp88IVV%2FidCiwY3jcq%2B%2Fl22H4Z96dpM8zj8XqaTx%2FfUtH%2Bc6OhS%2B65uxq2w%2FV4N2yGq2k%2Fj8MWVyntaR6P88ev42lqju1uH6bj%2FOPbwF5MPX%2F58JbSti9Pm1fTf4mW7ctSMR1%2FOczjPL16Ed%2FdiTfxf97fH19NE%2F3btsvU00UZ%2F%2FbfAP5POmSpyuD%2F0W7%2Fbckvni6e%2FgTuywAdsA0AAA%3D%3D"></iframe>
-            <div class="preview-link" v-if="lang !== 'ru'">
-                Train your eye muscles with dynamic stereo modulation<br />
-                <a href="https://aleklabs.dev/stereo-reader/app/#modulation:H4sIAAAAAAAAA81XS0skVxT%2BL7Vuwnk%2FeheyHjIky8FFjdY4TVpbuktDEP97OFeDVt8yMCQTslK%2BOve8H18%2FDuPN4f52Hra4Ge724x%2Bfx8vffr2bpquGPEzH0%2B5w2%2F7fzdPNadh%2Behzm3byfhu0wbIbxct49TMN2Pt5Pm%2BHmMO8Otz%2FdHwt6HK7uj%2BPcnjMAbIbT1%2FFuGrafYAM%2FAIAhemIkhSUbUUNJRM1BUDDNIhqoko7irposRs9guoariaCFM3OBqEQA5gYQbhZWIGGYO5pElh1pWFqosGIGeAA3QQ5TgSRR1zTTBkq4oguIIYVFaIGaqWwW6iSgAQ10IiYx9lSXFk2oaoB7GAYENL8zIz0BXDMTpbxBVEILARVwVPDCuAIWSExkDChfUMI4A4VdFSTbWzMzArVADIPKAoYqADCDMlJ4YQSK4CYsKC5A5TCRCluCeES53eTEhAMswBSRpVwmC9B0zvBI1SaWQJIAwa4RWtoYKRXVydINuHxjNkQM1zBJRGtimuZMAs6Syi1%2BDlYPgLBM8ywDAu7mVsUxbK0hTBgMBlH58AapuYkAkIqRY0GBoqgiomzpXKlUMAwBz2C0wPJCGRJQAp0BWq1UVYXJSEkEmkUNgPI7TTwySpWBsCaUIjTzUmUUgmxGlS%2FmLEgJlTMJEdii%2FDJXJUxXTgFubW0ZYiBkrQ24dDlBIhOSmVu2HLpQkHKYJde0FGSCwkzGECBYFj0q8DDKMtt6NKquKZDhytr8ChKoRjRQCKBqqRASrfxbq0eDDKBSyOwSAJWJaLVAEUOF9MpEJKmRM4JlUstEgnONTf1RpAo7CYnZgGpavKUwWYDTqSQcoPxKUQ82Tzczb7lPNWFzchAzkqbeNJ08HS0dWwOkC1uosrvwcxtmYHWfIrAztQWQ4fU0OJU0sLKaSUrlvWkYY5PKGlJOdnDV1iWZYcSBieH8PEeZGeJAYWQqL1Ir0MrDFfULJ%2FwdV5cBaR%2B29cnhPoXWJ5q7cqzULNcre1Z%2F7rsk%2B17idzpu2Zfeda%2Fgeo%2BfTUL08%2BL9VHE%2Fe9FN6MoYUzfsza3lSoj1vbG2XRYrqE3x2aLyfp9pv%2FXWdqP2G1S8X7TU72Pu13YL4Gy7W38DjPtTIe9dlMXlEaSVC9UfMqP%2B3rVrtLyL2q7x2f1syTy7s8j9PfaVu83dccd2es9YQCvOGV14llvyinanzglIvkdUlozG01e4z9%2BxpAWfcmk3ZZV7XWyG083hMH%2Fd3V4PW9gMV8fx9w%2BHqyJ6X%2B73%2B%2BFp88IVV%2FidCiwY3jcq%2B%2Fl22H4Z96dpM8zj8XqaTx%2FfUtH%2Bc6OhS%2B65uxq2w%2FV4N2yGq2k%2Fj8MWVyntaR6P88ev42lqju1uH6bj%2FOPbwF5MPX%2F58JbSti9Pm1fTf4mW7ctSMR1%2FOczjPL16Ed%2FdiTfxf97fH19NE%2F3btsvU00UZ%2F%2FbfAP5POmSpyuD%2F0W7%2Fbckvni6e%2FgTuywAdsA0AAA%3D%3D"
-                    target="_blank">
-                    Open in STEREO READER
-                </a>
-            </div>
+
             <al-markdown class="chapter" :src="content.story" />
             <al-markdown class="chapter" :src="content.results" />
             <al-markdown class="chapter" :src="content.app" />
-            <al-markdown class="chapter" :src="content.modulations" />
             <al-markdown class="chapter" :src="content.goals" />
             <al-markdown class="chapter" :src="content.bates" />
             <al-markdown class="chapter" :src="content.warning" />
