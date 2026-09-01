@@ -2,7 +2,7 @@
 
 import ArticlesCmp from '../index/articles.vue';
 import { useHomeData } from '../index/data';
-import * as marked from 'marked';
+import { parseMarked } from '@/utils/parseMarkdown';
 
 const route = useRoute();
 
@@ -26,7 +26,7 @@ const otherArticles = articles.filter(({ slug: articleSlug }) => articleSlug !==
 
 useHead({ title: article.title, titleTemplate: '%s', });
 
-const html = marked.parse(article.data);
+const html = parseMarked(article.data);
 const stats = getMarkdownReadingStats(article.data);
 
 const icons = import.meta.glob('@pages/assets/icons/*.*',

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import ExperienceCmp from '../index/experience.vue';
-import * as marked from 'marked';
+import { parseMarked } from '@/utils/parseMarkdown';
 import { useHomeData } from '../index/data';
 
 const route = useRoute();
@@ -25,7 +25,7 @@ if (!article) {
 
 useHead({ title: article.title, titleTemplate: '%s', });
 
-const html = marked.parse(article.data);
+const html = parseMarked(article.data);
 
 useSeoMeta({
     title: article.title,

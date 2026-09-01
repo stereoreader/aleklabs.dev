@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import * as marked from 'marked';
+import { parseMarked } from '@/utils/parseMarkdown';
 
 import coverUrl from './cover.png';
 import markdown from './index.md?raw';
@@ -20,7 +20,7 @@ useSeoMeta({
     ogImage: coverUrl,
 });
 
-const html = marked.parse(markdown);
+const html = parseMarked(markdown);
 const stats = (() => {
     const text = markdown
         .replace(/\r\n?/g, '\n')
