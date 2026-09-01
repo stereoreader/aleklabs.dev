@@ -1,6 +1,6 @@
 ---
 date: 2026-09-01
-slug: conditional-wrapping-in-vue-3-three-approaches
+slug: conditional-wrapping-in-vue-3
 seoDescription: Explore three approaches to conditional wrapping in Vue 3, from a simple wrapper prop to advanced VNode manipulation with nested wrappers.
 description: "I explore three ways to build a conditional wrapper component in Vue 3: passing the wrapper as a prop, defining it directly in the default slot, and using a dedicated wrapper slot for arbitrary nesting. The advanced version includes both the original cloneVNode and ShapeFlags implementation and a more future-proof alternative based only on Vue's public VNode API."
 ---
