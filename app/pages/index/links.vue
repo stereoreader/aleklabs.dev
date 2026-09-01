@@ -38,36 +38,43 @@ onBeforeUnmount(() => {
 
     <div class="links" ref="$links">
         <a href="https://www.linkedin.com/in/alexander-nenashev-930731288/" target="_blank">
-            <img class="icon-scale-80" src="../assets/icons/linkedin.svg">
+            <img class="backlight" src="../assets/icons/linkedin.svg" aria-hidden="true">
+            <img class="icon icon-scale-80" src="../assets/icons/linkedin.svg">
             <span>My LinkedIn profile</span>
         </a>
         <a href="https://stackoverflow.com/users/14098260/alexander-nenashev" target="_blank">
-            <img class="icon-scale-80" src="../assets/icons/stackoverflow.svg">
+            <img class="backlight" src="../assets/icons/stackoverflow.svg" aria-hidden="true">
+            <img class="icon icon-scale-80" src="../assets/icons/stackoverflow.svg">
             <span>My Stackoverflow profile</span>
         </a>
         <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bvue.js%5d%20or%20%5bvuejs3%5d&searchOn=3"
             target="_blank">
-            <img src="../assets/icons/vue.svg">
+            <img class="backlight" src="../assets/icons/vue.svg" aria-hidden="true">
+            <img class="icon" src="../assets/icons/vue.svg">
             <span>My Vue SO answers</span>
         </a>
         <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bvite%5d%20&searchOn=3"
             target="_blank">
-            <img class="icon-scale-90" src="../assets/icons/vite.svg">
+            <img class="backlight" src="../assets/icons/vite.svg" aria-hidden="true">
+            <img class="icon icon-scale-90" src="../assets/icons/vite.svg">
             <span>My Vite SO answers</span>
         </a>
         <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5btypescript%5d&searchOn=3"
             target="_blank">
-            <img src="../assets/icons/typescript.svg">
+            <img class="backlight" src="../assets/icons/typescript.svg" aria-hidden="true">
+            <img class="icon" src="../assets/icons/typescript.svg">
             <span>My Typescript SO answers</span>
         </a>
         <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bjavascript%5d&searchOn=3"
             target="_blank">
-            <img src="../assets/icons/javascript.svg">
+            <img class="backlight" src="../assets/icons/javascript.svg" aria-hidden="true">
+            <img class="icon" src="../assets/icons/javascript.svg">
             <span>My Javascript SO answers</span>
         </a>
         <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bcss%5d&searchOn=3"
             target="_blank">
-            <img class="icon-scale-85 icon-nudge-down" src="../assets/icons/css.svg">
+            <img class="backlight" src="../assets/icons/css.svg" aria-hidden="true">
+            <img class="icon icon-scale-85 icon-nudge-down" src="../assets/icons/css.svg">
             <span>My CSS SO answers</span>
         </a>
     </div>
@@ -85,17 +92,32 @@ onBeforeUnmount(() => {
     margin-bottom: 32px;
 
     a {
-        filter: saturate(0);
         opacity: .7;
         --border-radius: calc(var(--border-radius) / 2);
         --overflow: hidden;
         width: 64px;
         height: 64px;
+        position: relative;
         transition: transform .3s;
 
-        img {
+        .backlight {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            object-fit: contain;
+            filter: blur(12px) saturate(2) brightness(1.5);
+            opacity: .3;
+            pointer-events: none;
+        }
+
+        .icon {
             width: 100%;
             object-fit: contain;
+            position: relative;
+            z-index: 1;
+            filter: saturate(.1);
         }
 
 
@@ -105,13 +127,15 @@ onBeforeUnmount(() => {
 
         &:hover,
         &.flash {
-            filter: saturate(var(--saturate-base));
             opacity: 1;
             transform: scale(1.1);
             background-color: transparent;
-            animation: glow var(--heartbeat-duration) infinite linear;
-            filter: drop-shadow(0 0 12px #4fc3ff);
-            animation-delay: calc(var(--heartbeat-duration) * 0.07);
+
+            .icon {
+                animation: glow var(--heartbeat-duration) infinite linear;
+                filter: drop-shadow(0 0 12px #4fc3ff);
+                animation-delay: calc(var(--heartbeat-duration) * 0.07);
+            }
 
             span {
                 font-size: 12px;
