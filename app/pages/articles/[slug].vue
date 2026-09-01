@@ -1,5 +1,7 @@
 <script setup lang="ts">
 
+import ArticlesCmp from '../index/articles.vue';
+import { useHomeData } from '../index/data';
 import * as marked from 'marked';
 
 const route = useRoute();
@@ -18,6 +20,9 @@ if (!article) {
         fatal: true
     });
 }
+
+const { articles } = await useHomeData();
+const otherArticles = articles.filter(({ slug: articleSlug }) => articleSlug !== slug);
 
 useHead({ title: article.title, titleTemplate: '%s', });
 
@@ -85,7 +90,7 @@ function getMarkdownReadingStats(markdown: string, wordsPerMinute = 200): Markdo
 </script>
 
 <template>
-    <div class="topbar">
+    <div class="topbar" v-if="links.length">
         <span class="label">Read on:</span>
         <a
             v-for="link of links"
@@ -104,6 +109,9 @@ function getMarkdownReadingStats(markdown: string, wordsPerMinute = 200): Markdo
         </div>
         <span v-html="html"></span>
     </div>
+    <div class="article-list">
+        <articles-cmp :articles="otherArticles" />
+    </div>
 </template>
 
 <style scoped lang="scss">
@@ -113,6 +121,12 @@ function getMarkdownReadingStats(markdown: string, wordsPerMinute = 200): Markdo
     border-radius: 8px;
     color: #ccc;
     overflow: hidden;
+}
+
+.article-list {
+    display: grid;
+    gap: 32px;
+    margin-top: 32px;
 }
 
 .topbar {
@@ -178,6 +192,7 @@ function getMarkdownReadingStats(markdown: string, wordsPerMinute = 200): Markdo
         border-radius: 4px;
         background: #222233;
         color: orange;
+        overflow-x: auto;
     }
 
     blockquote {

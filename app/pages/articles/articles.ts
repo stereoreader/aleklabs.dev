@@ -63,9 +63,5 @@ export const articles = (Object.entries(pages) as [string, string][]).map(([path
 
         return null;
     }
-}).sort((a, b) => {
-    if (a.order === undefined) return b.order === undefined ? 0 : 1;
-    if (b.order === undefined) return -1;
-    return a.order - b.order;
-});
+}).sort((a, b) => b.date.getTime() - a.date.getTime());
 
