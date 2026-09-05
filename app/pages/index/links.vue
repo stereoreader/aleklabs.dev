@@ -98,7 +98,7 @@ onBeforeUnmount(() => {
         width: 64px;
         height: 64px;
         position: relative;
-        transition: transform .3s;
+        transition: opacity 300ms, scale 300ms, transform 300ms;
 
         .backlight {
             position: absolute;
@@ -128,7 +128,6 @@ onBeforeUnmount(() => {
         &:hover,
         &.flash {
             opacity: 1;
-            transform: scale(1.1);
             background-color: transparent;
 
             .icon {
@@ -150,12 +149,57 @@ onBeforeUnmount(() => {
             }
         }
 
+        &:hover {
+            scale: 1.1;
+        }
+
+        &.flash:not(:hover) {
+            transform: scale(1.1);
+        }
+
         &.flash span {
             display: none;
         }
     }
-}
 
+    &:has(a:hover) {
+        a {
+            --hover-distance: 6;
+            opacity: calc(.75 - var(--hover-distance) * .08);
+            scale: calc(1 - var(--hover-distance) * .05);
+
+            &:hover {
+                opacity: 1;
+                scale: 1.2;
+            }
+
+            &:has(+ a:hover),
+            &:hover + a {
+                --hover-distance: 1;
+            }
+
+            &:has(+ a + a:hover),
+            &:hover + a + a {
+                --hover-distance: 2;
+            }
+
+            &:has(+ a + a + a:hover),
+            &:hover + a + a + a {
+                --hover-distance: 3;
+            }
+
+            &:has(+ a + a + a + a:hover),
+            &:hover + a + a + a + a {
+                --hover-distance: 4;
+            }
+
+            &:has(+ a + a + a + a + a:hover),
+            &:hover + a + a + a + a + a {
+                --hover-distance: 5;
+            }
+        }
+    }
+}
 
 
 @keyframes glow {
