@@ -164,8 +164,12 @@ function onPointerOut(event: PointerEvent): void {
     position: relative;
     justify-content: center;
     display: flex;
-    gap: 32px;
+    align-items: start;
     margin-bottom: 32px;
+
+    @media (max-width: 680px) {
+        margin-bottom: 16px;
+    }
 
     .label {
         position: absolute;
@@ -208,16 +212,18 @@ function onPointerOut(event: PointerEvent): void {
         opacity: .7;
         --border-radius: calc(var(--border-radius) / 2);
         --overflow: hidden;
-        width: 64px;
-        height: 64px;
+        width: 96px;
+        min-height: 0;
+        padding-inline: 16px;
         position: relative;
+        display: grid;
+        place-items: start center;
         transition: opacity 300ms, scale 300ms, transform 300ms;
 
         .backlight {
-            position: absolute;
-            inset: 0;
+            grid-area: 1 / 1;
             width: 100%;
-            height: 100%;
+            aspect-ratio: 1;
             z-index: 0;
             object-fit: contain;
             filter: blur(12px) saturate(2) brightness(1.5);
@@ -226,7 +232,9 @@ function onPointerOut(event: PointerEvent): void {
         }
 
         .icon {
+            grid-area: 1 / 1;
             width: 100%;
+            aspect-ratio: 1;
             object-fit: contain;
             position: relative;
             z-index: 1;
