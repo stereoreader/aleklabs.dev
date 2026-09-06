@@ -1,10 +1,16 @@
 <script setup lang="ts">
 
 const $parent = useTemplateRef('$links');
+const $label = useTemplateRef('$label');
 
 const delay = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 let interval: any;
+const linkAnimations = new Map<Element, {
+    $text: HTMLSpanElement;
+    revealFrame: number;
+    clearTimer?: ReturnType<typeof setTimeout>;
+}>();
 const flash = async (repeat = false) => {
     if (!$parent.value) return;
 
@@ -30,53 +36,123 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     clearTimeout(interval);
+    for (const animation of linkAnimations.values()) {
+        cancelAnimationFrame(animation.revealFrame);
+        clearTimeout(animation.clearTimer);
+    }
 });
+
+function onPointerOver(event: PointerEvent): void {
+
+    const $link = (event.target as Element).closest('a');
+    if (!$link || event.relatedTarget instanceof Node && $link.contains(event.relatedTarget)) return;
+
+    const text = $link.querySelector(':scope > span')?.textContent;
+    if (!$label.value || !text) return;
+
+    let animation = linkAnimations.get($link);
+    if (!animation) {
+        const $text = document.createElement('span');
+        $text.className = 'text measuring';
+
+        for (const character of Array.from(text)) {
+            const $character = document.createElement('span');
+            $character.textContent = character;
+            $text.append($character);
+        }
+
+        $label.value.append($text);
+        const textRect = $text.getBoundingClientRect();
+        for (const $character of Array.from($text.children) as HTMLElement[]) {
+            const rect = $character.getBoundingClientRect();
+            const angle = Math.random() * Math.PI * 2;
+            $character.style.left = `${rect.left - textRect.left}px`;
+            $character.style.top = `${rect.top - textRect.top}px`;
+            $character.style.setProperty('--scatter-x', `${Math.cos(angle) * 200}px`);
+            $character.style.setProperty('--scatter-y', `${Math.sin(angle) * 200}px`);
+        }
+        $text.style.width = `${textRect.width}px`;
+        $text.style.height = `${textRect.height}px`;
+        $text.style.left = `${-textRect.width / 2}px`;
+        $text.style.top = `${-textRect.height}px`;
+        $text.classList.remove('measuring');
+        $text.classList.add('scattered');
+        animation = { $text, revealFrame: 0 };
+        linkAnimations.set($link, animation);
+    }
+
+    cancelAnimationFrame(animation.revealFrame);
+    clearTimeout(animation.clearTimer);
+    void animation.$text.offsetWidth;
+    animation.revealFrame = requestAnimationFrame(() => {
+        animation.$text.classList.add('animated');
+        animation.revealFrame = requestAnimationFrame(() => animation.$text.classList.add('visible'));
+    });
+}
+
+function onPointerOut(event: PointerEvent): void {
+
+    const $link = (event.target as Element).closest('a');
+    if (!$link || event.relatedTarget instanceof Node && $link.contains(event.relatedTarget)) return;
+
+    const animation = linkAnimations.get($link);
+    if (!animation) return;
+
+    cancelAnimationFrame(animation.revealFrame);
+    clearTimeout(animation.clearTimer);
+    animation.$text.classList.remove('visible');
+    animation.clearTimer = setTimeout(() => {
+        animation.$text.remove();
+        linkAnimations.delete($link);
+    }, 600);
+}
 
 </script>
 
 <template>
 
-    <div class="links" ref="$links">
+    <div class="links" ref="$links" @pointerover="onPointerOver" @pointerout="onPointerOut">
         <a href="https://www.linkedin.com/in/alexander-nenashev-930731288/" target="_blank">
             <img class="backlight" src="../assets/icons/linkedin.svg" aria-hidden="true">
             <img class="icon icon-scale-80" src="../assets/icons/linkedin.svg">
-            <span>My LinkedIn profile</span>
+            <span>LinkedIn profile</span>
         </a>
         <a href="https://stackoverflow.com/users/14098260/alexander-nenashev" target="_blank">
             <img class="backlight" src="../assets/icons/stackoverflow.svg" aria-hidden="true">
             <img class="icon icon-scale-80" src="../assets/icons/stackoverflow.svg">
-            <span>My Stackoverflow profile</span>
+            <span>Stackoverflow profile</span>
         </a>
         <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bvue.js%5d%20or%20%5bvuejs3%5d&searchOn=3"
             target="_blank">
             <img class="backlight" src="../assets/icons/vue.svg" aria-hidden="true">
             <img class="icon" src="../assets/icons/vue.svg">
-            <span>My Vue SO answers</span>
+            <span>Vue SO answers</span>
         </a>
         <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bvite%5d%20&searchOn=3"
             target="_blank">
             <img class="backlight" src="../assets/icons/vite.svg" aria-hidden="true">
             <img class="icon icon-scale-90" src="../assets/icons/vite.svg">
-            <span>My Vite SO answers</span>
+            <span>Vite SO answers</span>
         </a>
         <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5btypescript%5d&searchOn=3"
             target="_blank">
             <img class="backlight" src="../assets/icons/typescript.svg" aria-hidden="true">
             <img class="icon" src="../assets/icons/typescript.svg">
-            <span>My Typescript SO answers</span>
+            <span>Typescript SO answers</span>
         </a>
         <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bjavascript%5d&searchOn=3"
             target="_blank">
             <img class="backlight" src="../assets/icons/javascript.svg" aria-hidden="true">
             <img class="icon" src="../assets/icons/javascript.svg">
-            <span>My Javascript SO answers</span>
+            <span>Javascript SO answers</span>
         </a>
         <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bcss%5d&searchOn=3"
             target="_blank">
             <img class="backlight" src="../assets/icons/css.svg" aria-hidden="true">
             <img class="icon icon-scale-85 icon-nudge-down" src="../assets/icons/css.svg">
-            <span>My CSS SO answers</span>
+            <span>CSS SO answers</span>
         </a>
+        <div class="label" ref="$label" aria-hidden="true"></div>
     </div>
 
 </template>
@@ -90,6 +166,43 @@ onBeforeUnmount(() => {
     display: flex;
     gap: 32px;
     margin-bottom: 32px;
+
+    .label {
+        position: absolute;
+        bottom: -42px;
+        left: 50%;
+        font-size: 24px;
+        color: #888;
+        pointer-events: none;
+
+        :deep(.text) {
+            position: absolute;
+            white-space: pre;
+
+            &.measuring {
+                width: max-content;
+            }
+
+            > span {
+                display: inline-block;
+                opacity: 0;
+            }
+
+            &.scattered > span {
+                position: absolute;
+                transform: translate(var(--scatter-x), var(--scatter-y));
+            }
+
+            &.animated > span {
+                transition: opacity 500ms ease, transform 600ms cubic-bezier(.22, 1, .36, 1);
+            }
+
+            &.visible > span {
+                opacity: 1;
+                transform: translate(0, 0);
+            }
+        }
+    }
 
     a {
         opacity: .7;
@@ -139,7 +252,7 @@ onBeforeUnmount(() => {
             span {
                 font-size: 12px;
                 color: #bbb;
-                display: block;
+                //display: block;
                 position: absolute;
                 top: 64px;
                 width: 300px;
