@@ -193,37 +193,37 @@ function setActive($link: Element | null): void {
         <a href="https://stackoverflow.com/users/14098260/alexander-nenashev" target="_blank">
             <img class="backlight" src="../assets/icons/stackoverflow.svg" aria-hidden="true">
             <img class="icon icon-scale-80" src="../assets/icons/stackoverflow.svg">
-            <span>Stackoverflow profile</span>
+            <span>Stack Overflow with 1533 answers</span>
         </a>
         <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bvue.js%5d%20or%20%5bvuejs3%5d&searchOn=3"
             target="_blank">
             <img class="backlight" src="../assets/icons/vue.svg" aria-hidden="true">
             <img class="icon" src="../assets/icons/vue.svg">
-            <span>Vue SO answers</span>
+            <span>271 Vue SO answers</span>
         </a>
         <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bvite%5d%20&searchOn=3"
             target="_blank">
             <img class="backlight" src="../assets/icons/vite.svg" aria-hidden="true">
             <img class="icon icon-scale-90" src="../assets/icons/vite.svg">
-            <span>Vite SO answers</span>
+            <span>33 Vite SO answers</span>
         </a>
         <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5btypescript%5d&searchOn=3"
             target="_blank">
             <img class="backlight" src="../assets/icons/typescript.svg" aria-hidden="true">
             <img class="icon" src="../assets/icons/typescript.svg">
-            <span>Typescript SO answers</span>
+            <span>283 Typescript SO answers</span>
         </a>
         <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bjavascript%5d&searchOn=3"
             target="_blank">
             <img class="backlight" src="../assets/icons/javascript.svg" aria-hidden="true">
             <img class="icon" src="../assets/icons/javascript.svg">
-            <span>Javascript SO answers</span>
+            <span>1009 Javascript SO answers</span>
         </a>
         <a href="https://stackoverflow.com/search?tab=votes&q=user%3a14098260%20%5bcss%5d&searchOn=3"
             target="_blank">
             <img class="backlight" src="../assets/icons/css.svg" aria-hidden="true">
             <img class="icon icon-scale-85 icon-nudge-down" src="../assets/icons/css.svg">
-            <span>CSS SO answers</span>
+            <span>71 CSS SO answers</span>
         </a>
         <div class="label" ref="$label"></div>
     </div>
