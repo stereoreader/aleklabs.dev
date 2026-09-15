@@ -1,5 +1,5 @@
 const locales = import.meta.glob(['./??.*.ts', './??.ts']);
-export const supportedLocales = new Set(['de', 'en', 'es', 'fr', 'it', 'ru']);
+export const supportedLocales = new Set(['de', 'en', 'es', 'fr', 'he', 'it', 'ru']);
 
 const translationsByLocale: Record<string, Record<string, string>> = {};
 

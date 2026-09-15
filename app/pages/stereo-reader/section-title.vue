@@ -23,6 +23,10 @@ defineProps<{
     text-transform: uppercase;
     counter-increment: section;
 
+    &:dir(rtl) {
+        text-transform: none;
+    }
+
     position: relative;
     display: flex;
     align-items: center;

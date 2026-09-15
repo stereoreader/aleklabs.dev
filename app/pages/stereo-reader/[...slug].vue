@@ -11,6 +11,7 @@ import flagDe from './assets/flags/de.svg';
 import flagEn from './assets/flags/en.svg';
 import flagEs from './assets/flags/es.svg';
 import flagFr from './assets/flags/fr.svg';
+import flagHe from './assets/flags/he.svg';
 import flagIt from './assets/flags/it.svg';
 import flagRu from './assets/flags/ru.svg';
 
@@ -22,6 +23,7 @@ const langs = [
     { id: 'de', title: 'Deutsch', flag: flagDe },
     { id: 'es', title: 'Español', flag: flagEs },
     { id: 'fr', title: 'Français', flag: flagFr },
+    { id: 'he', title: 'עברית', flag: flagHe },
     { id: 'it', title: 'Italiano', flag: flagIt },
     { id: 'ru', title: 'Русский', flag: flagRu }
 ];
@@ -56,7 +58,8 @@ function hrefForLocale(targetLang: string) {
 useHead({
     title: $t('STEREO READER: Improve your vision while reading your favorite books in stereo mode'),
     htmlAttrs: {
-        lang
+        lang,
+        dir: lang === 'he' ? 'rtl' : 'ltr'
     }
 });
 
@@ -159,9 +162,8 @@ const trainingUrl = `https://aleklabs.dev/stereo-reader/app/#training:H4sIAAAAAA
         <nuxt-link :to="alternateLangHref" v-else-if="hasAlternateLang">English</nuxt-link>
     </div> -->
     <div class="cover">
-        <div class="lang-switch">
-            <nuxt-link v-for="item of langs" :key="item.id" :to="hrefForLocale(item.id)" :class="{ active: item.id === lang }" :title="item.title"
-                :aria-label="item.title" :aria-current="item.id === lang ? 'page' : undefined">
+        <div class="lang-switch" dir="ltr">
+            <nuxt-link v-for="item of langs.filter(item => item.id !== lang)" :key="item.id" :to="hrefForLocale(item.id)" :title="item.title" :aria-label="item.title">
                 <img :src="item.flag" :alt="item.title" width="32" height="21">
             </nuxt-link>
         </div>
@@ -264,6 +266,10 @@ const trainingUrl = `https://aleklabs.dev/stereo-reader/app/#training:H4sIAAAAAA
         pointer-events: none;
     }
 
+    &:dir(rtl)::before {
+        transform: scaleX(-1);
+    }
+
     > * {
         position: relative;
         z-index: 1;
@@ -282,6 +288,10 @@ const trainingUrl = `https://aleklabs.dev/stereo-reader/app/#training:H4sIAAAAAA
     font-size: 32px;
     font-weight: 400;
     letter-spacing: 0.08em;
+
+    &:dir(rtl) {
+        letter-spacing: normal;
+    }
 }
 
 .preview {
@@ -335,9 +345,10 @@ h1 {
     font-size: smaller;
     --offset: 16px;
     top: var(--offset);
-    right: var(--offset);
+    inset-inline-end: var(--offset);
     z-index: 2;
     display: flex;
+    direction: ltr;
     gap: 8px;
     flex-grow: 0;
 
@@ -355,7 +366,6 @@ h1 {
         animation: none;
         box-shadow: 0 0 0 1px rgb(255 255 255 / .15);
 
-        &.active,
         &:hover {
             opacity: 1;
         }
@@ -454,7 +464,7 @@ h1 {
     :deep(h2) {
         color: #888;
         //position: absolute;
-        left: 0;
+        inset-inline-start: 0;
         top: calc(-1 * var(--margin-top) + 8px);
         font-weight: normal;
         text-align: center;
@@ -492,19 +502,24 @@ h1 {
         text-align: center;
         letter-spacing: 0.01em;
         text-shadow: 0 0 12px black;
+
+        &:dir(rtl) {
+            letter-spacing: normal;
+        }
     }
 
     :deep(.image-left) {
-        float: left;
+        float: inline-start;
         width: min(45%, 400px);
         height: auto;
-        margin: 0 24px 16px 0;
+        margin-block: 0 16px;
+        margin-inline: 0 24px;
         border-radius: 6px;
 
         @media (width < 450px) {
             float: none;
             width: 100%;
-            margin-right: 0;
+            margin-inline-end: 0;
         }
     }
 }
