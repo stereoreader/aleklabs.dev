@@ -5,9 +5,26 @@ import feature2Img from './assets/feature-relax.png?w=250';
 import feature3Img from './assets/feature-train.png?w=250';
 import faceDownImg from './assets/face-down.png?w=400';
 import SectionTitle from './section-title.vue';
+import { parse as parseYaml } from 'yaml';
+import { $t, loadLang, supportedLocales } from './lang';
+import flagDe from './assets/flags/de.svg';
+import flagEn from './assets/flags/en.svg';
+import flagEs from './assets/flags/es.svg';
+import flagFr from './assets/flags/fr.svg';
+import flagIt from './assets/flags/it.svg';
+import flagRu from './assets/flags/ru.svg';
 
 import stereoReaderCardBg from '../assets/stereo-reader-card-bg.png';
 const stereoReaderCardBackground = `url("${stereoReaderCardBg}")`;
+
+const langs = [
+    { id: 'en', title: 'English', flag: flagEn },
+    { id: 'de', title: 'Deutsch', flag: flagDe },
+    { id: 'es', title: 'Español', flag: flagEs },
+    { id: 'fr', title: 'Français', flag: flagFr },
+    { id: 'it', title: 'Italiano', flag: flagIt },
+    { id: 'ru', title: 'Русский', flag: flagRu }
+];
 
 
 const foundMarkdown = import.meta.glob('./content/**/*.md', { query: '?raw', eager: true, import: 'default' }) as Record<string, string>;
@@ -20,23 +37,24 @@ const markdownKeys = Object.keys(foundMarkdown);
 let lang = 'en';
 let folderPath = '';
 
-if (slugParts.length === 1) {
-    if (slugParts[0]!.length === 2) {
-        lang = slugParts[0]!;
-    } else {
-        folderPath = slugParts[0]!;
-    }
-} else if (slugParts.length > 1) {
-    if (slugParts[0]!.length === 2) {
-        lang = slugParts[0]!;
-        folderPath = slugParts.slice(1).join('/');
-    } else {
-        folderPath = slugParts.join('/');
-    }
+if (slugParts[0] && slugParts[0].length === 2 && supportedLocales.has(slugParts[0])) {
+    lang = slugParts[0];
+    folderPath = slugParts.slice(1).join('/');
+} else {
+    folderPath = slugParts.join('/');
+}
+
+await loadLang(lang);
+const localePath = lang === 'en' ? '' : `/${lang}`;
+
+function hrefForLocale(targetLang: string) {
+
+    const path = targetLang === 'en' ? '' : `/${targetLang}`;
+    return `/stereo-reader${path}${folderPath ? `/${folderPath}` : ''}`;
 }
 
 useHead({
-    title: lang === 'ru' ? 'СТЕРЕО ЧТЕНИЕ: Улучшайте зрение читая любимые книги в стерео режиме' : 'STEREO READER: Improve your vision while reading your favorite books in stereo mode',
+    title: $t('STEREO READER: Improve your vision while reading your favorite books in stereo mode'),
     htmlAttrs: {
         lang
     }
@@ -97,9 +115,10 @@ function findContent<T extends string[]>(...pages: T) {
 }
 
 const content = findContent('title', 'parallelview', 'section1', 'section2', 'feature1', 'feature2', 'feature3', 'story', 'results', 'warning', 'app', 'goals', 'bates', 'join');
+const trainingPositionHeading = $t('Recommended training position');
 const section2Content = content.section2.replace(
-    '### Recommended training position',
-    `### Recommended training position\n\n![Face-down Stereo Reader training position](${faceDownImg}){.image-left}`
+    `### ${trainingPositionHeading}`,
+    `### ${trainingPositionHeading}\n\n![${$t('Face-down Stereo Reader training position')}](${faceDownImg}){.image-left}`
 );
 const titleContent = content.title;
 const storyContent = folderPath ? getMarkdown(...getFolderIndexPaths(folderPath)) : '';
@@ -109,27 +128,18 @@ const storyChapters = folderPath
         .map(chapter => chapter.trim())
         .filter(Boolean)
     : [];
-const alternateLang = lang === 'en' ? 'ru' : 'en';
-const alternateLangPaths = folderPath ? getFolderIndexPaths(folderPath, alternateLang) : getDefaultPagePaths('title', alternateLang);
-const hasAlternateLang = hasMarkdown(...alternateLangPaths);
-const alternateLangHref = alternateLang === 'en'
-    ? folderPath ? `/stereo-reader/${folderPath}` : '/stereo-reader'
-    : folderPath ? `/stereo-reader/${alternateLang}/${folderPath}` : `/stereo-reader/${alternateLang}`;
+const seoSource = getMarkdown(...getDefaultPagePaths('_seo-meta')).replace(/^\uFEFF/u, '').replace(/\r\n?/g, '\n');
+const seoMatch = /^---\n([\s\S]*?)\n---(?:\n|$)([\s\S]*)$/u.exec(seoSource);
+const seoMeta = parseYaml(seoMatch?.[1] ?? seoSource) as { description?: string };
 
 import coverImg from './assets/logo.svg';
 import FeatureCmp from './feature.vue';
 
-if (lang === 'en') {
-    useSeoMeta({
-        ogDescription: 'Train or relax your eyes with Stereo Reader while reading books and documents in stereo or mono mode. Supports text, PDF, EPUB, FB2, images, stereo pairs, voice commands, mouse control, and timers.',
-        ogImage: new URL('./assets/logo.jpg', import.meta.url).pathname
-    });
-} else {
-    useSeoMeta({
-        ogDescription: 'Тренируйте или расслабляйте глаза со Стерео Чтение, читая книги и документы в стерео- или моно-режиме. Поддерживает текст, PDF, EPUB, FB2, изображения, стереопары, голосовые команды, мышь и таймеры.',
-        ogImage: new URL('./assets/logo.jpg', import.meta.url).pathname
-    });
-}
+useSeoMeta({
+    description: seoMeta.description,
+    ogDescription: seoMeta.description,
+    ogImage: new URL('./assets/logo.jpg', import.meta.url).pathname
+});
 
 const titleHtml = computed(() => {
     let html = parseMarkdown(titleContent);
@@ -149,6 +159,12 @@ const trainingUrl = `https://aleklabs.dev/stereo-reader/app/#training:H4sIAAAAAA
         <nuxt-link :to="alternateLangHref" v-else-if="hasAlternateLang">English</nuxt-link>
     </div> -->
     <div class="cover">
+        <div class="lang-switch">
+            <nuxt-link v-for="item of langs" :key="item.id" :to="hrefForLocale(item.id)" :class="{ active: item.id === lang }" :title="item.title"
+                :aria-label="item.title" :aria-current="item.id === lang ? 'page' : undefined">
+                <img :src="item.flag" :alt="item.title" width="32" height="21">
+            </nuxt-link>
+        </div>
         <al-cover :image-src="coverImg" v-transition-target="[$route.fullPath, 'cover']" />
         <div class="text" v-html="titleHtml">
         </div>
@@ -161,8 +177,7 @@ const trainingUrl = `https://aleklabs.dev/stereo-reader/app/#training:H4sIAAAAAA
     <div class="story">
         <template v-if="folderPath">
             <div class="home">
-                <nuxt-link to="/stereo-reader" v-if="lang !== 'ru'">Back to Stereo Reader home</nuxt-link>
-                <nuxt-link to="/stereo-reader/ru" v-else>Назад на страницу Стерео Чтение</nuxt-link>
+                <nuxt-link :to="`/stereo-reader${localePath}`">{{ $t('Back to Stereo Reader home') }}</nuxt-link>
             </div>
             <h1>{{ storyChapters[0]?.replace('#', '').trim() }}</h1>
             <al-markdown class="chapter" :key="idx" :src="chapter"
@@ -170,38 +185,37 @@ const trainingUrl = `https://aleklabs.dev/stereo-reader/app/#training:H4sIAAAAAA
         </template>
         <template v-else>
 
-            <div class="hook" style="margin-bottom: 0">What is Parallel view?</div>
+            <div class="hook" style="margin-bottom: 0">{{ $t('What is Parallel view?') }}</div>
             <al-markdown class="chapter" :src="content.parallelview" style="margin-top:32px" />
             <iframe class="video" src="https://www.youtube.com/embed/_HdoPnvChe0?si=Wq7je_dMPEFAiXU-"
                 title="YouTube video player" frameborder="0" loading="lazy"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             <div class="preview-link">
-                <a href="https://youtu.be/ikvzroKPpgI" target="_blank">Having trouble? Try another parallel-view
-                    tutorial.</a>
+                <a href="https://youtu.be/ikvzroKPpgI" target="_blank">{{ $t('Having trouble? Try another parallel-view tutorial.') }}</a>
             </div>
 
-            <div class="hook" style="margin-top:48px">What is Stereo Reader?</div>
+            <div class="hook" style="margin-top:48px">{{ $t('What is Stereo Reader?') }}</div>
 
-            <section-title title="Eye trainer" />
+            <section-title :title="$t('Eye trainer')" />
             <al-markdown class="chapter" :src="section2Content" />
 
             <iframe class="preview" loading="lazy" :src="trainingUrl"></iframe>
-            <div class="preview-link" v-if="lang !== 'ru'">
-                Train your eye muscles with dynamic stereo modulation<br />
-                <a :href="trainingUrl" target="_blank">Open in STEREO READER</a>
+            <div class="preview-link">
+                {{ $t('Train your eye muscles with dynamic stereo modulation') }}<br />
+                <a :href="trainingUrl" target="_blank">{{ $t('Open in STEREO READER') }}</a>
             </div>
 
-            <section-title title="Parallel-view reader" style="margin-top:64px;" />
+            <section-title :title="$t('Parallel-view reader')" style="margin-top:64px;" />
             <al-markdown class="chapter" :src="content.section1" />
             <iframe class="preview" loading="lazy"
                 src="https://aleklabs.dev/stereo-reader/app/#try"></iframe>
 
-            <div class="preview-link" v-if="lang !== 'ru'">
-                Read a book in stereo mode using parallel view<br />
+            <div class="preview-link">
+                {{ $t('Read a book in stereo mode using parallel view') }}<br />
                 <a href="https://aleklabs.dev/stereo-reader/app/#try"
                     target="_blank">
-                    Open in STEREO READER
+                    {{ $t('Open in STEREO READER') }}
                 </a>
             </div>
 
@@ -218,10 +232,7 @@ const trainingUrl = `https://aleklabs.dev/stereo-reader/app/#training:H4sIAAAAAA
 
     <div class="footer">
         <div class="roadmap">
-            <nuxt-link v-if="lang !== 'ru'" to='/stereo-reader/roadmap'>From Eye-Muscle Stretching to Stereo
-                Reading:<br />My Roadmap of Functional Vision Sharpness</nuxt-link>
-            <nuxt-link v-else to='/stereo-reader/ru/roadmap'>От растяжки глазных мышц к стерео-чтению:<br />моя
-                дорожная карта Функциональной Резкости Зрения</nuxt-link>
+            <nuxt-link :to="`/stereo-reader${localePath}/roadmap`" v-html="$t('From Eye-Muscle Stretching to Stereo Reading:<br />My Roadmap of Functional Vision Sharpness')" />
         </div>
     </div>
 </template>
@@ -319,19 +330,42 @@ h1 {
     }
 }
 
-.lang-switch {
+.cover .lang-switch {
     position: absolute;
     font-size: smaller;
     --offset: 16px;
     top: var(--offset);
     right: var(--offset);
+    z-index: 2;
+    display: flex;
+    gap: 8px;
+    flex-grow: 0;
 
     a {
-        text-decoration: none;
-        color: #555;
+        display: block;
+        flex-grow: 0;
+        width: 32px;
+        height: 21px;
+        padding: 0;
+        opacity: 0.55;
+        overflow: hidden;
+        border-radius: 3px;
+        color: inherit;
+        font-weight: inherit;
+        animation: none;
+        box-shadow: 0 0 0 1px rgb(255 255 255 / .15);
 
+        &.active,
         &:hover {
-            color: #fff;
+            opacity: 1;
+        }
+
+        img {
+            display: block;
+            flex-grow: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     }
 }
