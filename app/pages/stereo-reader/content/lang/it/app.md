@@ -18,4 +18,4 @@ Prima di usare Stereo Reader è utile capire prima la stereoscopia in visione pa
 
 Un buon punto di partenza è esercitarsi prima con coppie di immagini stereoscopiche ordinarie, poi passare a Stereo Reader quando l’abilità di fusione in visione parallela diventa familiare. Gallerie come [Hidden 3D](https://hidden-3d.com/) o [Stereoscopy.com](https://www.stereoscopy.com/) offrono esempi in visione parallela e in visione incrociata.
 
-[Apri Stereo Reader e provalo](/stereo-reader/app#try)
+[Apri Stereo Reader e provalo](https://stereo.aleklabs.dev/#try)

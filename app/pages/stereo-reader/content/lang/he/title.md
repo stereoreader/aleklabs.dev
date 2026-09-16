@@ -2,4 +2,4 @@
 
 קורא במבט מקביל ומאמן עיניים
 
-[פתיחת היישום](/stereo-reader/app/)
+[פתיחת היישום](https://stereo.aleklabs.dev/)

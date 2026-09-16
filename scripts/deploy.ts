@@ -95,7 +95,13 @@ async function main(): Promise<void> {
             }
         }
 
-        await cp(sourceAppDir, buildAppDir, { recursive: true, force: true });
+        await cp(sourceAppDir, buildAppDir, {
+            recursive: true,
+            force: true,
+            filter(src) {
+                return !src.slice(sourceAppDir.length).split(/[/\\]/).includes('.git');
+            }
+        });
 
         const currentPrecachedAssetPaths = await getPrecachedAssetPaths(buildAppDir);
         assetGenerations.unshift([...currentPrecachedAssetPaths]);

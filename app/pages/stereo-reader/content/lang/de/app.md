@@ -18,4 +18,4 @@ Vor der Nutzung von Stereo Reader ist es sinnvoll, zuerst Parallelblick-Stereosk
 
 Ein guter Einstieg ist, zuerst mit gewöhnlichen stereoskopischen Bildpaaren zu üben und erst zu Stereo Reader zu wechseln, wenn die grundlegende Parallelblick-Fusion vertraut ist. Stereobild-Galerien wie [Hidden 3D](https://hidden-3d.com/) oder [Stereoscopy.com](https://www.stereoscopy.com/) bieten Beispiele im Parallelblick- und im Kreuzblick-Format.
 
-[Stereo Reader öffnen und ausprobieren](/stereo-reader/app#try)
+[Stereo Reader öffnen und ausprobieren](https://stereo.aleklabs.dev/#try)

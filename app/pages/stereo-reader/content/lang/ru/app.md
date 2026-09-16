@@ -18,4 +18,4 @@ Stereo Reader также поддерживает голосовые коман�
 
 Хороший старт — сначала потренироваться на обычных стереопарах изображений, а затем перейти к Stereo Reader, когда базовый навык слияния в параллельном режиме станет привычным. Галереи стереоизображений, такие как [Hidden 3D](https://hidden-3d.com/) или [Stereoscopy.com](https://www.stereoscopy.com/), содержат примеры как в parallel-view, так и в cross-view форматах.
 
-[Открыть Stereo Reader и попробовать](/stereo-reader/app#try)
+[Открыть Stereo Reader и попробовать](https://stereo.aleklabs.dev/#try)

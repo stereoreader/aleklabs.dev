@@ -18,4 +18,4 @@ Before using Stereo Reader, it is useful to first understand parallel-view stere
 
 A good starting point is to practice with ordinary stereoscopic image pairs first, then move to Stereo Reader after the basic parallel-view fusion skill becomes familiar. Stereo image galleries such as [Hidden 3D](https://hidden-3d.com/) or [Stereoscopy.com](https://www.stereoscopy.com/) provide examples available in both parallel-view and cross-view formats. 
 
-[Open Stereo Reader and try it](/stereo-reader/app#try)
+[Open Stereo Reader and try it](https://stereo.aleklabs.dev/#try)

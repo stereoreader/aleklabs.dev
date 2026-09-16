@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const targetUrl = 'https://aleklabs.dev/stereo-reader/app/';
+const targetUrl = 'https://stereo.aleklabs.dev/';
 
 useHead({
     title: 'Redirecting...',

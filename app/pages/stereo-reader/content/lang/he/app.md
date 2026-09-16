@@ -18,4 +18,4 @@ Stereo Reader תומך גם בפקודות קול ובשליטה בעכבר, מ�
 
 נקודת התחלה טובה היא להתאמן קודם עם זוגות תמונות סטריאוסקופיות רגילות, ואז לעבור ל־Stereo Reader אחרי שמיומנות המיזוג הבסיסית במבט מקביל נעשית מוכרת. גלריות כמו [Hidden 3D](https://hidden-3d.com/) או [Stereoscopy.com](https://www.stereoscopy.com/) מספקות דוגמאות זמינות הן במבט מקביל והן במבט מוצלב.
 
-[פתיחת Stereo Reader וניסיון](/stereo-reader/app#try)
+[פתיחת Stereo Reader וניסיון](https://stereo.aleklabs.dev/#try)
