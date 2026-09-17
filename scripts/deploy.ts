@@ -16,7 +16,7 @@ async function main(): Promise<void> {
     const buildDir = resolve(process.cwd(), 'build');
     const buildGitDir = resolve(buildDir, '.git');
     const publicDir = resolve(process.cwd(), '.output', 'public');
-    const stereoReaderAppDir = 'C:\\www\\stereoreader\\dist';
+    const stereoReaderAppDir = 'C:\\www\\stereoreader\\dist-app';
     const stereoReaderAppBetaDir = 'C:\\www\\stereoreader\\dist-beta';
     const stereoReaderBuildDir = resolve(buildDir, 'stereo-reader');
     const stereoReaderBuildAppDir = resolve(stereoReaderBuildDir, 'app');
