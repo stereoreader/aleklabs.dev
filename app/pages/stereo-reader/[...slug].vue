@@ -117,7 +117,7 @@ function findContent<T extends string[]>(...pages: T) {
     return out;
 }
 
-const content = findContent('title', 'parallelview', 'section1', 'section2', 'feature1', 'feature2', 'feature3', 'story', 'results', 'warning', 'app', 'goals', 'bates', 'join', 'file-privacy');
+const content = findContent('title', 'parallelview', 'crossview', 'section1', 'section2', 'feature1', 'feature2', 'feature3', 'story', 'results', 'warning', 'app', 'goals', 'bates', 'join', 'file-privacy');
 const trainingPositionHeading = $t('Recommended training position');
 const section2Content = content.section2.replace(
     `### ${trainingPositionHeading}`,
@@ -196,6 +196,8 @@ const trainingUrl = `https://stereo.aleklabs.dev/#training:H4sIAAAAAAAACu1cS28jx
             <div class="preview-link">
                 <a href="https://youtu.be/ikvzroKPpgI" target="_blank">{{ $t('Having trouble? Try another parallel-view tutorial.') }}</a>
             </div>
+
+            <al-markdown class="chapter" :src="content.crossview" />
 
             <div class="hook" style="margin-top:48px">{{ $t('What is Stereo Reader?') }}</div>
 

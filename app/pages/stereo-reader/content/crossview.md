@@ -1,0 +1,3 @@
+## Cross view
+
+Cross view is the opposite way of viewing stereo images: instead of looking with parallel visual axes, the eyes converge so that the lines of sight cross at a point between the eyes and the screen, allowing the left eye to view the right image and the right eye to view the left image. Because this mode deliberately increases convergence and keeps the visual system working in a stronger near-oriented configuration, it may be relevant for presbyopia and other difficulties with near focusing. Stereo Reader can also be used for cross-view training, including convergence practice and presbyopia-oriented visual exercises, using the same adjustable reading and fusion techniques.

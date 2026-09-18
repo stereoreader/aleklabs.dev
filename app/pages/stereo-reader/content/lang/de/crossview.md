@@ -1,0 +1,3 @@
+## Kreuzblick
+
+Kreuzblick ist die entgegengesetzte Art, Stereobilder zu betrachten: statt mit parallelen Sehachsen zu schauen, konvergieren die Augen so, dass sich die Blicklinien in einem Punkt zwischen den Augen und dem Bildschirm kreuzen, sodass das linke Auge das rechte Bild und das rechte Auge das linke Bild sieht. Weil dieser Modus die Konvergenz bewusst verstärkt und das visuelle System in einer stärker nahorientierten Konfiguration arbeiten lässt, kann er für Presbyopie und andere Schwierigkeiten mit der Nahfokussierung relevant sein. Stereo Reader kann auch für das Training im Kreuzblick verwendet werden, einschließlich Konvergenzübungen und visuell auf Presbyopie ausgerichteter Übungen, mit denselben einstellbaren Lese- und Fusionstechniken.
