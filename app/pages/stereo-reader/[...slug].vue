@@ -117,7 +117,7 @@ function findContent<T extends string[]>(...pages: T) {
     return out;
 }
 
-const content = findContent('title', 'parallelview', 'section1', 'section2', 'feature1', 'feature2', 'feature3', 'story', 'results', 'warning', 'app', 'goals', 'bates', 'join');
+const content = findContent('title', 'parallelview', 'section1', 'section2', 'feature1', 'feature2', 'feature3', 'story', 'results', 'warning', 'app', 'goals', 'bates', 'join', 'file-privacy');
 const trainingPositionHeading = $t('Recommended training position');
 const section2Content = content.section2.replace(
     `### ${trainingPositionHeading}`,
@@ -209,6 +209,7 @@ const trainingUrl = `https://stereo.aleklabs.dev/#training:H4sIAAAAAAAACu1cS28jx
             </div>
 
             <section-title :title="$t('Parallel-view reader')" style="margin-top:64px;" />
+            <al-markdown class="file-privacy" :src="content['file-privacy']" />
             <al-markdown class="chapter" :src="content.section1" />
             <iframe class="preview" loading="lazy"
                 src="https://stereo.aleklabs.dev/#try"></iframe>
@@ -521,6 +522,42 @@ h1 {
             width: 100%;
             margin-inline-end: 0;
         }
+    }
+}
+
+.file-privacy {
+    margin-top: 16px;
+    margin-inline: auto;
+    max-width: 42rem;
+    padding: 14px 22px 16px;
+    border-radius: 14px;
+    text-align: center;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #b7ddd0;
+    background:
+        linear-gradient(#142a24, #101c19) padding-box,
+        linear-gradient(110deg, #5ee0b8, #5aa0ff) border-box;
+    border: 1px solid transparent;
+    box-shadow: 0 0 16px rgb(80 220 180 / 14%);
+
+    :deep(p) {
+        margin: 0;
+
+        + p {
+            margin-top: 6px;
+        }
+    }
+
+    :deep(strong) {
+        color: #9ff3cc;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+    }
+
+    &:dir(rtl) :deep(strong) {
+        letter-spacing: normal;
     }
 }
 
