@@ -1,5 +1,5 @@
 const locales = import.meta.glob(['./??.*.ts', './??.ts']);
-export const supportedLocales = new Set(['de', 'en', 'es', 'fr', 'he', 'it', 'ru']);
+export const supportedLocales = new Set(['br', 'de', 'en', 'es', 'fr', 'he', 'it', 'ru']);
 
 const translationsByLocale: Record<string, Record<string, string>> = {};
 
@@ -41,9 +41,9 @@ function escapeRegex(s: string): string {
 const prefixes = ['Open', 'Close', 'Turn on', 'Turn off', 'Show'];
 const prefixRegex = new RegExp(`^(${prefixes.map(escapeRegex).join('|')})\\s+`, 'i');
 
-export function $t(key: string): string {
+export function $t(key: string, localeOverride?: string): string {
     if (!key) return '';
-    const locale = resolveLocale();
+    const locale = localeOverride ?? resolveLocale();
     const cacheKey = locale + ':' + key;
     const cached = cache[cacheKey];
     if (cached) return cached;
@@ -65,7 +65,7 @@ export function $t(key: string): string {
     if (match) {
         const prefix = match[1];
         const rest = key.slice(prefix.length).trimStart();
-        const result = $t(prefix) + ' ' + $t(rest);
+        const result = $t(prefix, localeOverride) + ' ' + $t(rest, localeOverride);
         cache[cacheKey] = result;
         return result;
     }

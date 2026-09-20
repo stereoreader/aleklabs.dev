@@ -1,0 +1,3 @@
+## Visão cruzada
+
+A visão cruzada é o modo oposto de ver imagens estéreo: em vez de olhar com eixos visuais paralelos, os olhos convergem de modo que as linhas de visão se cruzem em um ponto entre os olhos e a tela, permitindo que o olho esquerdo veja a imagem direita e o olho direito veja a imagem esquerda. Como esse modo aumenta deliberadamente a convergência e mantém o sistema visual trabalhando em uma configuração mais orientada para perto, ele pode ser relevante para a presbiopia e outras dificuldades de foco de perto. O Stereo Reader também pode ser usado para treino em visão cruzada, incluindo prática de convergência e exercícios visuais orientados à presbiopia, com as mesmas técnicas ajustáveis de leitura e fusão.

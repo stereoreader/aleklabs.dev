@@ -11,5 +11,8 @@ export default {
     'Read a book in stereo mode using parallel view': 'קראו ספר במצב סטריאו במבט מקביל',
     'From Eye-Muscle Stretching to Stereo Reading:<br />My Roadmap of Functional Vision Sharpness': 'ממתיחת שרירי העיניים לקריאה סטריאופונית:<br />מפת הדרכים שלי לחדות ראייה תפקודית',
     'Recommended training position': 'תנוחת אימון מומלצת',
-    'Face-down Stereo Reader training position': 'תנוחת אימון של Stereo Reader בפנים כלפי מטה'
+    'Face-down Stereo Reader training position': 'תנוחת אימון של Stereo Reader בפנים כלפי מטה',
+    'This page is available in your language.': 'הדף הזה זמין בשפה שלכם.',
+    'Switch to your language': 'עברו לשפה שלכם',
+    'Stay here': 'להישאר כאן'
 }

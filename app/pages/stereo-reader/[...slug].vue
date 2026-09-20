@@ -1,3 +1,7 @@
+<script lang="ts">
+let langPromptCheckedThisVisit = false;
+</script>
+
 <script setup lang="ts">
 
 import feature1Img from './assets/feature-read.png?w=250';
@@ -7,6 +11,7 @@ import faceDownImg from './assets/face-down.png?w=400';
 import SectionTitle from './section-title.vue';
 import { parse as parseYaml } from 'yaml';
 import { $t, loadLang, supportedLocales } from './lang';
+import flagBr from './assets/flags/br.svg';
 import flagDe from './assets/flags/de.svg';
 import flagEn from './assets/flags/en.svg';
 import flagEs from './assets/flags/es.svg';
@@ -20,6 +25,7 @@ const stereoReaderCardBackground = `url("${stereoReaderCardBg}")`;
 
 const langs = [
     { id: 'en', title: 'English', flag: flagEn },
+    { id: 'br', title: 'Português (Brasil)', flag: flagBr },
     { id: 'de', title: 'Deutsch', flag: flagDe },
     { id: 'es', title: 'Español', flag: flagEs },
     { id: 'fr', title: 'Français', flag: flagFr },
@@ -53,6 +59,36 @@ function hrefForLocale(targetLang: string) {
 
     const path = targetLang === 'en' ? '' : `/${targetLang}`;
     return `/stereo-reader${path}${folderPath ? `/${folderPath}` : ''}`;
+}
+
+const langPromptStorageKey = 'stereo-reader-lang-prompt';
+const promptLocale = ref<string>();
+
+onMounted(async () => {
+    if (langPromptCheckedThisVisit) return;
+    langPromptCheckedThisVisit = true;
+    if (localStorage.getItem(langPromptStorageKey)) return;
+    const tags = navigator.languages.length ? navigator.languages : [navigator.language];
+    let detected: string | undefined;
+    for (const tag of tags) {
+        const code = tag.split('-')[0]?.toLocaleLowerCase();
+        if (code && supportedLocales.has(code)) {
+            detected = code;
+            break;
+        }
+    }
+    if (!detected || detected === lang) return;
+    await loadLang(detected);
+    promptLocale.value = detected;
+});
+
+function rememberLangPrompt() {
+    localStorage.setItem(langPromptStorageKey, '1');
+    promptLocale.value = undefined;
+}
+
+function hideLangPrompt() {
+    promptLocale.value = undefined;
 }
 
 useHead({
@@ -169,6 +205,16 @@ const trainingUrl = `https://stereo.aleklabs.dev/#training:H4sIAAAAAAAACu1cS28jx
         </div>
         <al-cover :image-src="coverImg" v-transition-target="[$route.fullPath, 'cover']" />
         <div class="text" v-html="titleHtml">
+        </div>
+    </div>
+    <div v-if="promptLocale" class="lang-prompt-layer">
+        <div class="lang-prompt-backdrop" @click="hideLangPrompt"></div>
+        <div class="lang-prompt" :lang="promptLocale" :dir="promptLocale === 'he' ? 'rtl' : 'ltr'" @click.stop>
+            <p>{{ $t('This page is available in your language.', promptLocale) }}</p>
+            <div class="actions">
+                <nuxt-link :to="hrefForLocale(promptLocale)" @click="rememberLangPrompt">{{ $t('Switch to your language', promptLocale) }}</nuxt-link>
+                <button type="button" @click="rememberLangPrompt">{{ $t('Stay here', promptLocale) }}</button>
+            </div>
         </div>
     </div>
     <!-- <div class="features" v-if="!folderPath">
@@ -380,6 +426,86 @@ h1 {
             height: 100%;
             object-fit: cover;
         }
+    }
+}
+
+.lang-prompt-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.lang-prompt-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgb(0 0 0 / .78);
+}
+
+.lang-prompt {
+    position: relative;
+    z-index: 1;
+    width: max-content;
+    max-width: min(420px, calc(100% - 32px));
+    padding: 28px 32px 32px;
+    border-radius: 14px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #b7ddd0;
+    background:
+        linear-gradient(#142a24, #101c19) padding-box,
+        linear-gradient(110deg, #5ee0b8, #5aa0ff) border-box;
+    border: 1px solid transparent;
+    box-shadow: 0 0 28px rgb(80 220 180 / 22%), 0 16px 40px rgb(0 0 0 / .45);
+
+    p {
+        margin: 0 0 20px;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #9ff3cc;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+    }
+
+    .actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        font-size: 15px;
+    }
+
+    a,
+    button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 0.7em 1.25em;
+        border-radius: 9999px;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.2;
+        text-decoration: none;
+        animation: none;
+        cursor: pointer;
+    }
+
+    a {
+        color: #063b35;
+        background: rgb(105, 212, 255);
+    }
+
+    button {
+        color: #b7ddd0;
+        background: transparent;
+        border: 1px solid rgb(94 224 184 / .45);
+        font-family: inherit;
     }
 }
 

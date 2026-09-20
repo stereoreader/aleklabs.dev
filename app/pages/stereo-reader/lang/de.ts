@@ -11,5 +11,8 @@ export default {
     'Read a book in stereo mode using parallel view': 'Lesen Sie ein Buch im Stereomodus mit Parallelblick',
     'From Eye-Muscle Stretching to Stereo Reading:<br />My Roadmap of Functional Vision Sharpness': 'Von der Augenmuskeldehnung zum Stereolesen:<br />mein Fahrplan der funktionellen Sehschärfe',
     'Recommended training position': 'Empfohlene Trainingsposition',
-    'Face-down Stereo Reader training position': 'Stereo-Reader-Trainingsposition in Bauchlage'
+    'Face-down Stereo Reader training position': 'Stereo-Reader-Trainingsposition in Bauchlage',
+    'This page is available in your language.': 'Diese Seite ist in Ihrer Sprache verfügbar.',
+    'Switch to your language': 'Zur eigenen Sprache wechseln',
+    'Stay here': 'Hier bleiben'
 }
