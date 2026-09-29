@@ -2,6 +2,7 @@ import { spawn } from 'node:child_process';
 import { constants } from 'node:fs';
 import { access, cp, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { clearOldFiles } from '../../stereoreader/scripts/preserve-build-files.mjs';
 
 const APP_ASSET_GENERATION_RETENTION = 4;
 
@@ -41,7 +42,9 @@ async function main(): Promise<void> {
     await cp(publicDir, buildDir, { recursive: true, force: true });
 
     console.log('[deploy] Copying Stereo Reader app into build/stereo-reader/app');
-    await copyStereoReaderApp(stereoReaderAppDir, stereoReaderBuildAppDir);
+    await cp(stereoReaderAppDir, stereoReaderBuildAppDir, { recursive: true, force: true });
+    await rm(resolve(stereoReaderBuildAppDir, 'pwa-asset-generations.json'), { force: true });
+    await clearOldFiles(stereoReaderBuildAppDir);
 
     console.log('[deploy] Copying Stereo Reader app beta into build/stereo-reader/app-beta');
     await copyStereoReaderApp(stereoReaderAppBetaDir, stereoReaderBuildAppBetaDir);
