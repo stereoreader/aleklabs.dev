@@ -8,9 +8,9 @@ Diese Brille gab mir keine volle Korrektur, aber genug funktionelle Schärfe, um
 
 Mein persönliches Ziel ist also klar: bis zum nächsten Sommer das Sehniveau erreichen, das früher eine -3,5-Brille erforderte.
 
-### 🚩 Entwicklung von Stereo Reader
+### 🚩 Entwicklung von StereoBV Workshop
 
-Mein zweites Ziel ist, **Stereo Reader** weiter auf der Grundlage von Nutzerfeedback und realer Nutzung zu verbessern.
+Mein zweites Ziel ist, **StereoBV Workshop** weiter auf der Grundlage von Nutzerfeedback und realer Nutzung zu verbessern.
 
 Die Anwendung erlaubt bereits das Lesen im Stereomodus, das Einstellen der Divergenz, das Ändern der Schriftgröße, das Lesen aus unterschiedlichen Distanzen, das Öffnen von E-Books und Dokumenten, Sprachbefehle, Maussteuerung, Lesetimer und die Arbeit mit Stereobildern.
 

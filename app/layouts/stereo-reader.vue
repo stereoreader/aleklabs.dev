@@ -4,8 +4,8 @@ import favico from '@pages/stereo-reader/assets/logo.svg';
 
 useHead({
     titleTemplate: title => title
-        ? `${title} - Alek Labs`
-        : 'Sharper Vision with Stereo Reader by Alek Labs',
+        ? title
+        : 'StereoBV Workshop: Binocular Vision Training Platform',
     link: [
         {
             rel: 'icon',

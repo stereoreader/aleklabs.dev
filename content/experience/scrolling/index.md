@@ -1,6 +1,6 @@
 ---
 slug: virtual-scrolling-engineering
-seoDescription: Three virtual scrolling systems built for different constraints - variable-height AngularJS tables, editable Vue 3 data grids, and large-document rendering in Stereo Reader.
+seoDescription: Three virtual scrolling systems built for different constraints - variable-height AngularJS tables, editable Vue 3 data grids, and large-document rendering in StereoBV Workshop.
 description: Virtual scrolling has been a recurring engineering problem throughout my frontend work. These three cases show different approaches to variable-height tables, editable enterprise grids, tree selectors, and large-document layout.
 order: 0
 ---
@@ -9,7 +9,7 @@ order: 0
 
 Virtual scrolling has been a recurring area of my frontend work for many years.
 
-It first appeared as a performance problem: how do you display tens of thousands of records when rendering the complete DOM is prohibitively expensive? Later, it became an architectural primitive that I could reuse for editable tables, selectors, tree structures, and other large data sets. In Stereo Reader, the same underlying idea evolved further into a document-layout engine capable of working with large books, text lines, PDF pages, and other content.
+It first appeared as a performance problem: how do you display tens of thousands of records when rendering the complete DOM is prohibitively expensive? Later, it became an architectural primitive that I could reuse for editable tables, selectors, tree structures, and other large data sets. In StereoBV Workshop, the same underlying idea evolved further into a document-layout engine capable of working with large books, text lines, PDF pages, and other content.
 
 These systems all use virtual scrolling, but their constraints are substantially different.
 
@@ -142,15 +142,15 @@ It became a reusable **UI infrastructure layer**.
 
 The table could be embedded into pages, forms, selectors, and hierarchical components, while the rest of the application reused the same rendering, navigation, filtering, and data abstractions.
 
-## Stereo Reader: Virtual Scrolling as a Document Layout Engine
+## StereoBV Workshop: Virtual Scrolling as a Document Layout Engine
 
-The third case comes from my personal project, [Stereo Reader](/stereo-reader).
+The third case comes from my personal project, [StereoBV Workshop](/stereo-reader).
 
 Here the problem is no longer a conventional data table.
 
-Stereo Reader needs to display books, and books can contain very large amounts of text. Rendering an entire novel as one large DOM structure is unnecessary and increasingly expensive as document size grows.
+StereoBV Workshop needs to display books, and books can contain very large amounts of text. Rendering an entire novel as one large DOM structure is unnecessary and increasingly expensive as document size grows.
 
-More importantly, Stereo Reader allows the user to change parameters such as text width and font size while reading.
+More importantly, StereoBV Workshop allows the user to change parameters such as text width and font size while reading.
 
 Changing one of these values changes line wrapping throughout the document.
 
@@ -169,7 +169,7 @@ When the width or typography changes, line boundaries across potentially megabyt
 
 In some respects this brought me back to the Dignio problem.
 
-There I needed to determine the dimensions of thousands of text cells without rendering an entire table. In Stereo Reader, the same class of optimization appears at document scale: calculate where text wraps and where lines begin and end without constructing the entire book in the DOM first.
+There I needed to determine the dimensions of thousands of text cells without rendering an entire table. In StereoBV Workshop, the same class of optimization appears at document scale: calculate where text wraps and where lines begin and end without constructing the entire book in the DOM first.
 
 The implementation has gone through several generations.
 
@@ -221,7 +221,7 @@ At **Dignio**, the primary challenge was unknown row height. The system needed t
 
 At **Luqon**, row geometry became simpler, while interaction became much more complex. Virtualization had to work with editable cells, Vue components, selectors, tree structures, keyboard navigation, filtering, and reusable enterprise UI infrastructure.
 
-In **Stereo Reader**, the problem moved beyond tables entirely. Virtualization became part of a document layout system where changing typography can invalidate the line structure of an entire book and the reader still needs to remain at the same logical position.
+In **StereoBV Workshop**, the problem moved beyond tables entirely. Virtualization became part of a document layout system where changing typography can invalidate the line structure of an entire book and the reader still needs to remain at the same logical position.
 
 The recurring skill is therefore not simply implementing a virtual list.
 

@@ -46,15 +46,15 @@ const data = await useHomeData();
         <card-cmp
             class="stereo-reader-card"
             href="/stereo-reader"
-            title="Stereo Reader"
+            title="StereoBV Workshop"
             :image-src="stereoReaderPreview">
             <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px;">
                 <div style="font-size: 20px; font-weight: 300; line-height: 1.3;">
-                    Parallel-view reader and eye trainer
+                    Binocular Vision Training Platform
                 </div>
 
                 <div class="stereo-reader-button">
-                    <span>Explore Stereo Reader</span><svg width="32px" height="32px"
+                    <span>Explore StereoBV Workshop</span><svg width="32px" height="32px"
                         viewBox="0 0 15.00 15.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"
                         stroke-width="0.00015000000000000001">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>

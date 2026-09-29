@@ -92,7 +92,7 @@ function hideLangPrompt() {
 }
 
 useHead({
-    title: $t('STEREO READER: Improve your vision while reading your favorite books in stereo mode'),
+    title: 'StereoBV Workshop: Binocular Vision Training Platform',
     htmlAttrs: {
         lang,
         dir: lang === 'he' ? 'rtl' : 'ltr'
@@ -157,7 +157,7 @@ const content = findContent('title', 'parallelview', 'crossview', 'section1', 's
 const trainingPositionHeading = $t('Recommended training position');
 const section2Content = content.section2.replace(
     `### ${trainingPositionHeading}`,
-    `### ${trainingPositionHeading}\n\n![${$t('Face-down Stereo Reader training position')}](${faceDownImg}){.image-left}`
+    `### ${trainingPositionHeading}\n\n![${$t('Face-down StereoBV Workshop training position')}](${faceDownImg}){.image-left}`
 );
 const titleContent = content.title;
 const storyContent = folderPath ? getMarkdown(...getFolderIndexPaths(folderPath)) : '';
@@ -169,19 +169,20 @@ const storyChapters = folderPath
     : [];
 const seoSource = getMarkdown(...getDefaultPagePaths('_seo-meta')).replace(/^\uFEFF/u, '').replace(/\r\n?/g, '\n');
 const seoMatch = /^---\n([\s\S]*?)\n---(?:\n|$)([\s\S]*)$/u.exec(seoSource);
-const seoMeta = parseYaml(seoMatch?.[1] ?? seoSource) as { description?: string };
+const seoMeta = parseYaml(seoMatch?.[1] ?? seoSource) as { description?: string, seoDescription?: string };
 
 import coverImg from './assets/logo.svg';
 import FeatureCmp from './feature.vue';
 
 useSeoMeta({
     description: seoMeta.description,
-    ogDescription: seoMeta.description,
+    ogDescription: seoMeta.seoDescription ?? seoMeta.description,
     ogImage: new URL('./assets/logo.jpg', import.meta.url).pathname
 });
 
 const titleHtml = computed(() => {
     let html = parseMarkdown(titleContent);
+    html = html.replace('</h1>', `<span class="former-name">${$t('Formerly Stereo Reader')}</span></h1>`);
     if (folderPath) {
         html = html.replaceAll('h1', 'div');
     }
@@ -225,7 +226,7 @@ const trainingUrl = `https://stereo.aleklabs.dev/#training:H4sIAAAAAAAACu1cS28jx
     <div class="story">
         <template v-if="folderPath">
             <div class="home">
-                <nuxt-link :to="`/stereo-reader${localePath}`">{{ $t('Back to Stereo Reader home') }}</nuxt-link>
+                <nuxt-link :to="`/stereo-reader${localePath}`">{{ $t('Back to StereoBV Workshop home') }}</nuxt-link>
             </div>
             <h1>{{ storyChapters[0]?.replace('#', '').trim() }}</h1>
             <al-markdown class="chapter" :key="idx" :src="chapter"
@@ -245,7 +246,7 @@ const trainingUrl = `https://stereo.aleklabs.dev/#training:H4sIAAAAAAAACu1cS28jx
 
             <al-markdown class="chapter" :src="content.crossview" />
 
-            <div class="hook" style="margin-top:48px">{{ $t('What is Stereo Reader?') }}</div>
+            <div class="hook" style="margin-top:48px">{{ $t('What is StereoBV Workshop?') }}</div>
 
             <section-title :title="$t('Eye trainer')" />
             <al-markdown class="chapter" :src="section2Content" />
@@ -253,7 +254,7 @@ const trainingUrl = `https://stereo.aleklabs.dev/#training:H4sIAAAAAAAACu1cS28jx
             <iframe class="preview" loading="lazy" :src="trainingUrl"></iframe>
             <div class="preview-link">
                 {{ $t('Train your eye muscles with dynamic stereo modulation') }}<br />
-                <a :href="trainingUrl" target="_blank">{{ $t('Open in STEREO READER') }}</a>
+                <a :href="trainingUrl" target="_blank">{{ $t('Open in StereoBV Workshop') }}</a>
             </div>
 
             <section-title :title="$t('Parallel-view reader')" style="margin-top:64px;" />
@@ -266,7 +267,7 @@ const trainingUrl = `https://stereo.aleklabs.dev/#training:H4sIAAAAAAAACu1cS28jx
                 {{ $t('Read a book in stereo mode using parallel view') }}<br />
                 <a href="https://stereo.aleklabs.dev/#try"
                     target="_blank">
-                    {{ $t('Open in STEREO READER') }}
+                    {{ $t('Open in StereoBV Workshop') }}
                 </a>
             </div>
 
@@ -534,6 +535,15 @@ h1 {
             font-size: 48px;
             margin: 0 !important;
             margin-bottom: 32px;
+
+            .former-name {
+                
+                display: block;
+                margin-top: -6px;
+                font-size: 15px;
+                line-height: 1.2;
+                opacity: 0.75;
+            }
         }
 
         .promo {

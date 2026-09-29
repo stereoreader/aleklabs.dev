@@ -24,6 +24,6 @@ También puede haber variabilidad anatómica en los propios músculos extraocula
 
 Así que, en mi opinión, el método Bates tiene una aplicabilidad limitada. Puede ayudar a algunas personas, especialmente en casos leves o recientes, pero no es lo bastante fuerte ni específico para todo el mundo. Yo mismo intenté varias veces en mi vida ejercicios de relajación al estilo Bates, incluidos periodos en los que los practiqué en serio, pero no me dieron resultados significativos.
 
-Para mí, la lectura estéreo y el entrenamiento exotrópico produjeron resultados mucho más fuertes que la relajación al estilo Bates. También produjeron feedback positivo de otros usuarios. Por esa razón, elegí centrarme en Stereo Reader y en el entrenamiento en visión paralela como dirección práctica principal.
+Para mí, la lectura estéreo y el entrenamiento exotrópico produjeron resultados mucho más fuertes que la relajación al estilo Bates. También produjeron feedback positivo de otros usuarios. Por esa razón, elegí centrarme en StereoBV Workshop y en el entrenamiento en visión paralela como dirección práctica principal.
 
 Quienes quieran estudiar el método Bates pueden seguir haciéndolo. Puede tener valor terapéutico para algunos usuarios. Pero, en mi opinión, hay que reconocer sus límites: la relajación sola a menudo no basta. En los casos más difíciles puede hacer falta un entrenamiento real.

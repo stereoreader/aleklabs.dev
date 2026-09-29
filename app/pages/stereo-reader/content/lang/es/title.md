@@ -1,5 +1,5 @@
-# STEREO READER
+# StereoBV Workshop
 
-Lector en visión paralela y entrenador visual
+Plataforma de entrenamiento de visión binocular
 
 [Abrir la aplicación](https://stereo.aleklabs.dev/)

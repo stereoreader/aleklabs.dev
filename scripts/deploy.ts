@@ -41,12 +41,12 @@ async function main(): Promise<void> {
     console.log('[deploy] Copying .output/public into build');
     await cp(publicDir, buildDir, { recursive: true, force: true });
 
-    console.log('[deploy] Copying Stereo Reader app into build/stereo-reader/app');
+    console.log('[deploy] Copying StereoBV Workshop app into build/stereo-reader/app');
     await cp(stereoReaderAppDir, stereoReaderBuildAppDir, { recursive: true, force: true });
     await rm(resolve(stereoReaderBuildAppDir, 'pwa-asset-generations.json'), { force: true });
     await clearOldFiles(stereoReaderBuildAppDir);
 
-    console.log('[deploy] Copying Stereo Reader app beta into build/stereo-reader/app-beta');
+    console.log('[deploy] Copying StereoBV Workshop app beta into build/stereo-reader/app-beta');
     await copyStereoReaderApp(stereoReaderAppBetaDir, stereoReaderBuildAppBetaDir);
 
 

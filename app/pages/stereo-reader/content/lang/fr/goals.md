@@ -8,9 +8,9 @@ Ces lunettes ne me donnaient pas une correction complète, mais une netteté fon
 
 Mon objectif personnel est donc clair : d’ici l’été prochain, atteindre le niveau de vision qui exigeait auparavant des lunettes -3,5.
 
-### 🚩 Développement de Stereo Reader
+### 🚩 Développement de StereoBV Workshop
 
-Mon deuxième objectif est de continuer à améliorer **Stereo Reader** à partir des retours des utilisateurs et de l’usage réel.
+Mon deuxième objectif est de continuer à améliorer **StereoBV Workshop** à partir des retours des utilisateurs et de l’usage réel.
 
 L’application permet déjà de lire en mode stéréo, d’ajuster la divergence, de changer la taille de police, de lire à différentes distances, d’ouvrir des livres et documents, d’utiliser des commandes vocales, de contrôler la lecture à la souris, de régler des minuteries et de travailler avec des images stéréo.
 

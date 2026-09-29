@@ -1,5 +1,5 @@
-# STEREO READER
+# StereoBV Workshop
 
-Parallel-view reader and eye trainer
+Binocular Vision Training Platform
 
 [Open application](https://stereo.aleklabs.dev/)

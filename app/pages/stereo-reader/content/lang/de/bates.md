@@ -24,6 +24,6 @@ Es kann auch anatomische Variabilität in den äußeren Augenmuskeln selbst gebe
 
 Nach meiner Ansicht hat die Bates-Methode deshalb begrenzte Anwendbarkeit. Sie kann manchen Menschen helfen, besonders in leichten oder neueren Fällen, ist aber nicht stark oder spezifisch genug für alle. Ich habe Bates-artige Entspannungsübungen in meinem Leben mehrmals ernsthaft versucht, aber sie gaben mir keine bedeutsamen Ergebnisse.
 
-Für mich brachten Stereolesen und Exotropie-Training deutlich stärkere Ergebnisse als Bates-artige Entspannung. Es gab auch positives Feedback von anderen Nutzern. Deshalb habe ich mich entschieden, Stereo Reader und Parallelblick-Training als praktische Hauptrichtung zu verfolgen.
+Für mich brachten Stereolesen und Exotropie-Training deutlich stärkere Ergebnisse als Bates-artige Entspannung. Es gab auch positives Feedback von anderen Nutzern. Deshalb habe ich mich entschieden, StereoBV Workshop und Parallelblick-Training als praktische Hauptrichtung zu verfolgen.
 
 Menschen, die die Bates-Methode studieren wollen, können das weiter tun. Sie kann für manche Nutzer therapeutischen Wert haben. Aber nach meiner Meinung sollten ihre Grenzen anerkannt werden: Entspannung allein reicht oft nicht. In schwierigeren Fällen kann echtes Training nötig sein.

@@ -1,5 +1,5 @@
-# STEREO READER
+# StereoBV Workshop
 
-קורא במבט מקביל ומאמן עיניים
+פלטפורמת אימון לראייה דו-עינית
 
 [פתיחת היישום](https://stereo.aleklabs.dev/)

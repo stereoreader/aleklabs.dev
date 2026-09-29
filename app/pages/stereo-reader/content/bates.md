@@ -24,6 +24,6 @@ There may also be anatomical variability in the extraocular muscles themselves: 
 
 So, in my view, the Bates method has limited applicability. It may help some people, especially in mild or recent cases, but it is not strong or specific enough for everyone. I personally tried Bates-style relaxation exercises several times during my life, including periods when I practiced them seriously, but they did not give me meaningful results.
 
-For me, stereo reading and exotropic training produced much stronger results than Bates-style relaxation. It also produced positive feedback from other users. For that reason, I chose to focus on Stereo Reader and parallel-view training as the main practical direction.
+For me, stereo reading and exotropic training produced much stronger results than Bates-style relaxation. It also produced positive feedback from other users. For that reason, I chose to focus on StereoBV Workshop and parallel-view training as the main practical direction.
 
 People who want to study the Bates method can still do so. It may have therapeutic value for some users. But in my opinion, its limitations should be recognized: relaxation alone is often not enough. In more difficult cases, real training may be required.

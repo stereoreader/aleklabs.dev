@@ -1,3 +1,4 @@
 ---
-description: Entrena o relaja los ojos con Stereo Reader mientras lees libros y documentos en modo estéreo o mono. Admite texto, PDF, EPUB, FB2, imágenes, pares estéreo, comandos de voz, ratón y temporizadores.
+description: "StereoBV Workshop es una plataforma de entrenamiento de visión binocular para ejercicios de pares estéreo, modulaciones visuales, lectura, imágenes y más."
+seoDescription: "StereoBV Workshop es una plataforma de entrenamiento de visión binocular para ejercicios configurables de pares estéreo, modulaciones visuales, lectura, imágenes y entrenamiento interactivo."
 ---

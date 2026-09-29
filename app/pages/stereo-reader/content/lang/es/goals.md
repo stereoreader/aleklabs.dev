@@ -8,9 +8,9 @@ Esas gafas no me daban una corrección completa, pero sí suficiente nitidez fun
 
 Así que mi objetivo personal es claro: de aquí al próximo verano, alcanzar el nivel de visión que antes exigía gafas de -3,5.
 
-### 🚩 Desarrollo de Stereo Reader
+### 🚩 Desarrollo de StereoBV Workshop
 
-Mi segundo objetivo es seguir mejorando **Stereo Reader** a partir del feedback de los usuarios y del uso real.
+Mi segundo objetivo es seguir mejorando **StereoBV Workshop** a partir del feedback de los usuarios y del uso real.
 
 La aplicación ya permite leer en modo estéreo, ajustar la divergencia, cambiar el tamaño de fuente, leer a distintas distancias, abrir libros y documentos, usar comandos de voz, controlar la lectura con el ratón, fijar temporizadores de lectura y trabajar con imágenes estéreo.
 
