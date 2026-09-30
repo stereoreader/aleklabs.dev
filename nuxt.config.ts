@@ -53,12 +53,41 @@ export default defineNuxtConfig({
         },
         prerender: {
             crawlLinks: true,
-            autoSubfolderIndex: false
+            autoSubfolderIndex: false,
+            routes: [
+                '/stereo-reader',
+                '/stereo-reader/roadmap',
+                '/stereo-reader/br',
+                '/stereo-reader/br/roadmap',
+                '/stereo-reader/de',
+                '/stereo-reader/de/roadmap',
+                '/stereo-reader/es',
+                '/stereo-reader/es/roadmap',
+                '/stereo-reader/fr',
+                '/stereo-reader/fr/roadmap',
+                '/stereo-reader/he',
+                '/stereo-reader/he/roadmap',
+                '/stereo-reader/it',
+                '/stereo-reader/it/roadmap',
+                '/stereo-reader/ru',
+                '/stereo-reader/ru/roadmap',
+                '/stereo-reader/app',
+                '/stereo-reader/app-beta'
+            ]
         }
     },
 
     routeRules: {
-        '/stereo-reader/app/**': {
+        '/stereobv-workshop/app': {
+            prerender: false
+        },
+        '/stereobv-workshop/app/**': {
+            prerender: false
+        },
+        '/stereobv-workshop/app-beta': {
+            prerender: false
+        },
+        '/stereobv-workshop/app-beta/**': {
             prerender: false
         },
         '/js-benchmark/playground': {
@@ -69,10 +98,10 @@ export default defineNuxtConfig({
             ssr: false,
             prerender: false,
         },
-        '/stereo-reader': {
+        '/stereobv-workshop': {
             appLayout: 'stereo-reader',
         },
-        '/stereo-reader/**': {
+        '/stereobv-workshop/**': {
             appLayout: 'stereo-reader',
         },
     },
@@ -173,6 +202,10 @@ export default defineNuxtConfig({
     site: {
         url: 'https://aleklabs.dev',
         name: 'Alek Labs'
+    },
+
+    sitemap: {
+        exclude: ['/stereo-reader', '/stereo-reader/**']
     },
 
     app: {

@@ -58,7 +58,7 @@ const localePath = lang === 'en' ? '' : `/${lang}`;
 function hrefForLocale(targetLang: string) {
 
     const path = targetLang === 'en' ? '' : `/${targetLang}`;
-    return `/stereo-reader${path}${folderPath ? `/${folderPath}` : ''}`;
+    return `/stereobv-workshop${path}${folderPath ? `/${folderPath}` : ''}`;
 }
 
 const langPromptStorageKey = 'stereo-reader-lang-prompt';
@@ -226,7 +226,7 @@ const trainingUrl = `https://stereo.aleklabs.dev/#training:H4sIAAAAAAAACu1cS28jx
     <div class="story">
         <template v-if="folderPath">
             <div class="home">
-                <nuxt-link :to="`/stereo-reader${localePath}`">{{ $t('Back to StereoBV Workshop home') }}</nuxt-link>
+                <nuxt-link :to="`/stereobv-workshop${localePath}`">{{ $t('Back to StereoBV Workshop home') }}</nuxt-link>
             </div>
             <h1>{{ storyChapters[0]?.replace('#', '').trim() }}</h1>
             <al-markdown class="chapter" :key="idx" :src="chapter"
@@ -284,7 +284,7 @@ const trainingUrl = `https://stereo.aleklabs.dev/#training:H4sIAAAAAAAACu1cS28jx
 
     <div class="footer">
         <div class="roadmap">
-            <nuxt-link :to="`/stereo-reader${localePath}/roadmap`" v-html="$t('From Eye-Muscle Stretching to Stereo Reading:<br />My Roadmap of Functional Vision Sharpness')" />
+            <nuxt-link :to="`/stereobv-workshop${localePath}/roadmap`" v-html="$t('From Eye-Muscle Stretching to Stereo Reading:<br />My Roadmap of Functional Vision Sharpness')" />
         </div>
     </div>
 </template>

@@ -144,7 +144,7 @@ The table could be embedded into pages, forms, selectors, and hierarchical compo
 
 ## StereoBV Workshop: Virtual Scrolling as a Document Layout Engine
 
-The third case comes from my personal project, [StereoBV Workshop](/stereo-reader).
+The third case comes from my personal project, [StereoBV Workshop](/stereobv-workshop).
 
 Here the problem is no longer a conventional data table.
 

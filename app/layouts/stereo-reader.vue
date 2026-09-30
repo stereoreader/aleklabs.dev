@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import favico from '@pages/stereo-reader/assets/logo.svg';
+import favico from '@pages/stereobv-workshop/assets/logo.svg';
 
 useHead({
     titleTemplate: title => title

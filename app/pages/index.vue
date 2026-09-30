@@ -6,7 +6,7 @@ import ExperienceCmp from './index/experience.vue';
 import ArticlesCmp from './index/articles.vue';
 import LinksCmp from './index/links.vue';
 
-import stereoReaderPreview from './stereo-reader/assets/logo.svg';
+import stereoReaderPreview from './stereobv-workshop/assets/logo.svg';
 import youtubeChatPreview from './assets/youtube-send-to-ai-chat.png';
 import jsbenchPreview from './js-benchmark/assets/cover.png';
 import keyboardLayerPreview from './keyboard-layer/cover.png';
@@ -45,7 +45,7 @@ const data = await useHomeData();
         <h2><al-icon icon="labs" />Alek Labs Projects</h2>
         <card-cmp
             class="stereo-reader-card"
-            href="/stereo-reader"
+            href="/stereobv-workshop"
             title="StereoBV Workshop"
             :image-src="stereoReaderPreview">
             <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px;">
