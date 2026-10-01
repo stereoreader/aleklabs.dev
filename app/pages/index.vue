@@ -6,7 +6,7 @@ import ExperienceCmp from './index/experience.vue';
 import ArticlesCmp from './index/articles.vue';
 import LinksCmp from './index/links.vue';
 
-import stereoReaderPreview from './stereobv-workshop/assets/logo.svg';
+import stereoReaderPreview from './stereobv-workshop/assets/logo.png';
 import youtubeChatPreview from './assets/youtube-send-to-ai-chat.png';
 import jsbenchPreview from './js-benchmark/assets/cover.png';
 import keyboardLayerPreview from './keyboard-layer/cover.png';

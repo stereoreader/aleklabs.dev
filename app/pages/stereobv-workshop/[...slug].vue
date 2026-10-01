@@ -171,7 +171,7 @@ const seoSource = getMarkdown(...getDefaultPagePaths('_seo-meta')).replace(/^\uF
 const seoMatch = /^---\n([\s\S]*?)\n---(?:\n|$)([\s\S]*)$/u.exec(seoSource);
 const seoMeta = parseYaml(seoMatch?.[1] ?? seoSource) as { description?: string, seoDescription?: string };
 
-import coverImg from './assets/logo.svg';
+import coverImg from './assets/logo.png';
 import FeatureCmp from './feature.vue';
 
 useSeoMeta({
@@ -181,12 +181,7 @@ useSeoMeta({
 });
 
 const titleHtml = computed(() => {
-    let html = parseMarkdown(titleContent);
-    html = html.replace('</h1>', `<span class="former-name">${$t('Formerly Stereo Reader')}</span></h1>`);
-    if (folderPath) {
-        html = html.replaceAll('h1', 'div');
-    }
-    return html;
+    return parseMarkdown(titleContent).replace(/<h1>.*?<\/h1>/, '');
 });
 
 const trainingUrl = `https://stereo.aleklabs.dev/#training:H4sIAAAAAAAACu1cS28jxxH%2BL5MrLVR1vXmzN0GQwyIL28ghhg5ccbQiQj1ADtcIDP33oJuiNC9Jjixqsd4BDxJ7qrvrq6quqq5uzm%2FValnNYVY1q2ZdV%2FOqmlUfP727Xl9vqnn1F3JCiWpWNZvF1XbVrK6v%2FrrbLPLfao4AMKvqq%2BXPq8u6mmMCKC2Ly%2BvdVVPN4URn1c168d%2BPi7P%2F%2FHRT18tqjrPqZlOf15tNvXwYSe967rb1h%2BHT88V6W8%2Bqy%2Bvlbl2attX8l98K4%2FvhtnVTze8bDkje39N3Mck5CWk1qxZnZ%2FV2m7m62q3Xs2qxXOYvVYKk30F8h%2FYz%2BlxoznZi6v%2BuCg%2Br89UYFc%2FJTkg5U23rdX3WZKo71m%2Fqq%2BXq6tNPi891Nf%2FtdlYt63XdrK4%2BjYDLSA4SxIH8ikw%2F15vtXgOzatXUl3%2FfXO9uslBO99878mkpdnHWrDIHzWZXpszTvdttClPVsqfX7cXipq7mv8AMTgBAES3QI7kGaUqlNTGLGjAyhqp7aRQOQzYTCWJN%2B8YwcRNlRnUjotyIkhKAmgK4qbrmxoSuZqjskefh0hbqwiQYDuZAhZBchSESi0moSmlkN0FjYMXk6i65USKEVF0sMYhDabSUKLGShRgXNC4iDmau6OBQ%2BI7wsAAwiQjkzA2iJFRnEAZDActtlAEzBAYSOmRekF0pHJlMBDhKX1XVBKKO6ApZCugiAEAEQpjcclsCQTBlYmRjSJnhlIRJA9jcM9uFjpXJQR1UEIkzy0kdJIzCzUOkkAUkDgAnE3fJoxGmEBRLGqZAmTciRUQ3ceVA1EImoUaJwYhDqOAnJzEHcI1QizwBg5maZuUoFtNgSugECp7lYaVJ1JQZIAlrMsxNjiwozCykYZRFKaDoDBZOqI6ZCyEIQHY0Aii6EhFhSpokMUOZURwg8x3K5uF5KAUmCcgDoarloTQ5I6mmLC%2BiyE2SUCgiIQKpZ77URBKGCQUDFbPWcFbgpMUMKI9lCQIpYVI1jSJD4%2BRJyFWD8mrJTcrIREkJHBjzjOYZuGuKPG2xUc96DYZwE5LClyeGbIgKAg4pm5RzYsny16KP0qQAWYRExg6QJeFFF8isKBCWJeGRRJMRgkakIokAo7xs8h%2FBlGFHwkSkkPJqsSLCIAYKS5nCADJfwWJOamGqakX2IcqklgxYNXEZXiUsWRhqGBYDCGNSFyEzpr0ZhmO2PkEgo1QcQLjlrk4hSRyzVCOSpMy9iithoYq8SCnIwESKlUS4JnIMdKP9OooIZ4PkmlT4jmqkaaTjyPAdJuwRVruAZAhbh8KhoQh1KGgaqGNEZzGu2Z7%2BaWglMbQlesTiunZpA%2BtlHLfx3krw4Xqx4aqi4drzwQodWcZpsNgLW12X4ON%2BY8y7dFxQWcU9R2VDfyZDrzfmG2XoQdmGjjYN%2FTEN3XYB0PPuOowBSsNQwY9FlE7kYUwjEWoYyDQN412JRt24KCUa9%2BJnEWYvziIN47GNxG0aBHcsobeXBRTl9NKFPV03ryhxqp%2BAxGOJSjejsbCR3OepLKmTTxmXmDKae53Oqu3l9XVzUXJImFXLzeLX99fLnOid79brquTS33%2FcXq93Tf2vxXpXb%2B9yzdtDgj6S%2BQlDJ%2Fd72TQ5vezO8s%2BHLP4%2BX%2F2xvqkXzbv7RLdZbD7VzfZDO99t9bt7XDLbbh6b89zq0%2BKmKml1s6jmPLbt2DaLTfPhYrGtC5LV1ed603zflsSBw%2FLkfTs73gvu9Ha2z6rTaFZ9n8k%2FklZTR7Q423%2ByZUpCtkSRlByKfwPM%2F6lDOEr24jTDWauLhQkrYMpOkbJ7nUGXglMwm0syBSPJtt0iKET5c4KkAgRq7DnyiN0NgCCePCVwcQ8xbU0BvekObdhvOwFAyeEkUfYJTlQ8W2c%2B1UAdb%2ByPlr00YUD2uxyQU5s%2B7N4oZU0%2FirLbM29BLCe%2BZaVazvGexNefG6EI6qBOpr2XaGl27xF%2BN6CsxQcdq%2ByTQGjLk0m8yOlIDgH%2FFP5guI1%2BFX8wG5358%2FZidd48TA5Hn%2FxAmmffXDeLpj767PeukF5SYOBXMKrnTVeOZrp32j6O5fY1iOlLWq%2B%2FbPK7EZ81H36J%2BbyGYp81n0NJ8itxfW0fcNHTIR7bCciL8iGbyoxTmXEqM05lxqnMOJUZpzLjVGacyozfSJnxK8utW9ujs%2Bv17vLqh%2FVu88Nivbg6a%2B3T9GhZ9untbavy2L3vkJ6%2F70CYzvHja993aFMd8b4DHv22A03bkGkbMm1Dpm3ItA2ZtiHTNmTahkzbkG9kG%2FInue2Axz%2FebJ8unOUh6s2PvWOqFx4UveyU6uN6t3mYOr36CVnR6TPXPZ7ZVth0SPX0Rvotraizh6b%2BHpqe30OnBYnB17qHPuHj%2F2aA%2B9voL%2Frp30R64093HVL6RiPWUxdTRn8adLSg1b%2FWcKQbguPR6hFfpyfyFdxTnCLXk7nXsa%2Bavuh%2BlU4afEqDb%2BQM%2Ftglpyl%2F%2FP9uyR3Nmz66DXr0JEiO7ddfdt9qOuiYDjqmg47poGM66JgOOqaDjumgYzro%2BFYOOr7eNP%2Bp%2B1ZH27a1asXcrxXz87VidlkSfRW1YjhxGnnFTHr7S1dPVm97z0%2FCkoomeY7wjpgVguwu2mef%2BlSPnDcAa5eqR5s9ghYHD0hqZcj2%2F88xNRi4%2FE7Uec9kDvoBd%2BMno0MzYGQXLHsO4IGmzcP9OM%2BJ5smKdXq1ivVrFBO%2FSL26W%2BZ72x9xPlYwfsui9aDAIl%2BoXP2HPMk3fe70reYPv2MpHb9W%2BMRSiuOtpJy6nLaj%2Fd8%2B11d34mnKW%2Frab%2BzTvVofqP%2BROckomvbz3hv%2B%2Bh3SQ4cDwUMPH%2BtBrR7e65F4rAc%2F9DgQ3PcgeAbGgeChxyjwFg7qI%2BdR5C0c3EfOo8hbOLiPXEaRt3BIH7mOIk89BXZ6jCJv4dA%2BchtF3sJhfeQ2iryFw%2FrIfRR5C4f3kcco8haO6COPUeQtHDGwdhiF3gJyT9HqMwq%2BvUSgjx5xFH57kWAf%2F%2F27NvtwTg8usb3wS0N%2BXv26WjYX%2BXWeHSEd7lHF7ent%2FwBMJxXJEVQAAA%3D%3D`;
@@ -204,8 +199,10 @@ const trainingUrl = `https://stereo.aleklabs.dev/#training:H4sIAAAAAAAACu1cS28jx
                 <img :src="item.flag" :alt="item.title" width="32" height="21">
             </nuxt-link>
         </div>
-        <al-cover :image-src="coverImg" v-transition-target="[$route.fullPath, 'cover']" />
-        <div class="text" v-html="titleHtml">
+        <img class="logo" :src="coverImg" alt="" v-transition-target="[$route.fullPath, 'cover']">
+        <div class="branding">
+            <component :is="folderPath ? 'div' : 'h1'" class="title"><span>StereoBV</span> <span class="workshop">Workshop</span></component>
+            <div class="text" dir="auto" v-html="titleHtml"></div>
         </div>
     </div>
     <div v-if="promptLocale" class="lang-prompt-layer">
@@ -304,6 +301,7 @@ const trainingUrl = `https://stereo.aleklabs.dev/#training:H4sIAAAAAAAACu1cS28jx
     overflow: hidden;
     margin-top: -48px;
     padding-block: 48px;
+    padding-top: 64px;
 
     position: relative;
 
@@ -391,6 +389,7 @@ h1 {
 }
 
 .cover .lang-switch {
+    zoom: .7;
     position: absolute;
     font-size: smaller;
     --offset: 16px;
@@ -399,7 +398,7 @@ h1 {
     z-index: 2;
     display: flex;
     direction: ltr;
-    gap: 8px;
+    gap: 16px;
     flex-grow: 0;
 
     a {
@@ -513,78 +512,97 @@ h1 {
 .cover {
 
     display: flex;
-    gap: 32px;
+    gap: clamp(12px, 3vw, 32px);
+    align-items: center;
+    justify-content: center;
+    direction: ltr;
+    text-align: start;
 
-    @container main (max-width:640px) {
-        flex-direction: column;
-        align-items: center;
+    .logo {
+        width: clamp(280px, 36%, 340px);
+        max-width: none;
+        height: auto;
+        flex: none;
+    }
+
+    .branding {
+        min-width: 0;
+
+        .title {
+            margin: 0;
+            color: #f5f7fa;
+            font-size: clamp(24px, 6vw, 64px);
+            font-weight: 400;
+            line-height: 1;
+            letter-spacing: -.04em;
+            white-space: nowrap;
+
+            .workshop {
+                background: linear-gradient(90deg, #67c5ee, #75b6e8);
+                background-clip: text;
+                color: transparent;
+            }
+        }
 
         .text {
+            :deep(p) {
+                margin: 12px 0 0;
+                color: #aeb4bd;
+                font-size: clamp(12px, 3vw, 28px);
+                line-height: 1.2;
+                &:last-child{
+                    margin-top: 32px;
+                }
+            }
+
+            :deep(a) {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0.75em 1.4em;
+                border-radius: 9999px;
+                color: #063b35;
+                font-size: 16px;
+                font-weight: 600;
+                text-decoration: none;
+                transition: transform 160ms ease;
+                animation: sea-button-bg 3s ease-in-out infinite alternate;
+
+                &:hover {
+                    animation-duration: 200ms;
+                    transform: translateY(-1px);
+                }
+
+                &:active {
+                    transform: translateY(0);
+                }
+            }
+        }
+    }
+    @container main (max-width:640px) {
+        flex-direction: column;
+        gap: 8px;
+        padding-inline: 16px;
+        text-align: center;
+
+        .logo {
+            width: min(220px, 70vw);
+            max-width: none;
+        }
+
+        .branding .text :deep(p) {
+            margin-top: 8px;
             text-align: center;
         }
-
-        a {}
-
     }
-
-    :deep(*) {
-
-        h1,
-        div {
-            font-weight: 400;
-            font-size: 48px;
-            margin: 0 !important;
-            margin-bottom: 32px;
-
-            .former-name {
-                
-                display: block;
-                margin-top: -6px;
-                font-size: 15px;
-                line-height: 1.2;
-                opacity: 0.75;
-            }
+    @keyframes sea-button-bg {
+        from {
+            background-color: rgb(105, 212, 255);
         }
 
-        .promo {
-            font-size: 20px
+        to {
+            background-color: white;
         }
-
-        a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.75em 1.4em;
-            border-radius: 9999px;
-            color: #063b35;
-            font-weight: 600;
-            text-decoration: none;
-            transition: transform 160ms ease;
-            animation: sea-button-bg 3s ease-in-out infinite alternate;
-        }
-
-        a:hover {
-            animation-duration: 200ms;
-            transform: translateY(-1px);
-        }
-
-        a:active {
-            transform: translateY(0);
-        }
-
-        @keyframes sea-button-bg {
-            from {
-                background-color: rgb(105, 212, 255);
-            }
-
-            to {
-                background-color: white;
-            }
-        }
-    }
-
-    * {
-        flex-grow: 1;
     }
 }
 
