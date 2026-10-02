@@ -3,6 +3,10 @@
 import ArticlesCmp from '../index/articles.vue';
 import { useHomeData } from '../index/data';
 import { parseMarked } from '@/utils/parseMarkdown';
+import type { Component } from 'vue';
+
+const footers = import.meta.glob<{ default: Component }>('@content/articles/**/footer.vue');
+const headers = import.meta.glob<{ default: Component }>('@content/articles/**/header.vue');
 
 const route = useRoute();
 
@@ -28,6 +32,10 @@ useHead({ title: article.title, titleTemplate: '%s', });
 
 const html = parseMarked(article.data);
 const stats = getMarkdownReadingStats(article.data);
+const footerLoader = footers[article.footerPath];
+const articleFooter = footerLoader ? (await footerLoader()).default : null;
+const headerLoader = headers[article.headerPath];
+const articleHeader = headerLoader ? (await headerLoader()).default : null;
 
 const icons = import.meta.glob('@pages/assets/icons/*.*',
     { query: '?url', eager: true, import: 'default' }) as Record<string, string>;
@@ -107,7 +115,9 @@ function getMarkdownReadingStats(markdown: string, wordsPerMinute = 200): Markdo
         }).format(article.date) }}</span>
             <span class="words">{{ stats.words }} words ~ {{ stats.minutes }} minutes</span>
         </div>
+        <component v-if="articleHeader" :is="articleHeader" />
         <span v-html="html"></span>
+        <component v-if="articleFooter" :is="articleFooter" />
     </div>
     <div class="article-list">
         <articles-cmp :articles="otherArticles" />

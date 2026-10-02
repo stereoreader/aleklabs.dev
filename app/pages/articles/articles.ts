@@ -18,6 +18,8 @@ type Article = {
     description: string;
     date: Date;
     coverUrl: string;
+    footerPath: string;
+    headerPath: string;
     slug: string,
     data: string,
     seoDescription: string;
@@ -37,6 +39,8 @@ export const articles = (Object.entries(pages) as [string, string][]).map(([path
 
     const meta = parse(match[1]) as Article;
     meta.data = match[2];
+    meta.footerPath = path.replace(/index\.md$/u, 'footer.vue');
+    meta.headerPath = path.replace(/index\.md$/u, 'header.vue');
     meta.title = extractMarkdownTitle(data)!;
     meta.date = new Date(meta.date);
     meta.readOn ??= [];
