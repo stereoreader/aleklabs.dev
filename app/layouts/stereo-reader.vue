@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import favico from '@pages/stereobv-workshop/assets/favicon.png';
+import favico from '@pages/stereobv-workshop/assets/logo.svg';
 
 useHead({
     titleTemplate: title => title
@@ -9,7 +9,7 @@ useHead({
     link: [
         {
             rel: 'icon',
-            type: 'image/png',
+            type: 'image/svg+xml',
             href: favico,
         },
     ]

@@ -171,7 +171,7 @@ const seoSource = getMarkdown(...getDefaultPagePaths('_seo-meta')).replace(/^\uF
 const seoMatch = /^---\n([\s\S]*?)\n---(?:\n|$)([\s\S]*)$/u.exec(seoSource);
 const seoMeta = parseYaml(seoMatch?.[1] ?? seoSource) as { description?: string, seoDescription?: string };
 
-import coverImg from './assets/logo.png';
+import coverImg from './assets/logo.svg';
 import FeatureCmp from './feature.vue';
 
 useSeoMeta({
