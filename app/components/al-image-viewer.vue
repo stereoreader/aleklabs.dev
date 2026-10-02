@@ -7,27 +7,41 @@ const fullSize = ref(false);
 const scrollable = ref(false);
 const $viewer = useTemplateRef('$viewer');
 const $scroller = useTemplateRef('$scroller');
+const $image = useTemplateRef('$image');
 
 const shadowMaxSize = 12;
 const shadowFadeDistance = 32;
 
 let leftShadowSize = -1;
 let rightShadowSize = -1;
+let dragPointerId: number | undefined;
+let dragStartX = 0;
+let dragStartY = 0;
+let dragStartScrollLeft = 0;
+let dragStartScrollY = 0;
+let dragged = false;
 let resizeObserver: ResizeObserver | undefined;
 
 onMounted(() => {
-    if (!$scroller.value) return;
+    const scroller = $scroller.value;
+    const image = $image.value;
+
+    if (!scroller || !image) return;
 
     resizeObserver = new ResizeObserver(syncShadows);
-    resizeObserver.observe($scroller.value);
+    resizeObserver.observe(scroller);
     syncShadows();
+    if (image.complete) initializeSize();
 });
 
 onBeforeUnmount(() => {
     resizeObserver?.disconnect();
+    document.documentElement.classList.remove('image-viewer-dragging');
 });
 
-function toggleSize(): void {
+function toggleSize(event: MouseEvent): void {
+    if (dragged && event.detail !== 0) return;
+
     if (fullSize.value && $scroller.value) {
         $scroller.value.scrollLeft = 0;
     }
@@ -58,13 +72,67 @@ function syncShadows(): void {
         viewer.style.setProperty('--right-shadow-size', `${rightShadowSize}px`);
     }
 }
+
+function startScrolling(event: PointerEvent): void {
+    const scroller = $scroller.value;
+    dragged = false;
+
+    if (!fullSize.value || !scrollable.value || event.pointerType === 'touch' || event.button !== 0 || !scroller) return;
+
+    dragPointerId = event.pointerId;
+    dragStartX = event.clientX;
+    dragStartY = event.clientY;
+    dragStartScrollLeft = scroller.scrollLeft;
+    dragStartScrollY = window.scrollY;
+    scroller.setPointerCapture(event.pointerId);
+}
+
+function scrollWithDrag(event: PointerEvent): void {
+    const scroller = $scroller.value;
+
+    if (dragPointerId !== event.pointerId || !scroller) return;
+
+    const distanceX = event.clientX - dragStartX;
+    const distanceY = event.clientY - dragStartY;
+    if (!dragged && Math.abs(distanceX) < 4 && Math.abs(distanceY) < 4) return;
+
+    if (!dragged) {
+        dragged = true;
+        document.documentElement.classList.add('image-viewer-dragging');
+    }
+    scroller.scrollLeft = dragStartScrollLeft - distanceX;
+    window.scrollTo({ top: dragStartScrollY - distanceY });
+    event.preventDefault();
+}
+
+function stopScrolling(event: PointerEvent): void {
+    const scroller = $scroller.value;
+
+    if (dragPointerId !== event.pointerId || !scroller) return;
+
+    dragPointerId = undefined;
+    document.documentElement.classList.remove('image-viewer-dragging');
+    if (scroller.hasPointerCapture(event.pointerId)) {
+        scroller.releasePointerCapture(event.pointerId);
+    }
+}
+
+function initializeSize(): void {
+    const image = $image.value;
+
+    if (!image) return;
+
+    fullSize.value = image.getBoundingClientRect().width > image.naturalWidth * .8;
+    void nextTick(syncShadows);
+}
 </script>
 
 <template>
     <div ref="$viewer" class="image-viewer" :class="{ 'full-size': fullSize }">
-        <div ref="$scroller" class="scroller" :class="{ 'full-size': fullSize, scrollable }" @scroll="syncShadows">
-            <button type="button" aria-label="Toggle image size" @click="toggleSize">
-                <img :src alt="" draggable="false" @load="syncShadows">
+        <div ref="$scroller" class="scroller" :class="{ 'full-size': fullSize, scrollable }" @scroll="syncShadows" @click="toggleSize"
+            @pointerdown="startScrolling" @pointermove="scrollWithDrag" @pointerup="stopScrolling" @pointercancel="stopScrolling">
+            <button type="button" aria-label="Toggle image size">
+                <img ref="$image" :src alt="" draggable="false" @load="initializeSize" @transitionend="syncShadows">
             </button>
         </div>
     </div>
@@ -75,6 +143,7 @@ function syncShadows(): void {
     --left-shadow-size: 0px;
     --right-shadow-size: 0px;
 
+    interpolate-size: allow-keywords;
     position: relative;
     width: 100%;
 
@@ -108,6 +177,7 @@ function syncShadows(): void {
 
         &.full-size {
             overflow-x: auto;
+            cursor: zoom-in;
 
             button {
                 width: max-content;
@@ -121,6 +191,10 @@ function syncShadows(): void {
 
             &.scrollable button {
                 cursor: grab;
+
+                &:active {
+                    cursor: grabbing;
+                }
             }
         }
 
@@ -136,6 +210,11 @@ function syncShadows(): void {
                 display: block;
                 width: 100%;
                 height: auto;
+                transition: width 200ms ease-out;
+
+                @media (prefers-reduced-motion: reduce) {
+                    transition: none;
+                }
             }
         }
     }
@@ -145,5 +224,10 @@ function syncShadows(): void {
     :global(.article:has(.image-viewer.full-size)) {
         overflow: visible;
     }
+}
+
+:global(html.image-viewer-dragging),
+:global(html.image-viewer-dragging *) {
+    cursor: grabbing !important;
 }
 </style>
