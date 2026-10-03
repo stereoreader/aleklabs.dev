@@ -36,5 +36,22 @@ main {
     background: #161616;
     border-radius: var(--border-radius);
     position: relative;
+
+    @media (max-width: 767px) {
+        width: 100%;
+        border-radius: 0;
+
+        :deep(> .cover) {
+            border-radius: 0;
+        }
+
+        :deep(.chapter) {
+            border-radius: 0;
+        }
+
+        :deep(> .footer) {
+            padding-inline: 16px;
+        }
+    }
 }
 </style>

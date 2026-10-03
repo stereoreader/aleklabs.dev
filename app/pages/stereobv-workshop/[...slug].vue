@@ -337,6 +337,10 @@ const trainingUrl = `https://stereo.aleklabs.dev/#training:H4sIAAAAAAAACu1cS28jx
     font-weight: 400;
     letter-spacing: 0.08em;
 
+    @media (max-width: 767px) {
+        padding-inline: 16px;
+    }
+
     &:dir(rtl) {
         letter-spacing: normal;
     }
