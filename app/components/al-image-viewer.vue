@@ -149,8 +149,8 @@ function initializeSize(): void {
 
     @media (max-width: 719px) {
         &.full-size {
-            left: calc(50% - 50vw);
-            width: 100vw;
+            left: -16px;
+            width: calc(100% + 32px);
         }
     }
 

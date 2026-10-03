@@ -24,6 +24,10 @@ header {
     align-items: center;
     overflow: hidden;
 
+    @media (max-width: 767px) {
+        width: 100%;
+    }
+
     box-shadow: 0 0 32px var(--bg);
 
     a {
