@@ -38,14 +38,12 @@ defineProps<{
     border: 3px solid transparent;
     border-radius: 36px;
 
-    background:
-        linear-gradient(110deg, #222, #111) padding-box,
-        linear-gradient(110deg, #8aefff, #8d9cff 50%, #c991ff) border-box;
+    background: linear-gradient(110deg, #222, #111) padding-box,
+    linear-gradient(110deg, #8aefff, #8d9cff 50%, #c991ff) border-box;
 
-    box-shadow:
-        0 0 8px rgb(120 220 255 / 25%),
-        0 0 24px rgb(130 150 255 / 15%),
-        inset 0 0 18px rgb(130 200 255 / 5%);
+    box-shadow: 0 0 8px rgb(120 220 255 / 25%),
+    0 0 24px rgb(130 150 255 / 15%),
+    inset 0 0 18px rgb(130 200 255 / 5%);
 
 
     &::before {
