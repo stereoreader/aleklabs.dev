@@ -153,13 +153,13 @@ The syntax gradually acquired a few compact controls as real cases appeared.
 
 The current model can be summarized like this:
 
-| Source syntax | Meaning |
-|---|---|
-| `$panel` | Start or participate in a transition family |
-| `$-value` | Extend the inherited family with `value` |
-| `:$panel="id"` | Add a dynamic instance value |
-| `$panel!` | Define the transition here without propagating it further |
-| `$panel-` | Establish a family for descendants without making this element participate |
+| Source syntax  | Meaning                                                                    |
+| -------------- | -------------------------------------------------------------------------- |
+| `$panel`       | Start or participate in a transition family                                |
+| `$-value`      | Extend the inherited family with `value`                                   |
+| `:$panel="id"` | Add a dynamic instance value                                               |
+| `$panel!`      | Define the transition here without propagating it further                  |
+| `$panel-`      | Establish a family for descendants without making this element participate |
 
 The last two are particularly useful in reusable component trees.
 
@@ -361,3 +361,17 @@ Vite handles the source transformation and name discovery. TypeScript provides a
 This changed View Transitions in [StereoBV Workshop](/stereobv-workshop) from feature-specific imperative code into reusable infrastructure.
 
 And, more importantly for a growing UI, adding the next transition no longer requires inventing another orchestration mechanism.
+
+## A Useful Side Effect: Agent-Friendly Transitions
+
+A pleasant side effect of this architecture is how well coding agents work with it.
+
+Once an agent is told that `$...` attributes describe View Transition participation, it can usually extend fairly complex transitions without needing to understand the runtime implementation. For many tasks, the instruction can be as small as: use the `$` transition attributes to connect these elements into the same transition hierarchy.
+
+Even transitions involving several components and multiple moving elements can often be implemented without adding feature-specific JavaScript or CSS. The shared runtime already handles name resolution, DOM updates, View Transition lifecycle, and cleanup.
+
+This also makes agent-generated changes much easier to review. Instead of inspecting a new block of transition-specific JavaScript together with additional CSS selectors and animation rules, I can often review only a few attribute changes in the template. The transition structure is visible directly in the markup, and the diff stays small.
+
+In practice, modern coding agents handle this declarative syntax very well. Once the pattern exists in the codebase, they can infer the hierarchy from nearby examples and produce complex multi-element transitions with surprisingly little guidance.
+
+For me, this has become another argument for moving repeated UI behavior into declarative infrastructure: it improves developer experience for humans, and it also gives coding agents a much smaller and more constrained surface to modify.
