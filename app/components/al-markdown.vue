@@ -1,6 +1,7 @@
 <script lang="ts">
 import MarkdownIt from 'markdown-it';
 import markdownItAttrs from 'markdown-it-attrs';
+import { addH2Anchors } from '@/utils/parseMarkdown';
 
 const markdown = new MarkdownIt({
     html: false,
@@ -12,7 +13,7 @@ const markdown = new MarkdownIt({
         'id',
         'target'
     ],
-});
+}).use(addH2Anchors);
 
 const defaultLinkOpenRenderer = markdown.renderer.rules.link_open ?? function (tokens, idx, options, env, self) {
     return self.renderToken(tokens, idx, options);

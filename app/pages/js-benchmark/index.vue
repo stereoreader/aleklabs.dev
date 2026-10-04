@@ -1,6 +1,7 @@
 <script setup>
 //import './assets/main.css';
 import MarkdownIt from 'markdown-it';
+import { addH2Anchors } from '@/utils/parseMarkdown';
 import docs from './docs.md?raw';
 
 import favico from './assets/favicon.ico';
@@ -24,7 +25,7 @@ useHead({
     ],
 });
 
-const html = new MarkdownIt({ html: true }).render(docs);
+const html = new MarkdownIt({ html: true }).use(addH2Anchors).render(docs);
 const benchmarkCode = `const arr = Array.from({length: 100}, () => ({num: Math.random()}));
 
 // @benchmark filter + map

@@ -5,6 +5,7 @@ import { ref, onMounted } from 'vue';
 const props = defineProps({ src: String });
 
 import MarkdownIt from "markdown-it";
+import { addH2Anchors } from '@/utils/parseMarkdown';
 // import MarkdownItAbbr from "markdown-it-abbr";
 // import MarkdownItAnchor from "markdown-it-anchor";
 // import MarkdownItFootnote from "markdown-it-footnote";
@@ -13,7 +14,7 @@ import MarkdownIt from "markdown-it";
 // import MarkdownItTasklists from "markdown-it-task-lists";
 // import MarkdownItTOC from "markdown-it-toc-done-right";
 
-const markdown = new MarkdownIt({ html: true })
+const markdown = new MarkdownIt({ html: true }).use(addH2Anchors)
     // .use(MarkdownItAbbr)
     // .use(MarkdownItAnchor)
     // .use(MarkdownItFootnote)
