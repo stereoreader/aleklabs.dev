@@ -1,11 +1,11 @@
 <script setup lang="ts">
 
-import favico from '@pages/stereobv-workshop/assets/logo.svg';
+import favico from '@pages/eye-trainer/assets/logo.svg';
 
 useHead({
     titleTemplate: title => title
         ? title
-        : 'StereoBV Workshop: Binocular Vision Training Platform',
+        : 'Aleklabs Eye Trainer: Binocular Vision Training Platform',
     link: [
         {
             rel: 'icon',

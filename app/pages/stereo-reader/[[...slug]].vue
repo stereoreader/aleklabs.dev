@@ -9,10 +9,10 @@ const parts = slug.flatMap(part => part.split('/')).filter(Boolean);
 
 const joined = parts.join('/');
 const targetPath = !parts.length
-    ? '/stereobv-workshop'
+    ? '/eye-trainer'
     : parts[0] === 'app' || parts[0] === 'app-beta'
-        ? `/stereobv-workshop/${joined}/`
-        : `/stereobv-workshop/${joined}`;
+        ? `/eye-trainer/${joined}/`
+        : `/eye-trainer/${joined}`;
 const queryIndex = route.fullPath.indexOf('?');
 const query = queryIndex >= 0 ? route.fullPath.slice(queryIndex) : '';
 const target = targetPath + query;
@@ -30,5 +30,5 @@ useHead({
 </script>
 
 <template>
-    <a :href="target">StereoBV Workshop</a>
+    <a :href="target">Aleklabs Eye Trainer</a>
 </template>

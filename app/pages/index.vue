@@ -6,7 +6,7 @@ import ExperienceCmp from './index/experience.vue';
 import ArticlesCmp from './index/articles.vue';
 import LinksCmp from './index/links.vue';
 
-import stereoReaderPreview from './stereobv-workshop/assets/logo.svg';
+import stereoReaderPreview from './eye-trainer/assets/logo.svg';
 import youtubeChatPreview from './assets/youtube-send-to-ai-chat.png';
 import jsbenchPreview from './js-benchmark/assets/cover.png';
 import keyboardLayerPreview from './keyboard-layer/cover.png';
@@ -45,8 +45,8 @@ const data = await useHomeData();
         <h2><al-icon icon="labs" />Alek Labs Projects</h2>
         <card-cmp
             class="stereo-reader-card"
-            href="/stereobv-workshop"
-            title="StereoBV Workshop"
+            href="/eye-trainer"
+            title="Aleklabs Eye Trainer"
             :image-src="stereoReaderPreview">
             <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px;">
                 <div style="font-size: 20px; font-weight: 300; line-height: 1.3;">
@@ -54,7 +54,7 @@ const data = await useHomeData();
                 </div>
 
                 <div class="stereo-reader-button">
-                    <span>Explore StereoBV Workshop</span><svg width="32px" height="32px"
+                    <span>Explore Aleklabs Eye Trainer</span><svg width="32px" height="32px"
                         viewBox="0 0 15.00 15.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"
                         stroke-width="0.00015000000000000001">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>

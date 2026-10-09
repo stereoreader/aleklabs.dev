@@ -72,22 +72,40 @@ export default defineNuxtConfig({
                 '/stereo-reader/ru/',
                 '/stereo-reader/ru/roadmap/',
                 '/stereo-reader/app/',
-                '/stereo-reader/app-beta/'
+                '/stereo-reader/app-beta/',
+                '/stereobv-workshop/',
+                '/stereobv-workshop/roadmap/',
+                '/stereobv-workshop/br/',
+                '/stereobv-workshop/br/roadmap/',
+                '/stereobv-workshop/de/',
+                '/stereobv-workshop/de/roadmap/',
+                '/stereobv-workshop/es/',
+                '/stereobv-workshop/es/roadmap/',
+                '/stereobv-workshop/fr/',
+                '/stereobv-workshop/fr/roadmap/',
+                '/stereobv-workshop/he/',
+                '/stereobv-workshop/he/roadmap/',
+                '/stereobv-workshop/it/',
+                '/stereobv-workshop/it/roadmap/',
+                '/stereobv-workshop/ru/',
+                '/stereobv-workshop/ru/roadmap/',
+                '/stereobv-workshop/app/',
+                '/stereobv-workshop/app-beta/'
             ]
         }
     },
 
     routeRules: {
-        '/stereobv-workshop/app': {
+        '/eye-trainer/app': {
             prerender: false
         },
-        '/stereobv-workshop/app/**': {
+        '/eye-trainer/app/**': {
             prerender: false
         },
-        '/stereobv-workshop/app-beta': {
+        '/eye-trainer/app-beta': {
             prerender: false
         },
-        '/stereobv-workshop/app-beta/**': {
+        '/eye-trainer/app-beta/**': {
             prerender: false
         },
         '/js-benchmark/playground': {
@@ -98,10 +116,10 @@ export default defineNuxtConfig({
             ssr: false,
             prerender: false,
         },
-        '/stereobv-workshop': {
+        '/eye-trainer': {
             appLayout: 'stereo-reader',
         },
-        '/stereobv-workshop/**': {
+        '/eye-trainer/**': {
             appLayout: 'stereo-reader',
         },
     },
@@ -205,7 +223,7 @@ export default defineNuxtConfig({
     },
 
     sitemap: {
-        exclude: ['/stereo-reader', '/stereo-reader/**']
+        exclude: ['/stereo-reader', '/stereo-reader/**', '/stereobv-workshop', '/stereobv-workshop/**']
     },
 
     app: {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const targetUrl = 'https://stereo.aleklabs.dev/';
+const targetUrl = 'https://aleklabs.dev/eye-trainer/app/';
 
 useHead({
     title: 'Redirecting...',

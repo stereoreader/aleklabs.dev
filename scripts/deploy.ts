@@ -19,7 +19,7 @@ async function main(): Promise<void> {
     const publicDir = resolve(process.cwd(), '.output', 'public');
     const stereoReaderAppDir = 'C:\\www\\stereoreader\\dist-app';
     const stereoReaderAppBetaDir = 'C:\\www\\stereoreader\\dist-beta';
-    const stereoReaderBuildDir = resolve(buildDir, 'stereobv-workshop');
+    const stereoReaderBuildDir = resolve(buildDir, 'eye-trainer');
     const stereoReaderBuildAppDir = resolve(stereoReaderBuildDir, 'app');
     const stereoReaderBuildAppBetaDir = resolve(stereoReaderBuildDir, 'app-beta');
 
@@ -28,7 +28,7 @@ async function main(): Promise<void> {
     await assertDirectoryExists(stereoReaderAppDir);
     await assertDirectoryExists(stereoReaderAppBetaDir);
 
-    const exceptions = ['.git', 'CNAME', 'stereobv-workshop'];
+    const exceptions = ['.git', 'CNAME', 'eye-trainer'];
     console.log('[deploy] Clearing build folder except ' + exceptions.join(', '));
     for (const entry of await readdir(buildDir)) {
         if (exceptions.includes(entry)) {
@@ -41,12 +41,12 @@ async function main(): Promise<void> {
     console.log('[deploy] Copying .output/public into build');
     await cp(publicDir, buildDir, { recursive: true, force: true });
 
-    console.log('[deploy] Copying StereoBV Workshop app into build/stereobv-workshop/app');
+    console.log('[deploy] Copying Aleklabs Eye Trainer app into build/eye-trainer/app');
     await cp(stereoReaderAppDir, stereoReaderBuildAppDir, { recursive: true, force: true });
     await rm(resolve(stereoReaderBuildAppDir, 'pwa-asset-generations.json'), { force: true });
     await clearOldFiles(stereoReaderBuildAppDir);
 
-    console.log('[deploy] Copying StereoBV Workshop app beta into build/stereobv-workshop/app-beta');
+    console.log('[deploy] Copying Aleklabs Eye Trainer app beta into build/eye-trainer/app-beta');
     await copyStereoReaderApp(stereoReaderAppBetaDir, stereoReaderBuildAppBetaDir);
 
 
