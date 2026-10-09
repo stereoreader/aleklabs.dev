@@ -92,7 +92,7 @@ function hideLangPrompt() {
 }
 
 useHead({
-    title: 'Aleklabs Eye Trainer: Binocular Vision Training Platform',
+    title: 'AlekLabs Eye Trainer: Binocular Vision Training Platform',
     htmlAttrs: {
         lang,
         dir: lang === 'he' ? 'rtl' : 'ltr'
@@ -157,7 +157,7 @@ const content = findContent('title', 'parallelview', 'crossview', 'section1', 's
 const trainingPositionHeading = $t('Recommended training position');
 const section2Content = content.section2.replace(
     `### ${trainingPositionHeading}`,
-    `### ${trainingPositionHeading}\n\n![${$t('Face-down Aleklabs Eye Trainer training position')}](${faceDownImg}){.image-left}`
+    `### ${trainingPositionHeading}\n\n![${$t('Face-down AlekLabs Eye Trainer training position')}](${faceDownImg}){.image-left}`
 );
 const titleContent = content.title;
 const storyContent = folderPath ? getMarkdown(...getFolderIndexPaths(folderPath)) : '';
@@ -184,7 +184,7 @@ const titleHtml = computed(() => {
     return parseMarkdown(titleContent).replace(/<h1>.*?<\/h1>/, '');
 });
 
-const trainingUrl = `https://aleklabs.dev/eye-trainer/app/#training:H4sIAAAAAAAACu1cS28jxxH%2BL5MrLVR1vXmzN0GQwyIL28ghhg5ccbQiQj1ADtcIDP33oJuiNC9Jjixqsd4BDxJ7qrvrq6quqq5uzm%2FValnNYVY1q2ZdV%2FOqmlUfP727Xl9vqnn1F3JCiWpWNZvF1XbVrK6v%2FrrbLPLfao4AMKvqq%2BXPq8u6mmMCKC2Ly%2BvdVVPN4URn1c168d%2BPi7P%2F%2FHRT18tqjrPqZlOf15tNvXwYSe967rb1h%2BHT88V6W8%2Bqy%2Bvlbl2attX8l98K4%2FvhtnVTze8bDkje39N3Mck5CWk1qxZnZ%2FV2m7m62q3Xs2qxXOYvVYKk30F8h%2FYz%2BlxoznZi6v%2BuCg%2Br89UYFc%2FJTkg5U23rdX3WZKo71m%2Fqq%2BXq6tNPi891Nf%2FtdlYt63XdrK4%2BjYDLSA4SxIH8ikw%2F15vtXgOzatXUl3%2FfXO9uslBO99878mkpdnHWrDIHzWZXpszTvdttClPVsqfX7cXipq7mv8AMTgBAES3QI7kGaUqlNTGLGjAyhqp7aRQOQzYTCWJN%2B8YwcRNlRnUjotyIkhKAmgK4qbrmxoSuZqjskefh0hbqwiQYDuZAhZBchSESi0moSmlkN0FjYMXk6i65USKEVF0sMYhDabSUKLGShRgXNC4iDmau6OBQ%2BI7wsAAwiQjkzA2iJFRnEAZDActtlAEzBAYSOmRekF0pHJlMBDhKX1XVBKKO6ApZCugiAEAEQpjcclsCQTBlYmRjSJnhlIRJA9jcM9uFjpXJQR1UEIkzy0kdJIzCzUOkkAUkDgAnE3fJoxGmEBRLGqZAmTciRUQ3ceVA1EImoUaJwYhDqOAnJzEHcI1QizwBg5maZuUoFtNgSugECp7lYaVJ1JQZIAlrMsxNjiwozCykYZRFKaDoDBZOqI6ZCyEIQHY0Aii6EhFhSpokMUOZURwg8x3K5uF5KAUmCcgDoarloTQ5I6mmLC%2BiyE2SUCgiIQKpZ77URBKGCQUDFbPWcFbgpMUMKI9lCQIpYVI1jSJD4%2BRJyFWD8mrJTcrIREkJHBjzjOYZuGuKPG2xUc96DYZwE5LClyeGbIgKAg4pm5RzYsny16KP0qQAWYRExg6QJeFFF8isKBCWJeGRRJMRgkakIokAo7xs8h%2FBlGFHwkSkkPJqsSLCIAYKS5nCADJfwWJOamGqakX2IcqklgxYNXEZXiUsWRhqGBYDCGNSFyEzpr0ZhmO2PkEgo1QcQLjlrk4hSRyzVCOSpMy9iithoYq8SCnIwESKlUS4JnIMdKP9OooIZ4PkmlT4jmqkaaTjyPAdJuwRVruAZAhbh8KhoQh1KGgaqGNEZzGu2Z7%2BaWglMbQlesTiunZpA%2BtlHLfx3krw4Xqx4aqi4drzwQodWcZpsNgLW12X4ON%2BY8y7dFxQWcU9R2VDfyZDrzfmG2XoQdmGjjYN%2FTEN3XYB0PPuOowBSsNQwY9FlE7kYUwjEWoYyDQN412JRt24KCUa9%2BJnEWYvziIN47GNxG0aBHcsobeXBRTl9NKFPV03ryhxqp%2BAxGOJSjejsbCR3OepLKmTTxmXmDKae53Oqu3l9XVzUXJImFXLzeLX99fLnOid79brquTS33%2FcXq93Tf2vxXpXb%2B9yzdtDgj6S%2BQlDJ%2Fd72TQ5vezO8s%2BHLP4%2BX%2F2xvqkXzbv7RLdZbD7VzfZDO99t9bt7XDLbbh6b89zq0%2BKmKml1s6jmPLbt2DaLTfPhYrGtC5LV1ed603zflsSBw%2FLkfTs73gvu9Ha2z6rTaFZ9n8k%2FklZTR7Q423%2ByZUpCtkSRlByKfwPM%2F6lDOEr24jTDWauLhQkrYMpOkbJ7nUGXglMwm0syBSPJtt0iKET5c4KkAgRq7DnyiN0NgCCePCVwcQ8xbU0BvekObdhvOwFAyeEkUfYJTlQ8W2c%2B1UAdb%2ByPlr00YUD2uxyQU5s%2B7N4oZU0%2FirLbM29BLCe%2BZaVazvGexNefG6EI6qBOpr2XaGl27xF%2BN6CsxQcdq%2ByTQGjLk0m8yOlIDgH%2FFP5guI1%2BFX8wG5358%2FZidd48TA5Hn%2FxAmmffXDeLpj767PeukF5SYOBXMKrnTVeOZrp32j6O5fY1iOlLWq%2B%2FbPK7EZ81H36J%2BbyGYp81n0NJ8itxfW0fcNHTIR7bCciL8iGbyoxTmXEqM05lxqnMOJUZpzLjVGacyozfSJnxK8utW9ujs%2Bv17vLqh%2FVu88Nivbg6a%2B3T9GhZ9untbavy2L3vkJ6%2F70CYzvHja993aFMd8b4DHv22A03bkGkbMm1Dpm3ItA2ZtiHTNmTahkzbkG9kG%2FInue2Axz%2FebJ8unOUh6s2PvWOqFx4UveyU6uN6t3mYOr36CVnR6TPXPZ7ZVth0SPX0Rvotraizh6b%2BHpqe30OnBYnB17qHPuHj%2F2aA%2B9voL%2Frp30R64093HVL6RiPWUxdTRn8adLSg1b%2FWcKQbguPR6hFfpyfyFdxTnCLXk7nXsa%2Bavuh%2BlU4afEqDb%2BQM%2Ftglpyl%2F%2FP9uyR3Nmz66DXr0JEiO7ddfdt9qOuiYDjqmg47poGM66JgOOqaDjumgYzro%2BFYOOr7eNP%2Bp%2B1ZH27a1asXcrxXz87VidlkSfRW1YjhxGnnFTHr7S1dPVm97z0%2FCkoomeY7wjpgVguwu2mef%2BlSPnDcAa5eqR5s9ghYHD0hqZcj2%2F88xNRi4%2FE7Uec9kDvoBd%2BMno0MzYGQXLHsO4IGmzcP9OM%2BJ5smKdXq1ivVrFBO%2FSL26W%2BZ72x9xPlYwfsui9aDAIl%2BoXP2HPMk3fe70reYPv2MpHb9W%2BMRSiuOtpJy6nLaj%2Fd8%2B11d34mnKW%2Frab%2BzTvVofqP%2BROckomvbz3hv%2B%2Bh3SQ4cDwUMPH%2BtBrR7e65F4rAc%2F9DgQ3PcgeAbGgeChxyjwFg7qI%2BdR5C0c3EfOo8hbOLiPXEaRt3BIH7mOIk89BXZ6jCJv4dA%2BchtF3sJhfeQ2iryFw%2FrIfRR5C4f3kcco8haO6COPUeQtHDGwdhiF3gJyT9HqMwq%2BvUSgjx5xFH57kWAf%2F%2F27NvtwTg8usb3wS0N%2BXv26WjYX%2BXWeHSEd7lHF7ent%2FwBMJxXJEVQAAA%3D%3D`;
+const trainingUrl = `https://stereo.aleklabs.dev/#training:H4sIAAAAAAAACu1cS28jxxH%2BL5MrLVR1vXmzN0GQwyIL28ghhg5ccbQiQj1ADtcIDP33oJuiNC9Jjixqsd4BDxJ7qrvrq6quqq5uzm%2FValnNYVY1q2ZdV%2FOqmlUfP727Xl9vqnn1F3JCiWpWNZvF1XbVrK6v%2FrrbLPLfao4AMKvqq%2BXPq8u6mmMCKC2Ly%2BvdVVPN4URn1c168d%2BPi7P%2F%2FHRT18tqjrPqZlOf15tNvXwYSe967rb1h%2BHT88V6W8%2Bqy%2Bvlbl2attX8l98K4%2FvhtnVTze8bDkje39N3Mck5CWk1qxZnZ%2FV2m7m62q3Xs2qxXOYvVYKk30F8h%2FYz%2BlxoznZi6v%2BuCg%2Br89UYFc%2FJTkg5U23rdX3WZKo71m%2Fqq%2BXq6tNPi891Nf%2FtdlYt63XdrK4%2BjYDLSA4SxIH8ikw%2F15vtXgOzatXUl3%2FfXO9uslBO99878mkpdnHWrDIHzWZXpszTvdttClPVsqfX7cXipq7mv8AMTgBAES3QI7kGaUqlNTGLGjAyhqp7aRQOQzYTCWJN%2B8YwcRNlRnUjotyIkhKAmgK4qbrmxoSuZqjskefh0hbqwiQYDuZAhZBchSESi0moSmlkN0FjYMXk6i65USKEVF0sMYhDabSUKLGShRgXNC4iDmau6OBQ%2BI7wsAAwiQjkzA2iJFRnEAZDActtlAEzBAYSOmRekF0pHJlMBDhKX1XVBKKO6ApZCugiAEAEQpjcclsCQTBlYmRjSJnhlIRJA9jcM9uFjpXJQR1UEIkzy0kdJIzCzUOkkAUkDgAnE3fJoxGmEBRLGqZAmTciRUQ3ceVA1EImoUaJwYhDqOAnJzEHcI1QizwBg5maZuUoFtNgSugECp7lYaVJ1JQZIAlrMsxNjiwozCykYZRFKaDoDBZOqI6ZCyEIQHY0Aii6EhFhSpokMUOZURwg8x3K5uF5KAUmCcgDoarloTQ5I6mmLC%2BiyE2SUCgiIQKpZ77URBKGCQUDFbPWcFbgpMUMKI9lCQIpYVI1jSJD4%2BRJyFWD8mrJTcrIREkJHBjzjOYZuGuKPG2xUc96DYZwE5LClyeGbIgKAg4pm5RzYsny16KP0qQAWYRExg6QJeFFF8isKBCWJeGRRJMRgkakIokAo7xs8h%2FBlGFHwkSkkPJqsSLCIAYKS5nCADJfwWJOamGqakX2IcqklgxYNXEZXiUsWRhqGBYDCGNSFyEzpr0ZhmO2PkEgo1QcQLjlrk4hSRyzVCOSpMy9iithoYq8SCnIwESKlUS4JnIMdKP9OooIZ4PkmlT4jmqkaaTjyPAdJuwRVruAZAhbh8KhoQh1KGgaqGNEZzGu2Z7%2BaWglMbQlesTiunZpA%2BtlHLfx3krw4Xqx4aqi4drzwQodWcZpsNgLW12X4ON%2BY8y7dFxQWcU9R2VDfyZDrzfmG2XoQdmGjjYN%2FTEN3XYB0PPuOowBSsNQwY9FlE7kYUwjEWoYyDQN412JRt24KCUa9%2BJnEWYvziIN47GNxG0aBHcsobeXBRTl9NKFPV03ryhxqp%2BAxGOJSjejsbCR3OepLKmTTxmXmDKae53Oqu3l9XVzUXJImFXLzeLX99fLnOid79brquTS33%2FcXq93Tf2vxXpXb%2B9yzdtDgj6S%2BQlDJ%2Fd72TQ5vezO8s%2BHLP4%2BX%2F2xvqkXzbv7RLdZbD7VzfZDO99t9bt7XDLbbh6b89zq0%2BKmKml1s6jmPLbt2DaLTfPhYrGtC5LV1ed603zflsSBw%2FLkfTs73gvu9Ha2z6rTaFZ9n8k%2FklZTR7Q423%2ByZUpCtkSRlByKfwPM%2F6lDOEr24jTDWauLhQkrYMpOkbJ7nUGXglMwm0syBSPJtt0iKET5c4KkAgRq7DnyiN0NgCCePCVwcQ8xbU0BvekObdhvOwFAyeEkUfYJTlQ8W2c%2B1UAdb%2ByPlr00YUD2uxyQU5s%2B7N4oZU0%2FirLbM29BLCe%2BZaVazvGexNefG6EI6qBOpr2XaGl27xF%2BN6CsxQcdq%2ByTQGjLk0m8yOlIDgH%2FFP5guI1%2BFX8wG5358%2FZidd48TA5Hn%2FxAmmffXDeLpj767PeukF5SYOBXMKrnTVeOZrp32j6O5fY1iOlLWq%2B%2FbPK7EZ81H36J%2BbyGYp81n0NJ8itxfW0fcNHTIR7bCciL8iGbyoxTmXEqM05lxqnMOJUZpzLjVGacyozfSJnxK8utW9ujs%2Bv17vLqh%2FVu88Nivbg6a%2B3T9GhZ9untbavy2L3vkJ6%2F70CYzvHja993aFMd8b4DHv22A03bkGkbMm1Dpm3ItA2ZtiHTNmTahkzbkG9kG%2FInue2Axz%2FebJ8unOUh6s2PvWOqFx4UveyU6uN6t3mYOr36CVnR6TPXPZ7ZVth0SPX0Rvotraizh6b%2BHpqe30OnBYnB17qHPuHj%2F2aA%2B9voL%2Frp30R64093HVL6RiPWUxdTRn8adLSg1b%2FWcKQbguPR6hFfpyfyFdxTnCLXk7nXsa%2Bavuh%2BlU4afEqDb%2BQM%2Ftglpyl%2F%2FP9uyR3Nmz66DXr0JEiO7ddfdt9qOuiYDjqmg47poGM66JgOOqaDjumgYzro%2BFYOOr7eNP%2Bp%2B1ZH27a1asXcrxXz87VidlkSfRW1YjhxGnnFTHr7S1dPVm97z0%2FCkoomeY7wjpgVguwu2mef%2BlSPnDcAa5eqR5s9ghYHD0hqZcj2%2F88xNRi4%2FE7Uec9kDvoBd%2BMno0MzYGQXLHsO4IGmzcP9OM%2BJ5smKdXq1ivVrFBO%2FSL26W%2BZ72x9xPlYwfsui9aDAIl%2BoXP2HPMk3fe70reYPv2MpHb9W%2BMRSiuOtpJy6nLaj%2Fd8%2B11d34mnKW%2Frab%2BzTvVofqP%2BROckomvbz3hv%2B%2Bh3SQ4cDwUMPH%2BtBrR7e65F4rAc%2F9DgQ3PcgeAbGgeChxyjwFg7qI%2BdR5C0c3EfOo8hbOLiPXEaRt3BIH7mOIk89BXZ6jCJv4dA%2BchtF3sJhfeQ2iryFw%2FrIfRR5C4f3kcco8haO6COPUeQtHDGwdhiF3gJyT9HqMwq%2BvUSgjx5xFH57kWAf%2F%2F27NvtwTg8usb3wS0N%2BXv26WjYX%2BXWeHSEd7lHF7ent%2FwBMJxXJEVQAAA%3D%3D`;
 
 </script>
 
@@ -201,7 +201,7 @@ const trainingUrl = `https://aleklabs.dev/eye-trainer/app/#training:H4sIAAAAAAAA
         </div>
         <img class="logo" :src="coverImg" alt="" v-transition-target="[$route.fullPath, 'cover']">
         <div class="branding">
-            <component :is="folderPath ? 'div' : 'h1'" class="title"><span>Aleklabs</span> <span class="workshop">Eye Trainer</span></component>
+            <component :is="folderPath ? 'div' : 'h1'" class="title"><span>AlekLabs</span> <span class="workshop">Eye Trainer</span></component>
             <div class="text" dir="auto" v-html="titleHtml"></div>
         </div>
     </div>
@@ -223,7 +223,7 @@ const trainingUrl = `https://aleklabs.dev/eye-trainer/app/#training:H4sIAAAAAAAA
     <div class="story">
         <template v-if="folderPath">
             <div class="home">
-                <nuxt-link :to="`/eye-trainer${localePath}`">{{ $t('Back to Aleklabs Eye Trainer home') }}</nuxt-link>
+                <nuxt-link :to="`/eye-trainer${localePath}`">{{ $t('Back to AlekLabs Eye Trainer home') }}</nuxt-link>
             </div>
             <h1>{{ storyChapters[0]?.replace('#', '').trim() }}</h1>
             <al-markdown class="chapter" :key="idx" :src="chapter"
@@ -243,7 +243,7 @@ const trainingUrl = `https://aleklabs.dev/eye-trainer/app/#training:H4sIAAAAAAAA
 
             <al-markdown class="chapter" :src="content.crossview" />
 
-            <div class="hook" style="margin-top:48px">{{ $t('What is Aleklabs Eye Trainer?') }}</div>
+            <div class="hook" style="margin-top:48px">{{ $t('What is AlekLabs Eye Trainer?') }}</div>
 
             <section-title :title="$t('Eye trainer')" />
             <al-markdown class="chapter" :src="section2Content" />
@@ -251,20 +251,20 @@ const trainingUrl = `https://aleklabs.dev/eye-trainer/app/#training:H4sIAAAAAAAA
             <iframe class="preview" loading="lazy" :src="trainingUrl"></iframe>
             <div class="preview-link">
                 {{ $t('Train your eye muscles with dynamic stereo modulation') }}<br />
-                <a :href="trainingUrl" target="_blank">{{ $t('Open in Aleklabs Eye Trainer') }}</a>
+                <a :href="trainingUrl" target="_blank">{{ $t('Open in AlekLabs Eye Trainer') }}</a>
             </div>
 
             <section-title :title="$t('Parallel-view reader')" style="margin-top:64px;" />
             <al-markdown class="file-privacy" :src="content['file-privacy']" />
             <al-markdown class="chapter" :src="content.section1" />
             <iframe class="preview" loading="lazy"
-                src="https://aleklabs.dev/eye-trainer/app/#try"></iframe>
+                src="https://stereo.aleklabs.dev/#try"></iframe>
 
             <div class="preview-link">
                 {{ $t('Read a book in stereo mode using parallel view') }}<br />
-                <a href="https://aleklabs.dev/eye-trainer/app/#try"
+                <a href="https://stereo.aleklabs.dev/#try"
                     target="_blank">
-                    {{ $t('Open in Aleklabs Eye Trainer') }}
+                    {{ $t('Open in AlekLabs Eye Trainer') }}
                 </a>
             </div>
 

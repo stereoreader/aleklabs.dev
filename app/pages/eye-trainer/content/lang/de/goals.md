@@ -8,9 +8,9 @@ Diese Brille gab mir keine volle Korrektur, aber genug funktionelle Schärfe, um
 
 Mein persönliches Ziel ist also klar: bis zum nächsten Sommer das Sehniveau erreichen, das früher eine -3,5-Brille erforderte.
 
-### 🚩 Entwicklung von Aleklabs Eye Trainer
+### 🚩 Entwicklung von AlekLabs Eye Trainer
 
-Mein zweites Ziel ist, **Aleklabs Eye Trainer** weiter auf der Grundlage von Nutzerfeedback und realer Nutzung zu verbessern.
+Mein zweites Ziel ist, **AlekLabs Eye Trainer** weiter auf der Grundlage von Nutzerfeedback und realer Nutzung zu verbessern.
 
 Die Anwendung erlaubt bereits das Lesen im Stereomodus, das Einstellen der Divergenz, das Ändern der Schriftgröße, das Lesen aus unterschiedlichen Distanzen, das Öffnen von E-Books und Dokumenten, Sprachbefehle, Maussteuerung, Lesetimer und die Arbeit mit Stereobildern.
 

@@ -5,7 +5,7 @@ import favico from '@pages/eye-trainer/assets/logo.svg';
 useHead({
     titleTemplate: title => title
         ? title
-        : 'Aleklabs Eye Trainer: Binocular Vision Training Platform',
+        : 'AlekLabs Eye Trainer: Binocular Vision Training Platform',
     link: [
         {
             rel: 'icon',

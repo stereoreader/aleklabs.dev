@@ -30,5 +30,5 @@ useHead({
 </script>
 
 <template>
-    <a :href="target">Aleklabs Eye Trainer</a>
+    <a :href="target">AlekLabs Eye Trainer</a>
 </template>

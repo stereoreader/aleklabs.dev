@@ -41,12 +41,12 @@ async function main(): Promise<void> {
     console.log('[deploy] Copying .output/public into build');
     await cp(publicDir, buildDir, { recursive: true, force: true });
 
-    console.log('[deploy] Copying Aleklabs Eye Trainer app into build/eye-trainer/app');
+    console.log('[deploy] Copying AlekLabs Eye Trainer app into build/eye-trainer/app');
     await cp(stereoReaderAppDir, stereoReaderBuildAppDir, { recursive: true, force: true });
     await rm(resolve(stereoReaderBuildAppDir, 'pwa-asset-generations.json'), { force: true });
     await clearOldFiles(stereoReaderBuildAppDir);
 
-    console.log('[deploy] Copying Aleklabs Eye Trainer app beta into build/eye-trainer/app-beta');
+    console.log('[deploy] Copying AlekLabs Eye Trainer app beta into build/eye-trainer/app-beta');
     await copyStereoReaderApp(stereoReaderAppBetaDir, stereoReaderBuildAppBetaDir);
 
 

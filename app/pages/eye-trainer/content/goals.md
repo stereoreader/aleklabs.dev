@@ -8,9 +8,9 @@ Those glasses did not give me full correction, but they gave me enough functiona
 
 So my personal target is clear: by next summer, I want to reach the level of vision that previously required -3.5 glasses.
 
-### 🚩 Aleklabs Eye Trainer development
+### 🚩 AlekLabs Eye Trainer development
 
-My second goal is to continue improving **Aleklabs Eye Trainer** based on user feedback and real usage.
+My second goal is to continue improving **AlekLabs Eye Trainer** based on user feedback and real usage.
 
 The application already allows reading in stereo mode, adjusting divergence, changing font size, reading from different distances, opening e-books and documents, using voice commands, controlling reading with a mouse, setting reading timers, and working with stereo images.
 

@@ -1,5 +1,5 @@
-# Aleklabs Eye Trainer
+# AlekLabs Eye Trainer
 
 Plataforma de entrenamiento de visión binocular
 
-[Abrir la aplicación](https://aleklabs.dev/eye-trainer/app/)
+[Abrir la aplicación](https://stereo.aleklabs.dev/)

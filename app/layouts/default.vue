@@ -1,8 +1,8 @@
 <script setup lang="ts">
 useHead({
     titleTemplate: title => title
-        ? `${title} - Alek Labs`
-        : 'Alek Labs - Home for productivity tools',
+        ? `${title} - AlekLabs`
+        : 'AlekLabs - Home for productivity tools',
     link: [
         {
             rel: 'icon',

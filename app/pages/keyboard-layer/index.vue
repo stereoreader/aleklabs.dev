@@ -4,8 +4,8 @@ import { parseMarked } from '@/utils/parseMarkdown';
 import coverUrl from './cover.png';
 import markdown from './index.md?raw';
 
-const title = 'Alek Labs Keyboard Layer';
-const description = 'Alek Labs Keyboard Layer is an AutoHotkey command layer for Windows keyboards that improves programming and text editing productivity with ergonomic shortcuts for cursor navigation, selection, deletion, clipboard operations, undo, redo, and Enter while preserving the standard QWERTY layout.';
+const title = 'AlekLabs Keyboard Layer';
+const description = 'AlekLabs Keyboard Layer is an AutoHotkey command layer for Windows keyboards that improves programming and text editing productivity with ergonomic shortcuts for cursor navigation, selection, deletion, clipboard operations, undo, redo, and Enter while preserving the standard QWERTY layout.';
 
 useHead({
     title,
@@ -63,7 +63,7 @@ const stats = (() => {
                 title="YouTube video player" frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <a target="_blank" href="https://www.youtube.com/watch?v=0xOTwnxID_I">Alek Labs Keyboard Layer demo / VS
+            <a target="_blank" href="https://www.youtube.com/watch?v=0xOTwnxID_I">AlekLabs Keyboard Layer demo / VS
                 Code (Vue + TS) coding</a>
         </div>
 

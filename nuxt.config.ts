@@ -219,7 +219,7 @@ export default defineNuxtConfig({
 
     site: {
         url: 'https://aleklabs.dev',
-        name: 'Alek Labs'
+        name: 'AlekLabs'
     },
 
     sitemap: {

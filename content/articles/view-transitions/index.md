@@ -34,7 +34,7 @@ The code was becoming substantially more verbose than the UI behavior it describ
 
 I eventually moved the problem into a separate declarative naming layer.
 
-The result is a small internal system used in [Aleklabs Eye Trainer](/eye-trainer). View transition participation is described directly in component templates using attributes, while a runtime function activates the required transition hierarchy only for the duration of a transition. Vite compiler transforms, generated TypeScript types, and a VS Code grammar provide the tooling around it.
+The result is a small internal system used in [AlekLabs Eye Trainer](/eye-trainer). View transition participation is described directly in component templates using attributes, while a runtime function activates the required transition hierarchy only for the duration of a transition. Vite compiler transforms, generated TypeScript types, and a VS Code grammar provide the tooling around it.
 
 The browser still performs the actual View Transition. The new layer deals with naming and orchestration.
 
@@ -320,7 +320,7 @@ The template is the source of truth.
 
 ## The Real Production Case
 
-This system grew out of [Aleklabs Eye Trainer](/eye-trainer) rather than an isolated animation experiment.
+This system grew out of [AlekLabs Eye Trainer](/eye-trainer) rather than an isolated animation experiment.
 
 A single modulation component already contains several examples: dynamically identified modulator panels, motion and amount children, target settings, slider values, dialog transitions, and transitions started both from DOM elements and from explicit hierarchical prefixes.
 
@@ -336,7 +336,7 @@ The runtime connects the two.
 
 ## This Is Not Fundamentally Vue-Specific
 
-My current implementation is integrated deeply with Vue because [Aleklabs Eye Trainer](/eye-trainer) uses Vue. The compiler transform uses Vue's compiler packages, the generated-name plugin scans `.vue` templates, and the transition runtime waits for `nextTick()` before resolving the new DOM.
+My current implementation is integrated deeply with Vue because [AlekLabs Eye Trainer](/eye-trainer) uses Vue. The compiler transform uses Vue's compiler packages, the generated-name plugin scans `.vue` templates, and the transition runtime waits for `nextTick()` before resolving the new DOM.
 
 The underlying model is framework-independent.
 
@@ -358,7 +358,7 @@ The final workflow is now straightforward: mark potential participants in the te
 
 Vite handles the source transformation and name discovery. TypeScript provides autocomplete and validation. The editor makes the structure visually recognizable. CSS focuses on the resulting animation.
 
-This changed View Transitions in [Aleklabs Eye Trainer](/eye-trainer) from feature-specific imperative code into reusable infrastructure.
+This changed View Transitions in [AlekLabs Eye Trainer](/eye-trainer) from feature-specific imperative code into reusable infrastructure.
 
 And, more importantly for a growing UI, adding the next transition no longer requires inventing another orchestration mechanism.
 

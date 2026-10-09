@@ -1,8 +1,8 @@
-# Alek Labs Keyboard Layer
+# AlekLabs Keyboard Layer
 
 **Ergonomic keyboard commands for more productive Windows programming sessions.**
 
-Alek Labs Keyboard Layer is an AutoHotkey script that keeps QWERTY intact while adding a compact editing layer for navigation, selection, deletion, clipboard operations, undo, redo, and Enter. It is designed to reduce hand travel to Enter, arrow keys, Home, End, Delete, Backspace, and Ctrl-based shortcuts during writing and programming.
+AlekLabs Keyboard Layer is an AutoHotkey script that keeps QWERTY intact while adding a compact editing layer for navigation, selection, deletion, clipboard operations, undo, redo, and Enter. It is designed to reduce hand travel to Enter, arrow keys, Home, End, Delete, Backspace, and Ctrl-based shortcuts during writing and programming.
 
 The core idea is simple: Caps Lock becomes Enter, and Left Alt becomes a temporary command-layer modifier. While Left Alt is held, nearby keys perform cursor movement, word-level navigation, line-level navigation, selection, deletion, and editing commands. Navigation is mostly operated by the right hand near the home position, while the left thumb activates the layer with Alt. Shift modifies navigation into selection, and Caps Lock modifies the Alt layer into deletion.
 
@@ -15,7 +15,7 @@ The workflow remains non-modal: there is no persistent navigation mode, only sho
 
 ## Installation
 
-Alek Labs Keyboard Layer requires [AutoHotkey v2](https://www.autohotkey.com/) on Windows.
+AlekLabs Keyboard Layer requires [AutoHotkey v2](https://www.autohotkey.com/) on Windows.
 
 ### Recommended installation
 

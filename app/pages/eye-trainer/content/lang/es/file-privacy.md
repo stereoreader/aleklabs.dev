@@ -1,3 +1,3 @@
 **Tus archivos se quedan en tu dispositivo**
 
-Los archivos añadidos a Aleklabs Eye Trainer se almacenan localmente en tu navegador. No se suben a un servidor ni se transmiten por la red, así que tus documentos permanecen privados en tu dispositivo.
+Los archivos añadidos a AlekLabs Eye Trainer se almacenan localmente en tu navegador. No se suben a un servidor ni se transmiten por la red, así que tus documentos permanecen privados en tu dispositivo.
