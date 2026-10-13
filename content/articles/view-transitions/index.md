@@ -185,8 +185,8 @@ $-amount
 becomes runtime metadata in the form:
 
 ```text
-transition-modulator-panel
-transition--amount
+data-transition-modulator-panel
+data-transition--amount
 ```
 
 Additional marker attributes are generated when propagation or parent-only behavior is requested. The transform operates on the Vue compiler AST, including both static attributes and static `v-bind` argument names. 
@@ -206,9 +206,9 @@ $-amount
 The DOM representation is explicit and conventional enough for runtime inspection:
 
 ```text
-transition-modulator-panel
-transition--motion
-transition--amount
+data-transition-modulator-panel
+data-transition--motion
+data-transition--amount
 ```
 
 ## Runtime Orchestration
