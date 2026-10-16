@@ -18,18 +18,10 @@ useHead({
 useHead({
     script: [
         {
-            innerHTML: `
-const script = document.createElement('script');
-
-if ((location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
-    script.type = 'module';
-    script.src = 'http://localhost:8001/benchmark.js';
-} else {
-    script.src = 'https://cdn.jsdelivr.net/gh/silentmantra/benchmark/loader.js';
-}
-
-document.head.appendChild(script);
-            `.trim(),
+            type: 'module',
+            src: import.meta.dev
+                ? 'http://localhost:8001/benchmark.js'
+                : 'https://cdn.jsdelivr.net/gh/silentmantra/benchmark/benchmark.min.js',
         },
     ],
 });
@@ -59,6 +51,7 @@ const setDefaultTemplate = () => {
 popstate();
 const $code = ref();
 const loaded = ref(false);
+const benchmarkError = ref('');
 
 const formatFromKey = e => {
     if (e.key === 'l' && e.ctrlKey) {
@@ -125,14 +118,35 @@ onMounted(() => {
 });
 
 let benchmark;
+let pendingCode;
+let updatingCode = false;
 
 async function updateCode(code) {
-    setTimeout(() => loaded.value = true);
-    const codeElement = getCodeElement();
-    if (!codeElement) {
+    pendingCode = code;
+    if (updatingCode) {
         return;
     }
-    benchmark = await window.SilentMantraBenchmark?.set(codeElement, code);
+    updatingCode = true;
+    try {
+        while (pendingCode !== undefined) {
+            code = pendingCode;
+            pendingCode = undefined;
+            setTimeout(() => loaded.value = true);
+            const codeElement = getCodeElement();
+            if (!codeElement) {
+                continue;
+            }
+            benchmarkError.value = '';
+            try {
+                benchmark = await window.SilentMantraBenchmark?.set(codeElement, code);
+            } catch (e) {
+                benchmark = null;
+                benchmarkError.value = e instanceof Error ? e.message : String(e);
+            }
+        }
+    } finally {
+        updatingCode = false;
+    }
 }
 
 watch(() => state.title, title => document.title = [title, 'AlekLabs JS benchmark'].filter(Boolean).join(' / '));
@@ -208,6 +222,7 @@ function copyToClipboard(text) {
         <div class="code-wrapper">
             <al-code autofocus ref="$code" v-model="state.code" class="code" @keydown="formatFromKey" />
         </div>
+        <div v-if="benchmarkError" class="benchmark-error">{{ benchmarkError }}</div>
     </div>
 </template>
 
@@ -352,6 +367,13 @@ input {
     white-space: pre;
     overflow-wrap: normal;
     overflow-x: auto;
+}
+
+.benchmark-error {
+    color: #f87;
+    background: #200;
+    padding: 8px;
+    white-space: pre-wrap;
 }
 
 .toolbar {

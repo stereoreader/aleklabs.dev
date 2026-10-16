@@ -110,11 +110,11 @@ export default defineNuxtConfig({
         },
         '/js-benchmark/playground': {
             ssr: false,
-            prerender: false,
+            prerender: true,
         },
         '/js-benchmark/playground/**': {
             ssr: false,
-            prerender: false,
+            prerender: true,
         },
         '/eye-trainer': {
             appLayout: 'stereo-reader',
